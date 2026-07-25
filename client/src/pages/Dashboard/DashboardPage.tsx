@@ -23,9 +23,16 @@ export default function DashboardPage() {
 
   if (fichasCount === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-full max-w-[280px]">
-          <div className="bg-white rounded-xl p-6 text-center border border-gray-200 shadow-sm">
+      <div className="flex items-center justify-center min-h-[70vh]">
+        <div className="w-full max-w-md animate-scale-in">
+          <div className="section-card p-10 text-center">
+            <div className="w-20 h-20 mx-auto bg-sena-green-50 rounded-2xl flex items-center justify-center mb-8">
+              <FileText className="w-10 h-10 text-sena-green" />
+            </div>
+            <h2 className="text-2xl font-bold text-text-primary mb-3">Bienvenido al Dashboard PE-04</h2>
+            <p className="text-sm text-text-secondary mb-8 leading-relaxed">
+              Sube el archivo Excel con la programacion especifica para comenzar el analisis.
+            </p>
             <FileUpload />
           </div>
         </div>
@@ -34,38 +41,56 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-5">
-      {/* ── KPI Row ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <StatCard title="Fichas" value={fichasFiltradasCount} icon={<FileText className="w-3.5 h-3.5" />} color="blue" />
-        <StatCard title="Aprendices" value={stats.totalAprendices} icon={<Users className="w-3.5 h-3.5" />} color="green" />
-        <StatCard title="Centros" value={stats.totalCentros} icon={<Building2 className="w-3.5 h-3.5" />} color="purple" />
-        <StatCard title="Empresas" value={stats.totalEmpresas} icon={<Briefcase className="w-3.5 h-3.5" />} color="orange" />
-        <StatCard title="Instructores" value={stats.totalInstructores} icon={<GraduationCap className="w-3.5 h-3.5" />} color="teal" />
-      </div>
+    <div className="space-y-8 pb-12">
+      {/* KPI Row */}
+      <section>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
+          <StatCard title="Fichas" value={fichasFiltradasCount} icon={<FileText className="w-5 h-5" />} color="blue" />
+          <StatCard title="Aprendices" value={stats.totalAprendices} icon={<Users className="w-5 h-5" />} color="green" />
+          <StatCard title="Centros" value={stats.totalCentros} icon={<Building2 className="w-5 h-5" />} color="purple" />
+          <StatCard title="Empresas" value={stats.totalEmpresas} icon={<Briefcase className="w-5 h-5" />} color="orange" />
+          <StatCard title="Instructores" value={stats.totalInstructores} icon={<GraduationCap className="w-5 h-5" />} color="teal" />
+        </div>
+      </section>
 
-      {/* ── Filters ── */}
-      <FilterBar />
+      {/* Filters */}
+      <section>
+        <FilterBar />
+      </section>
 
-      {/* ── Charts Grid: 2 columns on large screens ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <FichasPorNivel />
-        <AprendicesPorModalidad />
-      </div>
+      {/* Charts Row 1 */}
+      <section>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <FichasPorNivel />
+          <AprendicesPorModalidad />
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <AprendicesPorProgramaEspecial />
-        <AprendicesPorCentro />
-      </div>
+      {/* Charts Row 2 */}
+      <section>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <AprendicesPorProgramaEspecial />
+          <AprendicesPorCentro />
+        </div>
+      </section>
 
-      {/* ── Map ── */}
-      <MapView />
+      {/* Map */}
+      <section>
+        <MapView />
+      </section>
 
-      {/* ── Table ── */}
-      <DataTable />
+      {/* Table */}
+      <section>
+        <DataTable />
+      </section>
 
-      {/* ── Upload ── */}
-      <FileUpload />
+      {/* Upload */}
+      <section>
+        <div className="section-card p-6 text-center">
+          <h3 className="section-title mb-4">Actualizar Datos</h3>
+          <FileUpload />
+        </div>
+      </section>
     </div>
   );
 }

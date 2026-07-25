@@ -44,20 +44,20 @@ export default function FileUpload() {
 
   if (excelFileName && fichasCount > 0) {
     return (
-      <div className="flex items-center gap-3 px-4 py-2.5 bg-sena-green-light/5 border border-sena-green/10 rounded-xl">
+      <div className="flex items-center gap-3 px-4 py-3 bg-sena-green-light/50 border border-sena-green/20 rounded-xl">
         <CheckCircle2 className="w-5 h-5 text-sena-green shrink-0" />
-        <span className="text-sm text-sena-green/70 font-medium truncate flex-1">
+        <span className="text-sm text-sena-green font-medium truncate flex-1">
           {excelFileName}
         </span>
-        <span className="text-xs text-gray-400 shrink-0 font-medium">
+        <span className="text-xs text-text-muted shrink-0 font-medium">
           {fichasCount.toLocaleString("es-CO")} fichas
         </span>
         <div
           {...getRootProps()}
-          className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg hover:bg-white/50 transition-colors cursor-pointer"
         >
           <input {...getInputProps()} />
-          <RefreshCw className="w-4 h-4 text-gray-400 hover:text-gray-600 transition-colors" />
+          <RefreshCw className="w-4 h-4 text-text-muted hover:text-text-secondary transition-colors" />
         </div>
       </div>
     );
@@ -66,26 +66,27 @@ export default function FileUpload() {
   return (
     <div
       {...getRootProps()}
+      aria-label="Subir archivo Excel"
       className={cn(
-        "group relative flex flex-col items-center gap-3 px-6 py-8",
+        "group relative flex flex-col items-center gap-3 px-6 py-8 w-full",
         "border-2 border-dashed rounded-2xl cursor-pointer",
-        "transition-all duration-300",
+        "transition-all duration-200",
         isDragActive
-          ? "border-sena-green/50 bg-sena-green/5 scale-[1.01]"
+          ? "border-sena-green/50 bg-sena-green-light/50 scale-[1.01]"
           : status === "loading"
-          ? "border-sena-green/20 bg-sena-green/3"
-          : "border-gray-300 hover:border-sena-green/30 hover:bg-gray-50"
+          ? "border-sena-green/20 bg-sena-green-light/30"
+          : "border-border hover:border-sena-green/30 hover:bg-gray-50"
       )}
     >
       <input {...getInputProps()} />
       <div
         className={cn(
-          "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+          "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200",
           isDragActive
             ? "bg-sena-green/15 scale-110"
             : status === "loading"
-            ? "bg-sena-green/10"
-            : "bg-gray-100 group-hover:bg-sena-green/10"
+            ? "bg-sena-green-light"
+            : "bg-gray-100 group-hover:bg-sena-green-light"
         )}
       >
         {status === "loading" ? (
@@ -93,18 +94,18 @@ export default function FileUpload() {
         ) : isDragActive ? (
           <FileUp className="w-5 h-5 text-sena-green" />
         ) : (
-          <Upload className="w-5 h-5 text-gray-400 group-hover:text-sena-green transition-colors" />
+          <Upload className="w-5 h-5 text-text-muted group-hover:text-sena-green transition-colors" />
         )}
       </div>
       <div className="text-center">
-        <p className="text-sm text-gray-600 font-medium">
+        <p className="text-sm text-text-primary font-medium">
           {status === "loading"
             ? "Procesando archivo..."
             : isDragActive
             ? "Suelta el archivo aqui"
             : "Arrastra un archivo .xlsx o haz clic"}
         </p>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-text-muted mt-1">
           Reporte PE-04 del SENA
         </p>
       </div>
