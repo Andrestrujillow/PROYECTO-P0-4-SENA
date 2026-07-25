@@ -29,31 +29,35 @@ export default function WelcomePage() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="min-h-dvh flex flex-col bg-surface">
+    <div className="min-h-dvh flex flex-col" style={{ backgroundColor: "#f7f4e8" }}>
       {/* ── Hero ── */}
-      <section className="flex flex-col items-center px-6 pt-20 pb-16 lg:pt-28 lg:pb-20 text-center">
-        <div className="w-full max-w-3xl mx-auto">
+      <section className="flex flex-col items-center px-6 pt-24 pb-16 lg:pt-32 lg:pb-24 text-center">
+        <div className="w-full max-w-4xl mx-auto">
           {/* Badge */}
-          <p className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sena-green-50 border border-sena-green-100 text-xs font-semibold tracking-wide uppercase text-sena-green mb-8">
+          <p className="inline-flex items-center px-5 py-2 rounded-full border border-black text-xs font-semibold tracking-wide uppercase mb-10"
+             style={{ backgroundColor: "#f7f4e8", color: "#000000" }}>
             Servicio Nacional de Aprendizaje
           </p>
 
-          {/* Headline */}
-          <h1 className="text-[clamp(36px,8vw,64px)] font-medium leading-[1.08] tracking-tight text-text-primary mb-8">
-            Reporte Ofertas de
+          {/* Headline — massive editorial */}
+          <h1 style={{ fontSize: "clamp(48px, 10vw, 120px)", lineHeight: 0.85, letterSpacing: "-0.03em", fontWeight: 700, color: "#000000" }}
+              className="mb-10">
+            Reporte
             <br />
-            <span className="text-sena-green">Formacion</span>
+            Ofertas de
+            <br />
+            <span style={{ color: "#00843D" }}>Formacion</span>
           </h1>
 
           {/* Subtitle */}
-          <div className="flex flex-col items-center gap-2 mb-10">
-            <span className="text-xl font-medium text-text-secondary">
+          <div className="flex flex-col items-center gap-3 mb-12">
+            <span className="text-lg font-medium" style={{ color: "#000000" }}>
               {year - 4} &ndash; {year}
             </span>
-            <span className="text-base text-text-muted">
+            <span className="text-base" style={{ color: "#666666" }}>
               SENA Regional Cauca
             </span>
-            <span className="text-sm text-text-muted">
+            <span className="text-sm" style={{ color: "#999999" }}>
               Actualizado:{" "}
               {new Date().toLocaleDateString("es-CO", {
                 year: "numeric",
@@ -63,58 +67,82 @@ export default function WelcomePage() {
             </span>
           </div>
 
-          {/* CTA */}
+          {/* CTA — pill black button */}
           <button
             onClick={() => navigate("/dashboard")}
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-sena-green text-white font-semibold text-sm shadow-lg shadow-sena-green/20 hover:bg-sena-green-hover hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-[20px] font-medium text-base transition-all duration-200"
+            style={{
+              backgroundColor: "#000000",
+              color: "#f7f4e8",
+              border: "1px solid #000000",
+            }}
           >
             Ingresar al Dashboard
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </section>
 
       {/* ── Features ── */}
-      <section className="w-full max-w-[1200px] mx-auto px-6 pb-20 lg:pb-28">
-        <div className="h-px bg-border mb-16" />
+      <section className="w-full px-6 pb-24 lg:pb-32" style={{ backgroundColor: "#f7f4e8" }}>
+        <div className="max-w-[1200px] mx-auto">
+          {/* Divider */}
+          <div className="mb-20" style={{ borderTop: "1px solid #c6c3ba" }} />
 
-        <div className="max-w-lg mb-14">
-          <h2 className="text-2xl font-medium tracking-tight text-text-primary mb-3">
-            Herramientas de analisis
-          </h2>
-          <p className="text-base text-text-muted leading-relaxed">
-            Tres capacidades core para transformar datos crudos en decisiones
-            informadas.
-          </p>
-        </div>
+          {/* Section heading */}
+          <div className="mb-16" style={{ maxWidth: 560 }}>
+            <h2 style={{ fontSize: "clamp(32px, 6vw, 56px)", lineHeight: 0.85, fontWeight: 700, letterSpacing: "-0.03em", color: "#000000" }}
+                className="mb-4">
+              Herramientas
+              <br />
+              de analisis
+            </h2>
+            <p className="text-base leading-relaxed" style={{ color: "#666666" }}>
+              Tres capacidades core para transformar datos crudos en decisiones
+              informadas.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {features.map(({ icon: Icon, title, body }) => (
-            <div
-              key={title}
-              className="bg-surface border border-border rounded-2xl p-8 transition-shadow hover:shadow-card"
-            >
-              <div className="w-10 h-10 rounded-xl bg-sena-green-50 border border-sena-green-100 flex items-center justify-center">
-                <Icon className="w-5 h-5 text-sena-green" />
+          {/* Cards grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {features.map(({ icon: Icon, title, body }, i) => (
+              <div
+                key={title}
+                className="rounded-[20px] p-6 transition-colors duration-200"
+                style={{
+                  backgroundColor: i === 0 ? "#00843D" : "#f7f4e8",
+                  border: i === 0 ? "1px solid #00843D" : "1px solid #000000",
+                  color: i === 0 ? "#f7f4e8" : "#000000",
+                }}
+              >
+                <div
+                  className="w-12 h-12 rounded-[20px] flex items-center justify-center mb-6"
+                  style={{
+                    backgroundColor: i === 0 ? "rgba(247,244,232,0.15)" : "#000000",
+                    border: "none",
+                  }}
+                >
+                  <Icon className="w-5 h-5" style={{ color: i === 0 ? "#f7f4e8" : "#f7f4e8" }} />
+                </div>
+                <h3 className="text-xl font-semibold mb-3" style={{ color: i === 0 ? "#f7f4e8" : "#000000" }}>
+                  {title}
+                </h3>
+                <p className="text-base leading-relaxed" style={{ color: i === 0 ? "rgba(247,244,232,0.8)" : "#666666" }}>
+                  {body}
+                </p>
               </div>
-              <h3 className="text-lg font-medium tracking-tight text-text-primary mt-6 mb-3">
-                {title}
-              </h3>
-              <p className="text-base text-text-muted leading-relaxed">
-                {body}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── Footer ── */}
-      <footer className="w-full border-t border-border mt-auto">
-        <div className="max-w-[1200px] mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-semibold tracking-wide uppercase text-text-muted">
+      <footer className="w-full" style={{ borderTop: "1px solid #c6c3ba", backgroundColor: "#f7f4e8" }}>
+        <div className="max-w-[1200px] mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs font-semibold tracking-wide uppercase" style={{ color: "#999999" }}>
             Plataforma de Inteligencia Educativa &middot; PE-04 v1.0
           </p>
-          <p className="text-xs font-medium text-text-muted">
+          <p className="text-xs font-medium" style={{ color: "#999999" }}>
             SENA Regional Cauca &middot; {year}
           </p>
         </div>
