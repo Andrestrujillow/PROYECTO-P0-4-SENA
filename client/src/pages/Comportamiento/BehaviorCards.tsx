@@ -17,44 +17,41 @@ export default function BehaviorCards({ fichas }: BehaviorCardsProps) {
   const aprendicesActivos = fichas.reduce((acc, f) => acc + f.totalAprendicesActivos, 0);
 
   const cards = [
-    { label: "Programas", value: programasUnicos, icon: <GraduationCap className="w-4 h-4" />, color: "green" as const },
-    { label: "Centros", value: centrosUnicos, icon: <Building2 className="w-4 h-4" />, color: "blue" as const },
-    { label: "Empresas", value: empresasUnicas, icon: <Briefcase className="w-4 h-4" />, color: "yellow" as const },
-    { label: "Activos", value: aprendicesActivos, icon: <Users className="w-4 h-4" />, color: "purple" as const },
+    { label: "Programas", value: programasUnicos, icon: <GraduationCap className="w-5 h-5" />, color: "green" as const },
+    { label: "Centros", value: centrosUnicos, icon: <Building2 className="w-5 h-5" />, color: "blue" as const },
+    { label: "Empresas", value: empresasUnicas, icon: <Briefcase className="w-5 h-5" />, color: "orange" as const },
+    { label: "Activos", value: aprendicesActivos, icon: <Users className="w-5 h-5" />, color: "purple" as const },
   ];
 
   const colorMap = {
     green: { icon: "icon-green", accent: "accent-green" },
     blue: { icon: "icon-blue", accent: "accent-blue" },
-    yellow: { icon: "icon-yellow", accent: "accent-yellow" },
+    orange: { icon: "icon-orange", accent: "accent-orange" },
     purple: { icon: "icon-purple", accent: "accent-purple" },
   };
 
   return (
-    <div style={{ animation: "fadeInUp 0.5s ease-out 0.15s both" }}>
-      <div className="grid grid-cols-4 gap-4">
-        {cards.map((c) => {
-          const cls = colorMap[c.color];
-          return (
-            <div
-              key={c.label}
-              className="card"
-              style={{ height: "80px", padding: "16px 20px", display: "flex", alignItems: "center", gap: "14px", position: "relative", overflow: "hidden" }}
-            >
-              <div className={`stat-card-accent ${cls.accent}`} />
-              <div className="flex flex-col justify-center flex-1 min-w-0">
-                <p className="stat-card-label" style={{ fontSize: "12px", marginBottom: "4px" }}>{c.label}</p>
-                <p className="text-2xl font-bold text-text-primary tracking-tight" style={{ lineHeight: 1 }}>
-                  {c.value.toLocaleString("es-CO")}
-                </p>
-              </div>
-              <div className={`stat-card-icon ${cls.icon}`} style={{ width: "40px", height: "40px", borderRadius: "12px" }}>
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4">
+      {cards.map((c) => {
+        const cls = colorMap[c.color];
+        return (
+          <div
+            key={c.label}
+            className="stat-card section-card p-4 relative hover:shadow-md transition-shadow duration-200"
+          >
+            <div className={`stat-card-accent ${cls.accent}`} />
+            <div className="flex items-center gap-3 pl-1">
+              <div className={`stat-card-icon ${cls.icon}`}>
                 {c.icon}
               </div>
+              <div className="stat-card-content">
+                <span className="stat-card-label">{c.label}</span>
+                <span className="stat-card-value">{c.value.toLocaleString("es-CO")}</span>
+              </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
