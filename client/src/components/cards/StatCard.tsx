@@ -1,4 +1,6 @@
+import { useRef, useEffect } from "react";
 import type { ReactNode } from "react";
+import gsap from "gsap";
 
 interface StatCardProps {
   title: string;
@@ -7,27 +9,54 @@ interface StatCardProps {
   color?: "blue" | "green" | "purple" | "orange" | "teal";
 }
 
-const COLORS: Record<string, { bg: string; text: string; accent: string }> = {
-  blue: { bg: "bg-blue-50", text: "text-blue-500", accent: "border-l-blue-500" },
-  green: { bg: "bg-emerald-50", text: "text-emerald-500", accent: "border-l-emerald-500" },
-  purple: { bg: "bg-violet-50", text: "text-violet-500", accent: "border-l-violet-500" },
-  orange: { bg: "bg-orange-50", text: "text-orange-500", accent: "border-l-orange-500" },
-  teal: { bg: "bg-teal-50", text: "text-teal-500", accent: "border-l-teal-500" },
+const COLORS: Record<string, { icon: string; accent: string }> = {
+  blue: { icon: "icon-blue", accent: "accent-blue" },
+  green: { icon: "icon-green", accent: "accent-green" },
+  purple: { icon: "icon-purple", accent: "accent-purple" },
+  orange: { icon: "icon-orange", accent: "accent-orange" },
+  teal: { icon: "icon-teal", accent: "accent-teal" },
 };
 
 export default function StatCard({ title, value, icon, color = "blue" }: StatCardProps) {
   const c = COLORS[color] || COLORS.blue;
+  const valueRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (typeof value !== "number" || !valueRef.current) return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      valueRef.current.textContent = value.toLocaleString("es-CO");
+      return;
+    }
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: value,
+      duration: 0.8,
+      ease: "power2.out",
+      snap: { val: 1 },
+      onUpdate: () => {
+        if (valueRef.current) {
+          valueRef.current.textContent = Math.round(obj.val).toLocaleString("es-CO");
+        }
+      },
+    });
+  }, [value]);
 
   return (
-    <div className={`bg-white rounded-xl border border-gray-200 border-l-[3px] ${c.accent} px-3 py-3 hover:shadow-md transition-shadow`}>
-      <div className="flex items-center gap-2.5">
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${c.bg}`}>
-          <span className={c.text}>{icon}</span>
+    <div className="stat-card section-card p-4 border-l-0 relative hover:shadow-md transition-shadow duration-200">
+      <div className={`stat-card-accent ${c.accent}`} />
+      <div className="flex items-center gap-3 pl-1">
+        <div className={`stat-card-icon ${c.icon}`}>
+          {icon}
         </div>
-        <div className="min-w-0">
-          <p className="text-[10px] text-gray-400 leading-none mb-0.5">{title}</p>
-          <p className="text-sm font-bold text-gray-800 leading-tight">
-            {typeof value === "number" ? value.toLocaleString("es-CO") : value}
+        <div className="stat-card-content">
+          <p className="stat-card-label">{title}</p>
+          <p className="stat-card-value">
+            {typeof value === "number" ? (
+              <span ref={valueRef}>0</span>
+            ) : (
+              value
+            )}
           </p>
         </div>
       </div>
