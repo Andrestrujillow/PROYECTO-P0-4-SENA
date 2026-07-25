@@ -69,7 +69,7 @@ const MapPinIcon = forwardRef<MapPinIconHandle, MapPinIconProps>(
         if (!isControlled.current) {
           pathControls.start("normal");
           circleControls.start("normal");
-        } else onMouseLeave?.(e);
+        } else if (e) onMouseLeave(e);
       },
       [pathControls, circleControls, onMouseLeave],
     );

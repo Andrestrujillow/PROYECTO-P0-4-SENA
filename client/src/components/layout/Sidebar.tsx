@@ -7,7 +7,6 @@ import {
   TrendingUp,
   Star,
   Target,
-  BarChart3,
 } from "lucide-react";
 
 const navItems = [

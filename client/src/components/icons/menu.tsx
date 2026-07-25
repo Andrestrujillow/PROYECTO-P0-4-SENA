@@ -53,7 +53,7 @@ const MenuIcon = forwardRef<MenuIconHandle, MenuIconProps>(
     const handleLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlled.current) controls.start("normal");
-        else onMouseLeave?.(e);
+        else if (e) onMouseLeave(e);
       },
       [controls, onMouseLeave],
     );
