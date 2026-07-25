@@ -28,6 +28,7 @@ const chipColor: Record<string, { bg: string; border: string; text: string; dot:
   Etapa:       { bg: "bg-pink-50",    border: "border-pink-200",    text: "text-pink-700",    dot: "bg-pink-400" },
   Jornada:     { bg: "bg-lime-50",    border: "border-lime-200",    text: "text-lime-700",    dot: "bg-lime-400" },
   Sector:      { bg: "bg-sky-50",     border: "border-sky-200",     text: "text-sky-700",     dot: "bg-sky-400" },
+  Instructor:  { bg: "bg-fuchsia-50", border: "border-fuchsia-200", text: "text-fuchsia-700", dot: "bg-fuchsia-400" },
 };
 
 function getChipColor(label: string) {
@@ -56,6 +57,7 @@ export default function FilterBar() {
     { key: "etapaFicha",        label: "Etapa",         options: data.etapas },
     { key: "jornada",           label: "Jornada",       options: data.jornadas },
     { key: "sectorPrograma",    label: "Sector",        options: data.sectores },
+    { key: "instructor",        label: "Instructor",     options: data.instructores },
   ];
 
   const activeEntries = (Object.entries(filtros) as [FilterKey, string][]).filter(

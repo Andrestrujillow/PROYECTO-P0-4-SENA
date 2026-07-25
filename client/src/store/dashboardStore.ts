@@ -15,6 +15,7 @@ const filtrosIniciales = (): Filtros => ({
   etapaFicha: "",
   jornada: "",
   sectorPrograma: "",
+  instructor: "",
 });
 
 const estadisticasIniciales: Estadisticas = {
@@ -150,6 +151,7 @@ function filtrarFichas(fichas: Ficha[], filtros: Filtros): Ficha[] {
     if (filtros.etapaFicha && f.etapaFicha !== filtros.etapaFicha) return false;
     if (filtros.jornada && f.nombreJornada !== filtros.jornada) return false;
     if (filtros.sectorPrograma && f.nombreSectorPrograma !== filtros.sectorPrograma) return false;
+    if (filtros.instructor && f.nombreResponsable !== filtros.instructor) return false;
     if (filtros.anioTerminacion) {
       const year = f.fechaTerminacionFicha.split("/")[2];
       if (year !== filtros.anioTerminacion) return false;

@@ -66,6 +66,7 @@ export interface Filtros {
   etapaFicha: string;
   jornada: string;
   sectorPrograma: string;
+  instructor: string;
 }
 
 export interface Estadisticas {
