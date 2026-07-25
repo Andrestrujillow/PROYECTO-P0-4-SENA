@@ -40,7 +40,7 @@ function FichasTerminadas({ fichas }: Props) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-sena-green/10 border border-sena-green/10">
-            <Layers className="w-4 h-4 text-sena-green" />
+            <Layers className="w-5 h-5 text-sena-green" />
           </div>
           <h3 className="chart-card-title">Fichas Terminadas</h3>
         </div>
@@ -54,8 +54,8 @@ function FichasTerminadas({ fichas }: Props) {
                 labels: ["Terminadas", "Otras"],
                 datasets: [{
                   data: [data.terminadas, data.otras],
-                  backgroundColor: ["#00843D", "#1C2D42"],
-                  borderColor: "#111D2E",
+                  backgroundColor: ["#00843D", "#E5E7EB"],
+                  borderColor: "#ffffff",
                   borderWidth: 3,
                   hoverOffset: 8,
                 }],
@@ -71,15 +71,15 @@ function FichasTerminadas({ fichas }: Props) {
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginRight: "25%" }}>
               <div className="text-center">
-                <p className="text-2xl font-bold text-sena-white">{total.toLocaleString("es-CO")}</p>
-                <p className="text-[9px] text-sena-gray/40 font-semibold uppercase tracking-wider">Total</p>
+                <p className="text-3xl font-extrabold text-text-primary">{total.toLocaleString("es-CO")}</p>
+                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">Total</p>
               </div>
             </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Layers className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <Layers className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>
@@ -96,7 +96,7 @@ function ComparacionEstado({ fichas }: Props) {
       label: "Aprendices",
       data: data.map((d) => d.value),
       backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-      borderRadius: 6,
+      borderRadius: 8,
       borderSkipped: false,
     }],
   };
@@ -106,7 +106,7 @@ function ComparacionEstado({ fichas }: Props) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-blue-400/10 border border-blue-400/10">
-            <BarChart3 className="w-4 h-4 text-blue-400" />
+            <BarChart3 className="w-5 h-5 text-blue-400" />
           </div>
           <h3 className="chart-card-title">Comparación Estado de Aprendices</h3>
         </div>
@@ -116,8 +116,8 @@ function ComparacionEstado({ fichas }: Props) {
           <Bar data={chartData} options={defaultOptions} />
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <BarChart3 className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <BarChart3 className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>
@@ -134,7 +134,7 @@ function TotalFichasChart({ fichas }: Props) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-sena-yellow/10 border border-sena-yellow/10">
-            <PieChart className="w-4 h-4 text-sena-yellow" />
+            <PieChart className="w-5 h-5 text-sena-yellow" />
           </div>
           <h3 className="chart-card-title">Total de Fichas</h3>
         </div>
@@ -149,7 +149,7 @@ function TotalFichasChart({ fichas }: Props) {
                 datasets: [{
                   data: data.map((d) => d.value),
                   backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-                  borderColor: "#111D2E",
+                  borderColor: "#ffffff",
                   borderWidth: 3,
                   hoverOffset: 8,
                 }],
@@ -165,15 +165,15 @@ function TotalFichasChart({ fichas }: Props) {
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginRight: "25%" }}>
               <div className="text-center">
-                <p className="text-2xl font-bold text-sena-white">{total.toLocaleString("es-CO")}</p>
-                <p className="text-[9px] text-sena-gray/40 font-semibold uppercase tracking-wider">Fichas</p>
+                <p className="text-3xl font-extrabold text-text-primary">{total.toLocaleString("es-CO")}</p>
+                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">Fichas</p>
               </div>
             </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <PieChart className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <PieChart className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>

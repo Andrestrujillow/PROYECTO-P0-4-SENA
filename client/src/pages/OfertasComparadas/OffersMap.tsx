@@ -53,27 +53,27 @@ export default function OffersMap({ fichas }: Props) {
           </div>
           <div>
             <h3 className="chart-card-title">Distribución Geográfica</h3>
-            <p className="text-[9px] text-sena-gray/40 mt-0.5">{puntos.length} municipios con datos</p>
+            <p className="text-xs text-text-muted mt-0.5">{puntos.length} municipios con datos</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {[{ size: 7, label: "<10" }, { size: 13, label: "20+" }, { size: 22, label: "100+" }].map(({ size, label }) => (
             <div key={label} className="flex items-center gap-1">
               <div className="rounded-full bg-sena-green/40 border border-sena-green/30" style={{ width: size * 0.7, height: size * 0.7 }} />
-              <span className="text-[8px] text-sena-gray/30">{label}</span>
+              <span className="text-[10px] text-text-muted">{label}</span>
             </div>
           ))}
         </div>
       </div>
       <div className="map-body">
         <MapContainer center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM} className="h-full w-full" zoomControl={false} attributionControl={false}>
-          <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+          <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
           {puntos.map((p) => (
             <CircleMarker key={p.nombre} center={[p.lat, p.lng]} radius={getRadius(p.cantidadFichas)}
               pathOptions={{ color: "#00843D", fillColor: "#00843D", fillOpacity: getOpacity(p.cantidadFichas), weight: 2 }}>
               <Popup>
-                <div className="text-[13px] font-bold mb-1">{p.nombre}</div>
-                <div className="flex items-center gap-3 text-[11px]">
+                <div className="text-sm font-bold mb-1">{p.nombre}</div>
+                <div className="flex items-center gap-3 text-xs">
                   <span><span className="font-semibold">{p.cantidadFichas}</span> fichas</span>
                   <span><span className="font-semibold" style={{ color: "#00843D" }}>{p.cantidadAprendices.toLocaleString("es-CO")}</span> aprendices</span>
                 </div>

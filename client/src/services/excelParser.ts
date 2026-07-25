@@ -1,6 +1,5 @@
 import * as XLSX from "xlsx";
-import type { Ficha, FichaKey } from "../types/index.js";
-import { FICHA_COLUMNS } from "../types/index.js";
+import type { Ficha } from "../types";
 
 const HEADER_ROW_INDEX = 4;
 
@@ -91,8 +90,8 @@ function buildFicha(raw: Record<string, unknown>): Ficha | null {
   };
 }
 
-export function parseExcel(buffer: Buffer): Ficha[] {
-  const workbook = XLSX.read(buffer, { type: "buffer" });
+export function parseExcelFile(buffer: ArrayBuffer): Ficha[] {
+  const workbook = XLSX.read(buffer, { type: "array" });
   const sheetName = workbook.SheetNames[0];
 
   if (!sheetName) {
@@ -100,7 +99,11 @@ export function parseExcel(buffer: Buffer): Ficha[] {
   }
 
   const sheet = workbook.Sheets[sheetName];
-  const range = XLSX.utils.decode_range(sheet["!ref"]!);
+  const ref = sheet["!ref"];
+  if (!ref) {
+    throw new Error("El archivo Excel no contiene datos");
+  }
+  const range = XLSX.utils.decode_range(ref);
 
   const headerRow: XLSX.CellObject[] = [];
   for (let c = range.s.c; c <= range.e.c; c++) {

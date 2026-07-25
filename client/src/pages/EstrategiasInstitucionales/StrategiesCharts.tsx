@@ -39,7 +39,7 @@ function AprendicesPorEstrategia({ fichas }: Props) {
       label: "Aprendices",
       data: data.map((d) => d.value),
       backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-      borderRadius: 6,
+      borderRadius: 8,
       borderSkipped: false,
     }],
   };
@@ -49,7 +49,7 @@ function AprendicesPorEstrategia({ fichas }: Props) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-purple-400/10 border border-purple-400/10">
-            <Target className="w-4 h-4 text-purple-400" />
+            <Target className="w-5 h-5 text-purple-400" />
           </div>
           <h3 className="chart-card-title">Aprendices por Estrategia Institucional</h3>
         </div>
@@ -59,8 +59,8 @@ function AprendicesPorEstrategia({ fichas }: Props) {
           <Bar data={chartData} options={defaultOptions} />
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Target className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <Target className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>
@@ -77,7 +77,7 @@ function AprendicesPorNivel({ fichas }: Props) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-sena-green/10 border border-sena-green/10">
-            <Layers className="w-4 h-4 text-sena-green" />
+            <Layers className="w-5 h-5 text-sena-green" />
           </div>
           <h3 className="chart-card-title">Aprendices por Nivel de Formación</h3>
         </div>
@@ -92,7 +92,7 @@ function AprendicesPorNivel({ fichas }: Props) {
                 datasets: [{
                   data: data.map((d) => d.value),
                   backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-                  borderColor: "#111D2E",
+                  borderColor: "#ffffff",
                   borderWidth: 3,
                   hoverOffset: 8,
                 }],
@@ -108,15 +108,15 @@ function AprendicesPorNivel({ fichas }: Props) {
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginRight: "25%" }}>
               <div className="text-center">
-                <p className="text-2xl font-bold text-sena-white">{total.toLocaleString("es-CO")}</p>
-                <p className="text-[9px] text-sena-gray/40 font-semibold uppercase tracking-wider">Aprendices</p>
+                <p className="text-3xl font-extrabold text-text-primary">{total.toLocaleString("es-CO")}</p>
+                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">Aprendices</p>
               </div>
             </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Layers className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <Layers className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>
@@ -139,7 +139,7 @@ function MunicipiosPorSubregion({ fichas }: Props) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-sena-yellow/10 border border-sena-yellow/10">
-            <MapPin className="w-4 h-4 text-sena-yellow" />
+            <MapPin className="w-5 h-5 text-sena-yellow" />
           </div>
           <h3 className="chart-card-title">Municipios por Subregión</h3>
         </div>
@@ -154,7 +154,7 @@ function MunicipiosPorSubregion({ fichas }: Props) {
                 datasets: [{
                   data: data.map((d) => d.value),
                   backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-                  borderColor: "#111D2E",
+                  borderColor: "#ffffff",
                   borderWidth: 3,
                   hoverOffset: 8,
                 }],
@@ -170,15 +170,15 @@ function MunicipiosPorSubregion({ fichas }: Props) {
             />
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginRight: "25%" }}>
               <div className="text-center">
-                <p className="text-2xl font-bold text-sena-white">{total.toLocaleString("es-CO")}</p>
-                <p className="text-[9px] text-sena-gray/40 font-semibold uppercase tracking-wider">Municipios</p>
+                <p className="text-3xl font-extrabold text-text-primary">{total.toLocaleString("es-CO")}</p>
+                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">Municipios</p>
               </div>
             </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <MapPin className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <MapPin className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>

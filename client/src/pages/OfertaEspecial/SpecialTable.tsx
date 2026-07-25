@@ -62,7 +62,7 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
 
   return (
     <div className="card table-container">
-      <div className="px-5 pt-4 pb-3 border-b border-sena-blue-light/10">
+      <div className="px-5 pt-4 pb-3 border-b border-border-default">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2.5">
             <div className="chart-card-icon bg-blue-400/10 border border-blue-400/10">
@@ -75,12 +75,12 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
           </span>
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-sena-gray/25" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
           <input
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             placeholder="Buscar en todas las columnas..."
-            className="filter-item !h-auto !py-2.5 pl-9 text-[11px] !rounded-xl"
+            className="filter-item !h-auto !py-2.5 pl-9 text-sm !rounded-xl"
           />
         </div>
       </div>
@@ -94,14 +94,14 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
                   <th
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
-                    className="px-4 py-2.5 text-left text-[10px] font-bold text-sena-gray/50 uppercase tracking-wider border-b border-sena-blue-light/10 cursor-pointer hover:text-sena-white transition-colors whitespace-nowrap"
+                    className="px-4 py-2.5 text-left text-xs font-bold text-text-muted uppercase tracking-wider border-b border-border-default cursor-pointer hover:text-text-primary transition-colors whitespace-nowrap"
                   >
                     <div className="flex items-center gap-1.5">
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {header.column.getIsSorted() === "asc" ? (
-                        <ChevronUp className="w-3 h-3 text-sena-green" />
+                        <ChevronUp className="w-4 h-4 text-sena-green" />
                       ) : header.column.getIsSorted() === "desc" ? (
-                        <ChevronDown className="w-3 h-3 text-sena-green" />
+                        <ChevronDown className="w-4 h-4 text-sena-green" />
                       ) : null}
                     </div>
                   </th>
@@ -113,14 +113,14 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
             {table.getRowModel().rows.map((row, i) => (
               <tr
                 key={row.id}
-                className={`border-b border-sena-blue-light/5 table-row-hover transition-colors ${
+                className={`border-b border-border-default table-row-hover transition-colors ${
                   i % 2 === 0 ? "table-row-even" : ""
                 }`}
               >
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-4 py-2.5 text-sena-white/75 whitespace-nowrap text-[11px]"
+                    className="px-4 py-2.5 text-text-primary/75 whitespace-nowrap text-sm"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
@@ -131,24 +131,24 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
         </table>
       </div>
 
-      <div className="flex items-center justify-between px-5 py-3 border-t border-sena-blue-light/10">
-        <span className="text-[10px] text-sena-gray/35 font-medium">
+      <div className="flex items-center justify-between px-5 py-3 border-t border-border-default">
+        <span className="text-xs text-text-muted font-medium">
           {pageIndex + 1} / {pageCount} páginas
         </span>
         <div className="flex items-center gap-0.5">
           <button
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
-            className="p-1.5 rounded-lg hover:bg-sena-blue-light/30 text-sena-gray/30 hover:text-sena-white disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-gray-100 text-text-muted hover:text-text-primary disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            <ChevronsLeft className="w-3.5 h-3.5" />
+            <ChevronsLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="p-1.5 rounded-lg hover:bg-sena-blue-light/30 text-sena-gray/30 hover:text-sena-white disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-gray-100 text-text-muted hover:text-text-primary disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            <ChevronLeft className="w-3.5 h-3.5" />
+            <ChevronLeft className="w-4 h-4" />
           </button>
 
           <div className="flex items-center gap-0.5 mx-1">
@@ -167,10 +167,10 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
                 <button
                   key={pageNum}
                   onClick={() => table.setPageIndex(pageNum)}
-                  className={`w-7 h-7 rounded-lg text-[10px] font-semibold transition-colors cursor-pointer ${
+                   className={`w-8 h-8 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                     pageNum === pageIndex
                       ? "bg-sena-green/15 text-sena-green border border-sena-green/20"
-                      : "text-sena-gray/40 hover:bg-sena-blue-light/30 hover:text-sena-white"
+                      : "text-text-muted hover:bg-gray-100 hover:text-text-primary"
                   }`}
                 >
                   {pageNum + 1}
@@ -182,16 +182,16 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="p-1.5 rounded-lg hover:bg-sena-blue-light/30 text-sena-gray/30 hover:text-sena-white disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-gray-100 text-text-muted hover:text-text-primary disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            <ChevronRight className="w-3.5 h-3.5" />
+            <ChevronRight className="w-4 h-4" />
           </button>
           <button
             onClick={() => table.setPageIndex(pageCount - 1)}
             disabled={!table.getCanNextPage()}
-            className="p-1.5 rounded-lg hover:bg-sena-blue-light/30 text-sena-gray/30 hover:text-sena-white disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-gray-100 text-text-muted hover:text-text-primary disabled:opacity-15 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            <ChevronsRight className="w-3.5 h-3.5" />
+            <ChevronsRight className="w-4 h-4" />
           </button>
         </div>
       </div>

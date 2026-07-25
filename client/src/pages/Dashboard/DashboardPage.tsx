@@ -4,7 +4,6 @@ import {
   Building2,
   Briefcase,
   GraduationCap,
-  BarChart3,
 } from "lucide-react";
 import StatCard from "../../components/cards/StatCard";
 import FileUpload from "../../components/ui/FileUpload";
@@ -24,18 +23,9 @@ export default function DashboardPage() {
 
   if (fichasCount === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[65vh]">
-        <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-sena-green/10 border border-sena-green/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <BarChart3 className="w-8 h-8 text-sena-green" />
-            </div>
-            <h2 className="text-xl font-bold text-sena-white mb-2">
-              Cargar datos PE-04
-            </h2>
-            <p className="text-sm text-sena-gray/50 mb-6 max-w-xs mx-auto leading-relaxed">
-              Sube el archivo Excel del reporte PE-04 para comenzar el análisis.
-            </p>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="w-full max-w-[280px]">
+          <div className="bg-white rounded-xl p-6 text-center border border-gray-200 shadow-sm">
             <FileUpload />
           </div>
         </div>
@@ -44,38 +34,37 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="dashboard-grid">
-
-      <div className="kpi-grid">
-        {[
-          { title: "Fichas", value: fichasFiltradasCount, icon: <FileText className="w-5 h-5" />, color: "green" as const },
-          { title: "Aprendices", value: stats.totalAprendices, icon: <Users className="w-5 h-5" />, color: "blue" as const },
-          { title: "Centros", value: stats.totalCentros, icon: <Building2 className="w-5 h-5" />, color: "yellow" as const },
-          { title: "Empresas", value: stats.totalEmpresas, icon: <Briefcase className="w-5 h-5" />, color: "purple" as const },
-          { title: "Instructores", value: stats.totalInstructores, icon: <GraduationCap className="w-5 h-5" />, color: "green" as const },
-        ].map((s) => (
-          <div key={s.title} style={{ animation: "fadeInUp 0.5s ease-out both" }}>
-            <StatCard title={s.title} value={s.value} icon={s.icon} color={s.color} />
-          </div>
-        ))}
+    <div className="space-y-5">
+      {/* ── KPI Row ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <StatCard title="Fichas" value={fichasFiltradasCount} icon={<FileText className="w-3.5 h-3.5" />} color="blue" />
+        <StatCard title="Aprendices" value={stats.totalAprendices} icon={<Users className="w-3.5 h-3.5" />} color="green" />
+        <StatCard title="Centros" value={stats.totalCentros} icon={<Building2 className="w-3.5 h-3.5" />} color="purple" />
+        <StatCard title="Empresas" value={stats.totalEmpresas} icon={<Briefcase className="w-3.5 h-3.5" />} color="orange" />
+        <StatCard title="Instructores" value={stats.totalInstructores} icon={<GraduationCap className="w-3.5 h-3.5" />} color="teal" />
       </div>
 
+      {/* ── Filters ── */}
       <FilterBar />
 
-      <div className="chart-grid-2">
+      {/* ── Charts Grid: 2 columns on large screens ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <FichasPorNivel />
-        <AprendicesPorProgramaEspecial />
-      </div>
-
-      <AprendicesPorCentro />
-
-      <div className="chart-grid-2">
         <AprendicesPorModalidad />
-        <MapView />
       </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <AprendicesPorProgramaEspecial />
+        <AprendicesPorCentro />
+      </div>
+
+      {/* ── Map ── */}
+      <MapView />
+
+      {/* ── Table ── */}
       <DataTable />
 
+      {/* ── Upload ── */}
       <FileUpload />
     </div>
   );

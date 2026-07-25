@@ -32,5 +32,13 @@ yarn-error.log*
 # Testing
 coverage/
 
+# SDD artifacts
+.atl/
+.sdd/
+openspec/
+
+# Reference files
+Referencia diseño/
+
 # Misc
 *.tsbuildinfo

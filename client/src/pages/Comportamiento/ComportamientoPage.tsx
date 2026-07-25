@@ -55,15 +55,15 @@ export default function ComportamientoPage() {
             <div className="w-16 h-16 bg-blue-400/10 border border-blue-400/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <Activity className="w-8 h-8 text-blue-400" />
             </div>
-            <h2 className="text-xl font-bold text-sena-white mb-2">
+            <h2 className="text-xl font-bold text-text-primary mb-2">
               Sin datos disponibles
             </h2>
-            <p className="text-sm text-sena-gray/50 mb-6 max-w-xs mx-auto leading-relaxed">
+            <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
               Carga el archivo Excel del reporte PE-04 para comenzar el análisis de comportamiento.
             </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sena-blue-light/15 border border-sena-blue-light/10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 border border-border-default">
               <div className="w-1.5 h-1.5 bg-sena-yellow rounded-full animate-pulse-soft" />
-              <span className="text-[9px] text-sena-gray/35 uppercase tracking-wider font-semibold">
+              <span className="text-xs text-text-muted uppercase tracking-wider font-semibold">
                 Esperando datos
               </span>
             </div>
@@ -77,12 +77,12 @@ export default function ComportamientoPage() {
     <div className="dashboard-grid">
       <div style={{ animation: "fadeInUp 0.5s ease-out" }}>
         <div className="flex items-center gap-3 mb-1">
-          <div className="w-8 h-8 rounded-xl bg-blue-400/10 flex items-center justify-center">
-            <BarChart3 className="w-4 h-4 text-blue-400" />
+          <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center">
+            <BarChart3 className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-sena-white">Comportamiento</h1>
-            <p className="text-[11px] text-sena-gray/40">Análisis de tendencias y comportamiento de la formación</p>
+            <h1 className="text-lg font-bold text-text-primary">Comportamiento</h1>
+            <p className="text-sm text-text-muted">Análisis de tendencias y comportamiento de la formación</p>
           </div>
         </div>
       </div>

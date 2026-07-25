@@ -56,10 +56,10 @@ export default function OfertaEspecialPage() {
             <div className="w-16 h-16 bg-sena-yellow/10 border border-sena-yellow/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <Star className="w-8 h-8 text-sena-yellow" />
             </div>
-            <h2 className="text-xl font-bold text-sena-white mb-2">
+            <h2 className="text-xl font-bold text-text-primary mb-2">
               Sin datos disponibles
             </h2>
-            <p className="text-sm text-sena-gray/50 mb-6 max-w-xs mx-auto leading-relaxed">
+            <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
               Carga el archivo Excel del reporte PE-04 desde el dashboard principal para ver la oferta especial.
             </p>
           </div>
@@ -74,8 +74,8 @@ export default function OfertaEspecialPage() {
 
       <div className="card p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Lightbulb className="w-3.5 h-3.5 text-sena-yellow" />
-          <span className="text-[11px] font-semibold text-sena-gray/50 uppercase tracking-wider">
+          <Lightbulb className="w-4 h-4 text-sena-yellow" />
+          <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">
             Centros de Formación
           </span>
         </div>

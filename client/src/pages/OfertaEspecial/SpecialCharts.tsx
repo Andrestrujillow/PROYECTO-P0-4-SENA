@@ -28,9 +28,9 @@ function ActivosPorModalidad({ fichas }: { fichas: Ficha[] }) {
       {
         data: data.map((d) => d.value),
         backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-        borderColor: "#111D2E",
+        borderColor: "#ffffff",
         borderWidth: 3,
-        hoverBorderColor: "#F0F4F8",
+        hoverBorderColor: "#F5F6F8",
         hoverBorderWidth: 2,
         hoverOffset: 8,
       },
@@ -64,7 +64,7 @@ function ActivosPorModalidad({ fichas }: { fichas: Ficha[] }) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-sena-green/10 border border-sena-green/10">
-            <Monitor className="w-4 h-4 text-sena-green" />
+            <Monitor className="w-5 h-5 text-sena-green" />
           </div>
           <h3 className="chart-card-title">Activos por Modalidad</h3>
         </div>
@@ -81,10 +81,10 @@ function ActivosPorModalidad({ fichas }: { fichas: Ficha[] }) {
               style={{ marginRight: "30%" }}
             >
               <div className="text-center">
-                <p className="text-2xl font-bold text-sena-white">
+                <p className="text-3xl font-extrabold text-text-primary">
                   {total.toLocaleString("es-CO")}
                 </p>
-                <p className="text-[9px] text-sena-gray/40 font-semibold uppercase tracking-wider">
+                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">
                   Total
                 </p>
               </div>
@@ -92,8 +92,8 @@ function ActivosPorModalidad({ fichas }: { fichas: Ficha[] }) {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Monitor className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <Monitor className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>
@@ -125,10 +125,10 @@ function CertificadosPorTipoOferta({ fichas }: { fichas: Ficha[] }) {
       {
         data: data.map((d) => d.value),
         backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-        borderColor: "#111D2E",
+        borderColor: "#ffffff",
         borderWidth: 2,
-        borderRadius: 6,
-        hoverBorderColor: "#F0F4F8",
+        borderRadius: 8,
+        hoverBorderColor: "#F5F6F8",
         hoverBorderWidth: 2,
       },
     ],
@@ -155,15 +155,15 @@ function CertificadosPorTipoOferta({ fichas }: { fichas: Ficha[] }) {
       x: {
         ticks: {
           color: "#7B8FA3",
-          font: { size: 10, weight: "bold" as const },
+          font: { size: 12, weight: "bold" as const },
         },
-        grid: { color: "rgba(28,45,66,0.3)", drawBorder: false },
+        grid: { color: "rgba(0,0,0,0.06)", drawBorder: false },
         border: { display: false },
       },
       y: {
         ticks: {
           color: "#7B8FA3",
-          font: { size: 10, weight: "bold" as const },
+          font: { size: 12, weight: "bold" as const },
         },
         grid: { display: false },
         border: { display: false },
@@ -176,7 +176,7 @@ function CertificadosPorTipoOferta({ fichas }: { fichas: Ficha[] }) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-blue-400/10 border border-blue-400/10">
-            <Award className="w-4 h-4 text-blue-400" />
+            <Award className="w-5 h-5 text-blue-400" />
           </div>
           <h3 className="chart-card-title">Certificados por Tipo de Oferta</h3>
         </div>
@@ -189,8 +189,8 @@ function CertificadosPorTipoOferta({ fichas }: { fichas: Ficha[] }) {
           <Bar data={chartData} options={options} />
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Award className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <Award className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>
@@ -218,9 +218,9 @@ function ComparacionEstadoAprendices({ fichas }: { fichas: Ficha[] }) {
       {
         data: data.map((d) => d.value),
         backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-        borderColor: "#111D2E",
+        borderColor: "#ffffff",
         borderWidth: 3,
-        hoverBorderColor: "#F0F4F8",
+        hoverBorderColor: "#F5F6F8",
         hoverBorderWidth: 2,
         hoverOffset: 8,
       },
@@ -254,7 +254,7 @@ function ComparacionEstadoAprendices({ fichas }: { fichas: Ficha[] }) {
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-purple-400/10 border border-purple-400/10">
-            <PieChart className="w-4 h-4 text-purple-400" />
+            <PieChart className="w-5 h-5 text-purple-400" />
           </div>
           <h3 className="chart-card-title">Comparación del Estado de Aprendices</h3>
         </div>
@@ -271,10 +271,10 @@ function ComparacionEstadoAprendices({ fichas }: { fichas: Ficha[] }) {
               style={{ marginRight: "30%" }}
             >
               <div className="text-center">
-                <p className="text-2xl font-bold text-sena-white">
+                <p className="text-3xl font-extrabold text-text-primary">
                   {total.toLocaleString("es-CO")}
                 </p>
-                <p className="text-[9px] text-sena-gray/40 font-semibold uppercase tracking-wider">
+                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">
                   Total
                 </p>
               </div>
@@ -282,8 +282,8 @@ function ComparacionEstadoAprendices({ fichas }: { fichas: Ficha[] }) {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <PieChart className="w-8 h-8 text-sena-gray/15" />
-            <span className="text-[11px] text-sena-gray/25">Sin datos</span>
+            <PieChart className="w-12 h-12 text-text-muted" />
+            <span className="text-sm text-text-muted">Sin datos</span>
           </div>
         )}
       </div>

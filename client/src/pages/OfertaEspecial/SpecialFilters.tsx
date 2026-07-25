@@ -50,10 +50,10 @@ export default function SpecialFilters({
     <div className="card">
       <div className="flex items-center justify-between px-5 py-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-sena-green/10 flex items-center justify-center">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-sena-green" />
+          <div className="w-8 h-8 rounded-lg bg-sena-green/10 flex items-center justify-center">
+            <SlidersHorizontal className="w-4 h-4 text-sena-green" />
           </div>
-          <span className="text-[13px] font-semibold text-sena-white">Filtros</span>
+          <span className="text-sm font-bold text-text-primary">Filtros</span>
           {activeCount > 0 && (
             <span className="badge badge-green">{activeCount}</span>
           )}
@@ -63,12 +63,12 @@ export default function SpecialFilters({
             onClick={onReset}
             className="btn-ghost text-sena-red/60 hover:text-sena-red hover:bg-sena-red/5"
           >
-            <RotateCcw className="w-3 h-3" />
+            <RotateCcw className="w-4 h-4" />
             Limpiar
           </button>
         )}
       </div>
-      <div className="px-5 pb-4 pt-1 border-t border-sena-blue-light/10">
+      <div className="px-5 pb-4 pt-1 border-t border-border-default">
         <div className="filter-grid">
           {filters.map(({ key, label, items }) => (
             <select

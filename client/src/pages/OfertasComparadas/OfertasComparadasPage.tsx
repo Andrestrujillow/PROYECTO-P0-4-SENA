@@ -41,8 +41,8 @@ export default function OfertasComparadasPage() {
             <div className="w-16 h-16 bg-sena-green/10 border border-sena-green/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <GitCompareArrows className="w-8 h-8 text-sena-green" />
             </div>
-            <h2 className="text-xl font-bold text-sena-white mb-2">Cargar datos PE-04</h2>
-            <p className="text-sm text-sena-gray/50 mb-6 max-w-xs mx-auto leading-relaxed">
+            <h2 className="text-xl font-bold text-text-primary mb-2">Cargar datos PE-04</h2>
+            <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
               Sube el archivo Excel del reporte PE-04 para ver las ofertas comparadas.
             </p>
             <FileUpload />

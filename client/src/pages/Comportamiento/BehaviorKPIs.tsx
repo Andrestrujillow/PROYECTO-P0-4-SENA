@@ -14,7 +14,7 @@ export default function BehaviorKPIs({ fichas }: BehaviorKPIsProps) {
         <div className="stat-card-accent accent-green" />
         <div className="stat-card-content items-center text-center">
           <p className="stat-card-label">Total Ofertas</p>
-          <p className="text-5xl font-bold text-sena-white tracking-tight">
+          <p className="text-5xl font-bold text-text-primary tracking-tight">
             {total.toLocaleString("es-CO")}
           </p>
         </div>

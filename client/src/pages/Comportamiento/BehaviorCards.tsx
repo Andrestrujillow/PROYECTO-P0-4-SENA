@@ -43,12 +43,12 @@ export default function BehaviorCards({ fichas }: BehaviorCardsProps) {
             >
               <div className={`stat-card-accent ${cls.accent}`} />
               <div className="flex flex-col justify-center flex-1 min-w-0">
-                <p className="stat-card-label" style={{ fontSize: "10px", marginBottom: "4px" }}>{c.label}</p>
-                <p className="text-2xl font-bold text-sena-white tracking-tight" style={{ lineHeight: 1 }}>
+                <p className="stat-card-label" style={{ fontSize: "12px", marginBottom: "4px" }}>{c.label}</p>
+                <p className="text-2xl font-bold text-text-primary tracking-tight" style={{ lineHeight: 1 }}>
                   {c.value.toLocaleString("es-CO")}
                 </p>
               </div>
-              <div className={`stat-card-icon ${cls.icon}`} style={{ width: "36px", height: "36px", borderRadius: "10px" }}>
+              <div className={`stat-card-icon ${cls.icon}`} style={{ width: "40px", height: "40px", borderRadius: "12px" }}>
                 {c.icon}
               </div>
             </div>

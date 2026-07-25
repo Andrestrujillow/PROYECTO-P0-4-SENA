@@ -4,95 +4,79 @@ import {
   LinearScale,
   BarElement,
   ArcElement,
-  PointElement,
-  LineElement,
   Tooltip,
   Legend,
-  Filler,
 } from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-  Filler
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 export const CHART_COLORS = [
-  "#00843D",
-  "#4CAF50",
-  "#FFD100",
-  "#60A5FA",
-  "#E74C3C",
-  "#A855F7",
-  "#F97316",
-  "#06B6D4",
-  "#84CC16",
-  "#F43F5E",
+  "#3B82F6",
   "#6366F1",
-  "#EAB308",
+  "#8B5CF6",
+  "#EC4899",
+  "#F97316",
   "#14B8A6",
-  "#78716C",
   "#64748B",
+  "#0EA5E9",
+  "#A855F7",
+  "#F43F5E",
 ];
 
-export const CHART_COLORS_SOFT = CHART_COLORS.map((c) => c + "99");
+const FONT = "'Plus Jakarta Sans', sans-serif";
 
-export const defaultOptions = {
+export const barOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  animation: {
-    duration: 600,
-    easing: "easeOutQuart" as const,
-  },
+  animation: { duration: 300 },
   plugins: {
-    legend: {
-      labels: {
-        color: "#7B8FA3",
-        font: { size: 11, weight: "bold" as const },
-        boxWidth: 10,
-        boxHeight: 10,
-        borderRadius: 3,
-        useBorderRadius: true,
-        padding: 14,
-      },
-    },
+    legend: { display: false },
     tooltip: {
-      backgroundColor: "rgba(17,29,46,0.95)",
-      titleColor: "#F0F4F8",
-      bodyColor: "#7B8FA3",
-      titleFont: { size: 12, weight: "bold" as const },
-      bodyFont: { size: 11 },
-      borderColor: "rgba(28,45,66,0.6)",
+      backgroundColor: "#fff",
+      titleColor: "#1F2937",
+      bodyColor: "#6B7280",
+      titleFont: { size: 10, weight: "bold" as const, family: FONT },
+      bodyFont: { size: 9, family: FONT },
+      borderColor: "#E5E7EB",
       borderWidth: 1,
-      padding: { top: 10, bottom: 10, left: 14, right: 14 },
-      cornerRadius: 10,
-      displayColors: true,
-      boxPadding: 4,
+      padding: 5,
+      cornerRadius: 4,
     },
   },
   scales: {
     x: {
-      ticks: {
-        color: "#7B8FA3",
-        font: { size: 10, weight: "bold" as const },
-        maxRotation: 45,
-      },
-      grid: { color: "rgba(28,45,66,0.3)", drawBorder: false },
+      ticks: { color: "#9CA3AF", font: { size: 9, family: FONT }, maxRotation: 0 },
+      grid: { display: false },
       border: { display: false },
     },
     y: {
-      ticks: {
-        color: "#7B8FA3",
-        font: { size: 10, weight: "bold" as const },
-      },
-      grid: { color: "rgba(28,45,66,0.3)", drawBorder: false },
+      ticks: { color: "#9CA3AF", font: { size: 9, family: FONT } },
+      grid: { color: "rgba(229,231,235,0.4)" },
       border: { display: false },
     },
   },
+  barThickness: 18,
+  maxBarThickness: 22,
+};
+
+/* Alias for pages that still import defaultOptions */
+export const defaultOptions = barOptions;
+
+export const barHorizontalOptions = {
+  ...barOptions,
+  indexAxis: "y" as const,
+  scales: {
+    x: {
+      ticks: { color: "#9CA3AF", font: { size: 9, family: FONT } },
+      grid: { color: "rgba(229,231,235,0.4)" },
+      border: { display: false },
+    },
+    y: {
+      ticks: { color: "#6B7280", font: { size: 10, family: FONT } },
+      grid: { display: false },
+      border: { display: false },
+    },
+  },
+  barThickness: 14,
+  maxBarThickness: 18,
 };

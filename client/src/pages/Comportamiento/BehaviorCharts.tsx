@@ -180,7 +180,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
         ...defaultOptions.scales.y,
         ticks: {
           color: "#7B8FA3",
-          font: { size: 9, weight: "bold" as const },
+          font: { size: 12, weight: "bold" as const },
         },
       },
     },
@@ -203,9 +203,9 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     datasets: [{
       data: programasOfertados.map((p) => p[1]),
       backgroundColor: programasOfertados.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-      borderColor: "#111D2E",
+      borderColor: "#ffffff",
       borderWidth: 3,
-      hoverBorderColor: "#F0F4F8",
+      hoverBorderColor: "#F5F6F8",
       hoverBorderWidth: 2,
       hoverOffset: 8,
     }],
@@ -294,7 +294,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div key={i} className="card chart-card chart-accent-blue" style={{ minHeight: "300px" }}>
             <div className="flex items-center justify-center h-full">
-              <span className="text-[11px] text-sena-gray/25">Sin datos disponibles</span>
+              <span className="text-sm text-text-muted">Sin datos disponibles</span>
             </div>
           </div>
         ))}

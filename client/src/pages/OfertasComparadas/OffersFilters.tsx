@@ -54,16 +54,16 @@ export default function OffersFilters({ fichas, filtros, onFiltroChange, onReset
     <div className="card overflow-visible">
       <div className="flex items-center justify-between px-5 py-3 rounded-t-[18px]">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-blue-400/10 flex items-center justify-center">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-blue-400" />
+          <div className="w-8 h-8 rounded-lg bg-blue-400/10 flex items-center justify-center">
+            <SlidersHorizontal className="w-4 h-4 text-blue-400" />
           </div>
-          <span className="text-[13px] font-semibold text-sena-white">Filtros</span>
+          <span className="text-sm font-bold text-text-primary">Filtros</span>
           {activeCount > 0 && <span className="badge badge-blue">{activeCount}</span>}
         </div>
         <div className="flex items-center gap-2">
           {activeCount > 0 && (
             <button onClick={onReset} className="btn-ghost text-sena-red/60 hover:text-sena-red hover:bg-sena-red/5">
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="w-4 h-4" />
               Limpiar
             </button>
           )}
@@ -75,13 +75,13 @@ export default function OffersFilters({ fichas, filtros, onFiltroChange, onReset
           {activeEntries.map(([key, value]) => (
             <button key={key} onClick={() => onFiltroChange(key, "")} className="pill cursor-pointer group">
               {value.length > 25 ? value.slice(0, 22) + "..." : value}
-              <X className="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 transition-opacity" />
+              <X className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
             </button>
           ))}
         </div>
       )}
 
-      <div className="px-5 pb-4 pt-1 border-t border-sena-blue-light/10">
+      <div className="px-5 pb-4 pt-1 border-t border-border-default">
         <div className="filter-grid">
           {filters.map(({ key, label, items }) => (
             <div key={key} className="relative">
