@@ -53,7 +53,7 @@ const SlidersHorizontalIcon = forwardRef<SlidersHorizontalIconHandle, SlidersHor
     const handleLeave = useCallback(
       (e?: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlled.current) controls.start("normal");
-        else if (e) onMouseLeave(e);
+        else if (e) onMouseLeave?.(e);
       },
       [controls, onMouseLeave],
     );
