@@ -82,7 +82,7 @@ export function MobileBottomNav() {
           to={to}
           className={({ isActive }) =>
             cn(
-              "relative flex flex-col items-center justify-center gap-0.5 px-4 py-2 rounded-full text-[10px] font-semibold transition-all duration-200",
+              "relative flex flex-col items-center justify-center gap-0.5 px-4 py-2 rounded-xl text-[10px] font-semibold transition-all duration-200",
               isActive
                 ? "text-sena-green"
                 : "text-text-muted active:text-text-secondary"
@@ -92,7 +92,7 @@ export function MobileBottomNav() {
           {({ isActive }) => (
             <>
               {isActive && (
-                <div className="absolute inset-0 rounded-full bg-sena-green-light border border-sena-green/15 shadow-[0_0_8px_rgba(0,132,61,0.1)]" />
+                <div className="absolute inset-0 rounded-xl bg-sena-green-light border border-sena-green/15 shadow-[0_0_8px_rgba(0,132,61,0.1)]" />
               )}
               <Icon className="w-[18px] h-[18px] relative z-10" />
               <span className="relative z-10 leading-none">{label}</span>
