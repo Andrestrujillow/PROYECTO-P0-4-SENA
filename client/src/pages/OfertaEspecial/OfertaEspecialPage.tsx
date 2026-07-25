@@ -70,13 +70,15 @@ export default function OfertaEspecialPage() {
 
   return (
     <div className="page-card space-y-6">
-      <SpecialKPIs fichas={filteredFichas} />
+      <section className="section-card p-6">
+        <SpecialKPIs fichas={filteredFichas} />
+      </section>
 
-      <div className="card p-4">
+      <section className="section-card p-6">
         <div className="flex items-center gap-2 mb-3">
           <Lightbulb className="w-4 h-4 text-sena-yellow" />
           <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">
-            Centros de Formación
+            Centros de Formacion
           </span>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -104,22 +106,30 @@ export default function OfertaEspecialPage() {
             </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <SpecialFilters
-        fichas={fichas}
-        filtros={filtros}
-        onFiltroChange={handleFiltroChange}
-        onReset={handleReset}
-      />
+      <section className="section-card p-6">
+        <SpecialFilters
+          fichas={fichas}
+          filtros={filtros}
+          onFiltroChange={handleFiltroChange}
+          onReset={handleReset}
+        />
+      </section>
 
-      <div className="chart-grid-2">
-        <SpecialCharts fichas={filteredFichas} />
-      </div>
+      <section className="section-card p-6">
+        <div className="chart-grid-2">
+          <SpecialCharts fichas={filteredFichas} />
+        </div>
+      </section>
 
-      <SpecialChartsBottom fichas={filteredFichas} />
+      <section className="section-card p-6">
+        <SpecialChartsBottom fichas={filteredFichas} />
+      </section>
 
-      <SpecialTable fichas={filteredFichas} />
+      <section className="section-card overflow-hidden">
+        <SpecialTable fichas={filteredFichas} />
+      </section>
     </div>
   );
 }

@@ -75,30 +75,38 @@ export default function ComportamientoPage() {
 
   return (
     <div className="page-card space-y-6">
-      <div style={{ animation: "fadeInUp 0.5s ease-out" }}>
+      <section className="section-card p-6">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center">
             <BarChart3 className="w-5 h-5 text-blue-400" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-text-primary">Comportamiento</h1>
-            <p className="text-sm text-text-muted">Análisis de tendencias y comportamiento de la formación</p>
+            <p className="text-sm text-text-muted">Analisis de tendencias y comportamiento de la formacion</p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <BehaviorKPIs fichas={filteredFichas} />
+      <section className="section-card p-6">
+        <BehaviorKPIs fichas={filteredFichas} />
+      </section>
 
-      <BehaviorFilters
-        fichas={fichas}
-        filtros={filtros}
-        onFiltroChange={handleFiltroChange}
-        onReset={handleReset}
-      />
+      <section className="section-card p-6">
+        <BehaviorFilters
+          fichas={fichas}
+          filtros={filtros}
+          onFiltroChange={handleFiltroChange}
+          onReset={handleReset}
+        />
+      </section>
 
-      <BehaviorCards fichas={filteredFichas} />
+      <section className="section-card p-6">
+        <BehaviorCards fichas={filteredFichas} />
+      </section>
 
-      <BehaviorCharts fichas={filteredFichas} />
+      <section className="section-card p-6">
+        <BehaviorCharts fichas={filteredFichas} />
+      </section>
     </div>
   );
 }

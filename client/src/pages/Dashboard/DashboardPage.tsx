@@ -41,9 +41,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="page-card space-y-8">
+    <div className="page-card space-y-6">
       {/* KPI Row */}
-      <section>
+      <section className="section-card p-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
           <StatCard title="Fichas" value={fichasFiltradasCount} icon={<FileText className="w-5 h-5" />} color="blue" />
           <StatCard title="Aprendices" value={stats.totalAprendices} icon={<Users className="w-5 h-5" />} color="green" />
@@ -54,12 +54,12 @@ export default function DashboardPage() {
       </section>
 
       {/* Filters */}
-      <section>
+      <section className="section-card p-6">
         <FilterBar />
       </section>
 
       {/* Charts Row 1 */}
-      <section>
+      <section className="section-card p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <FichasPorNivel />
           <AprendicesPorModalidad />
@@ -67,7 +67,7 @@ export default function DashboardPage() {
       </section>
 
       {/* Charts Row 2 */}
-      <section>
+      <section className="section-card p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AprendicesPorProgramaEspecial />
           <AprendicesPorCentro />
@@ -75,21 +75,19 @@ export default function DashboardPage() {
       </section>
 
       {/* Map */}
-      <section>
+      <section className="section-card p-6">
         <MapView />
       </section>
 
       {/* Table */}
-      <section>
+      <section className="section-card overflow-hidden">
         <DataTable />
       </section>
 
       {/* Upload */}
-      <section>
-        <div className="section-card p-6 text-center">
-          <h3 className="section-title mb-4">Actualizar Datos</h3>
-          <FileUpload />
-        </div>
+      <section className="section-card p-6 text-center">
+        <h3 className="section-title mb-4">Actualizar Datos</h3>
+        <FileUpload />
       </section>
     </div>
   );

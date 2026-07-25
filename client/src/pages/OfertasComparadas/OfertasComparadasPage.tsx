@@ -54,11 +54,21 @@ export default function OfertasComparadasPage() {
 
   return (
     <div className="page-card space-y-6">
-      <OffersKPIs fichas={filteredFichas} />
-      <OffersFilters fichas={fichas} filtros={filtros} onFiltroChange={onFiltroChange} onReset={onReset} />
-      <OffersCharts fichas={filteredFichas} />
-      <OffersMap fichas={filteredFichas} />
-      <OffersTable fichas={filteredFichas} />
+      <section className="section-card p-6">
+        <OffersKPIs fichas={filteredFichas} />
+      </section>
+      <section className="section-card p-6">
+        <OffersFilters fichas={fichas} filtros={filtros} onFiltroChange={onFiltroChange} onReset={onReset} />
+      </section>
+      <section className="section-card p-6">
+        <OffersCharts fichas={filteredFichas} />
+      </section>
+      <section className="section-card p-6">
+        <OffersMap fichas={filteredFichas} />
+      </section>
+      <section className="section-card overflow-hidden">
+        <OffersTable fichas={filteredFichas} />
+      </section>
     </div>
   );
 }
