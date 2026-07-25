@@ -129,14 +129,14 @@
       0 8px 32px rgba(0, 0, 0, 0.06),
       0 2px 8px rgba(0, 0, 0, 0.03),
       inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    margin: 1.5rem 1.5rem 2rem;
-    padding: 1.75rem;
+    margin: 0.5rem 0;
+    padding: 0.75rem;
   }
 
   @media (min-width: 1024px) {
     .page-card {
-      margin: 2rem 2.5rem 2.5rem;
-      padding: 2rem 2.25rem;
+      margin: 0.75rem 0;
+      padding: 1rem;
     }
   }
 
