@@ -1,44 +1,87 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import Sidebar from "./Sidebar";
+import { Outlet, useLocation } from "react-router-dom";
+import { DesktopSidebar, MobileBottomNav } from "./Sidebar";
+import { CheckCircle2, Loader2 } from "lucide-react";
+import { useDashboardStore } from "../../store/dashboardStore";
+
+const PAGE_NAMES: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/ofertas-comparadas": "Ofertas Comparadas",
+  "/comportamiento": "Comportamiento",
+  "/oferta-especial": "Oferta Especial",
+  "/estrategias": "Estrategias",
+};
+
+const PAGE_SUBTITLES: Record<string, string> = {
+  "/dashboard": "Panel principal de analisis",
+  "/ofertas-comparadas": "Comparacion entre periodos",
+  "/comportamiento": "Tendencias y comportamiento",
+  "/oferta-especial": "Programas especiales SENA",
+  "/estrategias": "Estrategias institucionales",
+};
 
 export default function Layout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const pageName = PAGE_NAMES[location.pathname] || "Dashboard";
+  const pageSubtitle = PAGE_SUBTITLES[location.pathname] || "";
+  const isLoading = useDashboardStore((s) => s.isLoading);
+  const excelFileName = useDashboardStore((s) => s.excelFileName);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="flex flex-col min-h-dvh bg-bg-base">
       {/* Header */}
-      <header className="h-11 bg-white border-b border-gray-200 flex items-center px-4 lg:px-6 shrink-0 z-20">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="lg:hidden p-1.5 -ml-1 mr-3 rounded-lg hover:bg-gray-100 text-gray-500 cursor-pointer"
-        >
-          {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-        </button>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-green-600 rounded-md flex items-center justify-center">
-            <span className="text-white text-[9px] font-bold">S</span>
+      <header className="h-16 lg:h-18 shrink-0 bg-surface border-b border-border-light flex items-center px-4 lg:px-6 z-30 sticky top-0">
+        {/* Left: Logo + brand */}
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm">
+            <img src="/logoSena.png" alt="SENA" className="w-full h-full object-contain" />
           </div>
-          <span className="text-xs font-semibold text-gray-700">SENA PE-04</span>
+          <div className="hidden sm:block">
+            <div className="text-sm font-bold text-text-primary leading-tight">SENA PE-04</div>
+            <div className="text-[11px] text-text-muted leading-tight">Regional Cauca</div>
+          </div>
         </div>
-        <span className="ml-auto text-[10px] text-gray-400">Dashboard</span>
+
+        {/* Center: Page name */}
+        <div className="absolute left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2">
+          <div className="text-center">
+            <div className="text-sm font-semibold text-text-primary">{pageName}</div>
+            {pageSubtitle && (
+              <div className="text-[11px] text-text-muted">{pageSubtitle}</div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Status + actions */}
+        <div className="ml-auto flex items-center gap-3">
+          {isLoading && (
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-sena-green-50 border border-sena-green-100">
+              <Loader2 className="w-3.5 h-3.5 text-sena-green animate-spin" />
+              <span className="text-xs font-medium text-sena-green">Cargando...</span>
+            </div>
+          )}
+          {excelFileName && !isLoading && (
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sena-green-50 border border-sena-green-100">
+              <CheckCircle2 className="w-3.5 h-3.5 text-sena-green" />
+              <span className="text-xs font-medium text-sena-green truncate max-w-[140px]">
+                {excelFileName}
+              </span>
+            </div>
+          )}
+          <div className="hidden md:block text-xs text-text-muted font-medium">
+            {new Date().toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" })}
+          </div>
+        </div>
       </header>
 
       <div className="flex flex-1 min-h-0">
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <DesktopSidebar />
 
-        <main className="flex-1 overflow-y-auto px-4 lg:px-6 py-4">
+        <main className="flex-1 overflow-y-auto w-full pb-28 lg:pb-8 px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
           <Outlet />
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="h-8 bg-white border-t border-gray-200 flex items-center justify-center shrink-0">
-        <span className="text-[9px] text-gray-400">
-          &copy; {new Date().getFullYear()} SENA Regional Cauca
-        </span>
-      </footer>
+      <MobileBottomNav />
     </div>
   );
 }

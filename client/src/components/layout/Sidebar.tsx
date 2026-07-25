@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useDashboardStore } from "../../store/dashboardStore";
+import { cn } from "../../lib/cn";
 import {
   LayoutDashboard,
   GitCompareArrows,
@@ -6,104 +8,93 @@ import {
   Star,
   Target,
   BarChart3,
-  X,
 } from "lucide-react";
-import { useDashboardStore } from "../../store/dashboardStore";
-import { cn } from "../../lib/cn";
 
 const navItems = [
-  { to: "/dashboard", icon: LayoutDashboard, tip: "Dashboard" },
-  { to: "/ofertas-comparadas", icon: GitCompareArrows, tip: "Ofertas Comparadas" },
-  { to: "/comportamiento", icon: TrendingUp, tip: "Comportamiento" },
-  { to: "/oferta-especial", icon: Star, tip: "Oferta Especial" },
-  { to: "/estrategias", icon: Target, tip: "Estrategias" },
+  { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { to: "/ofertas-comparadas", icon: GitCompareArrows, label: "Comparar" },
+  { to: "/comportamiento", icon: TrendingUp, label: "Tendencias" },
+  { to: "/oferta-especial", icon: Star, label: "Especial" },
+  { to: "/estrategias", icon: Target, label: "Estrategias" },
 ];
 
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export function DesktopSidebar() {
+  const activeFilters = useDashboardStore((s) => Object.values(s.filtros).filter(Boolean).length);
   const resetFiltros = useDashboardStore((s) => s.resetFiltros);
-  const fichasCount = useDashboardStore((s) => s.fichas.length);
-  const activeFilters = useDashboardStore((s) =>
-    Object.values(s.filtros).filter(Boolean).length
-  );
 
   return (
-    <>
-      {/* Mobile overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
-          onClick={onClose}
-        />
+    <aside className="hidden lg:flex flex-col w-16 xl:w-64 h-full bg-surface border-r border-border-light shrink-0">
+      <div className="h-18 border-b border-border-light flex items-center px-4 xl:px-6 gap-3">
+        <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm shrink-0">
+          <img src="/logoSena.png" alt="SENA" className="w-full h-full object-contain" />
+        </div>
+        <div className="hidden xl:block">
+          <div className="font-bold text-sm text-text-primary leading-tight">SENA PE-04</div>
+          <div className="text-[11px] text-text-muted">Dashboard</div>
+        </div>
+      </div>
+
+      <nav className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
+        {navItems.map(({ to, icon: Icon, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                isActive
+                  ? "bg-sena-green-light text-sena-green shadow-sm"
+                  : "text-text-secondary hover:bg-bg-base hover:text-text-primary"
+              )
+            }
+          >
+            <Icon className="w-5 h-5 shrink-0" />
+            <span className="hidden xl:block truncate">{label}</span>
+          </NavLink>
+        ))}
+      </nav>
+      
+      {activeFilters > 0 && (
+        <div className="p-4 border-t border-border-light">
+          <button
+            onClick={resetFiltros}
+            className="w-full px-3 py-2 text-xs font-semibold text-sena-red bg-sena-red-100 rounded-xl hover:bg-sena-red/15 transition-colors"
+          >
+            Limpiar Filtros ({activeFilters})
+          </button>
+        </div>
       )}
+    </aside>
+  );
+}
 
-      {/* Sidebar — floating pill, centered vertically on the left */}
-      <aside
-        className={cn(
-          "fixed lg:sticky top-0 left-0 z-50",
-          "h-screen w-16 shrink-0",
-          "flex items-center justify-center",
-          "transition-transform duration-300 ease-out",
-          "lg:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        )}
-      >
-        {/* Close button for mobile */}
-        <button
-          onClick={onClose}
-          className="lg:hidden absolute top-4 right-0 translate-x-full p-2 text-gray-400 hover:text-gray-700 cursor-pointer"
+export function MobileBottomNav() {
+  return (
+    <nav className="mobile-nav">
+      {navItems.map(({ to, icon: Icon, label }) => (
+        <NavLink
+          key={to}
+          to={to}
+          className={({ isActive }) =>
+            cn(
+              "relative flex flex-col items-center justify-center gap-0.5 px-4 py-2 rounded-full text-[10px] font-semibold transition-all duration-200",
+              isActive
+                ? "text-sena-green"
+                : "text-text-muted active:text-text-secondary"
+            )
+          }
         >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Floating glass pill */}
-        <nav className="flex flex-col items-center gap-4 bg-white/70 backdrop-blur-xl rounded-full py-5 px-3 shadow-lg shadow-black/5 border border-white/50">
-          {/* Brand */}
-          <div className="w-10 h-10 bg-gradient-to-br from-sena-green to-sena-green-light rounded-full flex items-center justify-center shadow-md shadow-sena-green/20 mb-1">
-            <BarChart3 className="w-5 h-5 text-white" />
-          </div>
-
-          {/* Divider */}
-          <div className="w-6 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
-
-          {/* Nav icons */}
-          {navItems.map(({ to, icon: Icon, tip }) => (
-            <NavLink
-              key={to}
-              to={to}
-              title={tip}
-              className={({ isActive }) =>
-                cn(
-                  "w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200",
-                  isActive
-                    ? "bg-gray-900 text-white shadow-lg shadow-gray-900/20 scale-105"
-                    : "text-gray-400 hover:text-gray-700 hover:bg-white hover:shadow-md hover:scale-105"
-                )
-              }
-            >
-              <Icon className="w-[18px] h-[18px]" />
-            </NavLink>
-          ))}
-
-          {/* Divider */}
-          <div className="w-6 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
-
-          {/* Filter badge (when active) */}
-          {fichasCount > 0 && activeFilters > 0 && (
-            <button
-              onClick={resetFiltros}
-              title={`Limpiar ${activeFilters} filtro${activeFilters > 1 ? "s" : ""}`}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-sena-red/10 text-sena-red hover:bg-sena-red hover:text-white transition-all duration-200 cursor-pointer shadow-sm"
-            >
-              <span className="text-xs font-bold">{activeFilters}</span>
-            </button>
+          {({ isActive }) => (
+            <>
+              {isActive && (
+                <div className="absolute inset-0 rounded-full bg-sena-green-light border border-sena-green/15 shadow-[0_0_8px_rgba(0,132,61,0.1)]" />
+              )}
+              <Icon className="w-[18px] h-[18px] relative z-10" />
+              <span className="relative z-10 leading-none">{label}</span>
+            </>
           )}
-        </nav>
-      </aside>
-    </>
+        </NavLink>
+      ))}
+    </nav>
   );
 }
