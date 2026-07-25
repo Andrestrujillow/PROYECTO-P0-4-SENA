@@ -9,17 +9,17 @@ export default function BehaviorKPIs({ fichas }: BehaviorKPIsProps) {
   const total = fichas.length;
 
   return (
-    <div style={{ animation: "fadeInUp 0.5s ease-out both" }}>
-      <div className="card stat-card" style={{ height: "140px", justifyContent: "center" }}>
+    <div className="grid grid-cols-1 gap-3 lg:gap-4">
+      <div className="stat-card section-card p-4 relative hover:shadow-md transition-shadow duration-200">
         <div className="stat-card-accent accent-green" />
-        <div className="stat-card-content items-center text-center">
-          <p className="stat-card-label">Total Ofertas</p>
-          <p className="text-5xl font-bold text-text-primary tracking-tight">
-            {total.toLocaleString("es-CO")}
-          </p>
-        </div>
-        <div className="stat-card-icon icon-green">
-          <FileText className="w-5 h-5" />
+        <div className="flex items-center gap-3 pl-1">
+          <div className="stat-card-icon icon-green">
+            <FileText className="w-5 h-5" />
+          </div>
+          <div className="stat-card-content">
+            <span className="stat-card-label">Total Ofertas</span>
+            <span className="stat-card-value">{total.toLocaleString("es-CO")}</span>
+          </div>
         </div>
       </div>
     </div>

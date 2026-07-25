@@ -7,17 +7,17 @@ interface SpecialKPIsProps {
 
 export default function SpecialKPIs({ fichas }: SpecialKPIsProps) {
   return (
-    <div className="kpi-grid" style={{ gridTemplateColumns: "1fr" }}>
-      <div className="card stat-card">
+    <div className="grid grid-cols-1 gap-3 lg:gap-4">
+      <div className="stat-card section-card p-4 relative hover:shadow-md transition-shadow duration-200">
         <div className="stat-card-accent accent-green" />
-        <div className="stat-card-content">
-          <p className="stat-card-label">Total de Fichas</p>
-          <p className="stat-card-value">
-            {fichas.length.toLocaleString("es-CO")}
-          </p>
-        </div>
-        <div className="stat-card-icon icon-green">
-          <FileText className="w-5 h-5 text-sena-green" />
+        <div className="flex items-center gap-3 pl-1">
+          <div className="stat-card-icon icon-green">
+            <FileText className="w-5 h-5" />
+          </div>
+          <div className="stat-card-content">
+            <span className="stat-card-label">Total Fichas</span>
+            <span className="stat-card-value">{fichas.length.toLocaleString("es-CO")}</span>
+          </div>
         </div>
       </div>
     </div>
