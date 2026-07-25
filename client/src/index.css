@@ -21,6 +21,19 @@
   --color-border: #E5E7EB;
   --color-border-light: #F3F4F6;
 
+  /* Editorial Atelier tokens */
+  --color-editorial-cream: #e4dfd9;
+  --color-editorial-white: #ffffff;
+  --color-editorial-charcoal: #000000;
+  --color-editorial-near-black: #050505;
+  --color-editorial-graphite: #171717;
+  --color-editorial-slate: #737373;
+  --color-editorial-iron: #4b4b4b;
+  --color-editorial-stone: #999694;
+  --color-editorial-pewter: #666666;
+  --color-editorial-fog: #c7c7c7;
+  --color-editorial-ember: #ff6a1f;
+
   --radius-card: 16px;
 }
 
@@ -342,3 +355,106 @@
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ═══ Editorial Atelier — Landing Page ═══ */
+
+@layer components {
+  /* Typography */
+  .editorial-caption {
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: -0.28px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-editorial-stone);
+  }
+
+  .editorial-body {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+    font-weight: 400;
+  }
+
+  .editorial-subheading {
+    font-size: 19px;
+    line-height: 1.4;
+    letter-spacing: -0.38px;
+  }
+
+  .editorial-heading-sm {
+    font-size: 23px;
+    line-height: 1.4;
+    letter-spacing: -0.46px;
+    font-weight: 500;
+    color: var(--color-editorial-near-black);
+  }
+
+  .editorial-heading {
+    font-size: 28px;
+    line-height: 1.4;
+    letter-spacing: -0.56px;
+    font-weight: 500;
+    color: var(--color-editorial-charcoal);
+  }
+
+  .editorial-display {
+    font-size: clamp(36px, 8vw, 69px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    color: var(--color-editorial-near-black);
+  }
+
+  /* Buttons */
+  .editorial-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--color-editorial-graphite);
+    color: var(--color-editorial-white);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 27px rgba(0, 0, 0, 0.07);
+    transition: all 0.2s ease;
+  }
+
+  .editorial-btn-primary:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+  }
+
+  /* Cards */
+  .editorial-feature-card {
+    background: var(--color-editorial-white);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 6px 27px rgba(0, 0, 0, 0.07);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .editorial-feature-card:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .editorial-feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-editorial-cream);
+    border: 1px solid var(--color-editorial-fog);
+  }
+
+  /* Section Header */
+  .editorial-section-header {
+    max-width: 500px;
+  }
+}

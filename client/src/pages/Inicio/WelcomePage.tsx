@@ -1,104 +1,128 @@
 import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
-  BarChart3,
   FileSpreadsheet,
   TrendingUp,
   Shield,
-  Calendar,
-  Map,
 } from "lucide-react";
+
+const features = [
+  {
+    icon: FileSpreadsheet,
+    title: "Carga Directa",
+    body: "Sube tu reporte PE-04 en formato Excel. Analisis automatico de 49 columnas de datos.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Graficas Interactivas",
+    body: "Visualiza tendencias por nivel, centro, programa y modalidad con filtros dinamicos.",
+  },
+  {
+    icon: Shield,
+    title: "Datos Seguros",
+    body: "Toda la informacion se procesa en memoria. Nada se almacena en servidores externos.",
+  },
+];
 
 export default function WelcomePage() {
   const navigate = useNavigate();
   const year = new Date().getFullYear();
 
   return (
-    <div className="min-h-dvh flex flex-col items-center justify-center px-6 py-12 text-center bg-bg-base relative overflow-hidden">
-      {/* Background radial accent */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          background:
-            "radial-gradient(ellipse at 25% 15%, rgba(0,132,61,0.8) 0%, transparent 55%), radial-gradient(ellipse at 75% 85%, rgba(245,158,11,0.15) 0%, transparent 55%)",
-        }}
-      />
-
-      <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
-        {/* Logo */}
-        <div className="mb-10 w-24 h-24 bg-sena-green-light rounded-3xl border border-sena-green/10 flex items-center justify-center shadow-sm relative">
-          <BarChart3 className="w-10 h-10 text-sena-green" />
-          <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-sena-green rounded-xl flex items-center justify-center shadow-md">
-            <Map className="w-4 h-4 text-white" />
-          </div>
+    <div className="min-h-dvh flex flex-col bg-editorial-cream">
+      {/* ── Hero ── */}
+      <section className="relative flex flex-col items-center justify-center min-h-[85vh] px-6 py-20 text-center overflow-hidden">
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/logoSena.png"
+            alt=""
+            className="w-full h-full object-cover opacity-[0.04]"
+          />
+          <div className="absolute inset-0" style={{ backgroundColor: "rgba(228, 223, 217, 0.90)" }} />
         </div>
 
-        {/* Title */}
-        <div className="mb-6">
-          <p className="text-[10px] font-bold tracking-[0.4em] uppercase text-sena-green mb-6">
+        <div className="relative z-10 w-full max-w-3xl mx-auto">
+          {/* Badge */}
+          <p className="editorial-caption mb-8">
             Servicio Nacional de Aprendizaje
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-primary leading-[1.1] tracking-tight">
+
+          {/* Headline */}
+          <h1 className="editorial-display leading-[1.08] mb-8">
             Reporte Ofertas de
             <br />
-            <span className="text-sena-green">Formacion</span>
+            Formacion<span className="text-editorial-ember">.</span>
           </h1>
+
+          {/* Subtitle */}
+          <div className="flex flex-col items-center gap-2 mb-10">
+            <span className="text-editorial-subheading font-medium text-editorial-iron">
+              {year - 4} &ndash; {year}
+            </span>
+            <span className="text-editorial-body text-editorial-slate">
+              SENA Regional Cauca
+            </span>
+            <span className="text-editorial-caption text-editorial-stone">
+              Actualizado:{" "}
+              {new Date().toLocaleDateString("es-CO", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+          </div>
+
+          {/* CTA */}
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="editorial-btn-primary"
+          >
+            Ingresar al Dashboard
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </section>
+
+      {/* ── Features ── */}
+      <section className="w-full max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
+        <div className="editorial-section-header mb-14">
+          <h2 className="editorial-heading">
+            Herramientas de analisis
+            <span className="text-editorial-ember">.</span>
+          </h2>
+          <p className="editorial-body text-editorial-slate mt-3 max-w-lg">
+            Tres capacidades core para transformar datos crudos en decisiones
+            informadas.
+          </p>
         </div>
 
-        {/* Subtitle */}
-        <div className="flex flex-col items-center gap-2 mb-8">
-          <span className="text-lg font-light text-text-muted">{year - 4} &ndash; {year}</span>
-          <span className="text-base font-medium text-text-secondary">SENA Regional Cauca</span>
-          <span className="flex items-center gap-1.5 text-xs text-text-muted">
-            <Calendar className="w-3.5 h-3.5" />
-            Actualizado:{" "}
-            {new Date().toLocaleDateString("es-CO", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-text-muted max-w-md leading-relaxed mb-10">
-          Sistema de analisis y visualizacion inteligente del reporte PE-04.
-          Indicadores clave, graficas interactivas, mapas y tablas detalladas.
-        </p>
-
-        {/* CTA Button */}
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="w-64 h-14 rounded-2xl bg-sena-green text-white font-semibold text-sm inline-flex items-center justify-center gap-2.5 shadow-lg shadow-sena-green/20 hover:bg-sena-green-hover hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 mb-12"
-        >
-          Ingresar al Dashboard
-          <ArrowRight className="w-4 h-4" />
-        </button>
-
-        {/* Feature Cards */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-12 w-full justify-center">
-          {[
-            { icon: FileSpreadsheet, label: "Carga Excel", desc: "Drag & drop", bg: "bg-sena-green-light", iconColor: "text-sena-green" },
-            { icon: TrendingUp, label: "Graficas", desc: "Interactivas", bg: "bg-yellow-50", iconColor: "text-yellow-500" },
-            { icon: Shield, label: "Datos Seguros", desc: "En memoria", bg: "bg-blue-50", iconColor: "text-blue-500" },
-          ].map(({ icon: Icon, label, desc, bg, iconColor }) => (
-            <div key={label} className="flex flex-col items-center justify-center gap-3 w-full sm:w-52 h-28 bg-surface rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bg}`}>
-                <Icon className={`w-5 h-5 ${iconColor}`} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {features.map(({ icon: Icon, title, body }) => (
+            <div key={title} className="editorial-feature-card">
+              <div className="editorial-feature-icon">
+                <Icon className="w-5 h-5 text-editorial-charcoal" />
               </div>
-              <div className="text-center">
-                <span className="text-xs font-bold text-text-secondary block">{label}</span>
-                <span className="text-[10px] text-text-muted">{desc}</span>
-              </div>
+              <h3 className="editorial-heading-sm mt-6 mb-3">{title}</h3>
+              <p className="editorial-body text-editorial-slate leading-relaxed">
+                {body}
+              </p>
             </div>
           ))}
         </div>
+      </section>
 
-        {/* Footer */}
-        <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-text-muted">
-          Plataforma de Inteligencia Educativa &middot; PE-04 v1.0
-        </p>
-      </div>
+      {/* ── Footer ── */}
+      <footer className="w-full border-t border-editorial-fog">
+        <div className="max-w-[1200px] mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="editorial-caption text-editorial-stone">
+            Plataforma de Inteligencia Educativa &middot; PE-04 v1.0
+          </p>
+          <p className="editorial-caption text-editorial-pewter">
+            SENA Regional Cauca &middot; {year}
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
