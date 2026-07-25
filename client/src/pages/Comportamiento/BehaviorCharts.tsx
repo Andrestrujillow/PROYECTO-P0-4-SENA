@@ -238,7 +238,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     datasets: [{
       label: "Aprendices",
       data: programasInscritos.map((p) => p[1]),
-      backgroundColor: CHART_COLORS[1] + "CC",
+      backgroundColor: "#7CB342CC",
       borderRadius: 4,
       borderSkipped: false,
     }],
@@ -269,7 +269,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     datasets: [{
       label: "Certificados",
       data: programasCertificados.map((p) => p[1]),
-      backgroundColor: CHART_COLORS[2] + "CC",
+      backgroundColor: "#7CB342CC",
       borderRadius: 4,
       borderSkipped: false,
     }],
@@ -307,9 +307,9 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.3s both" }}>
         <ChartCard
           title="Estado de Aprendices por Año"
-          icon={<BarChart3 className="w-4 h-4 text-blue-400" />}
+          icon={<BarChart3 className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-blue"
-          iconBg="bg-blue-400/10 border border-blue-400/10"
+          iconBg="bg-lime-50 border border-lime-200/60"
           badgeLabel={`${yearsMap.sortedYears.length} años`}
           badgeColor="badge-blue"
         >
@@ -320,9 +320,9 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.35s both" }}>
         <ChartCard
           title="Estado de Aprendices por Oferta"
-          icon={<Layers className="w-4 h-4 text-sena-yellow" />}
+          icon={<Layers className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-yellow"
-          iconBg="bg-sena-yellow/10 border border-sena-yellow/10"
+          iconBg="bg-lime-50 border border-lime-200/60"
           badgeLabel={`${sectorMap.sectors.length} ofertas`}
           badgeColor="badge-yellow"
         >
@@ -333,9 +333,9 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.4s both" }}>
         <ChartCard
           title="Programas con Más Desertados"
-          icon={<TrendingDown className="w-4 h-4 text-sena-red" />}
+          icon={<TrendingDown className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-purple"
-          iconBg="bg-purple-400/10 border border-purple-400/10"
+          iconBg="bg-lime-50 border border-lime-200/60"
           badgeLabel={`Top ${desertados.length}`}
           badgeColor="badge-red"
         >
@@ -346,7 +346,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.45s both" }}>
         <ChartCard
           title="Programas Más Ofertados"
-          icon={<PieChart className="w-4 h-4 text-sena-green" />}
+          icon={<PieChart className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-green"
           iconBg="bg-sena-green/10 border border-sena-green/10"
           badgeLabel={`${programasOfertados.length} programas`}
@@ -361,7 +361,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Programas con Más Inscritos"
           icon={<Users className="w-4 h-4 text-blue-400" />}
           accent="chart-accent-blue"
-          iconBg="bg-blue-400/10 border border-blue-400/10"
+          iconBg="bg-lime-50 border border-lime-200/60"
           badgeLabel={`Top ${programasInscritos.length}`}
           badgeColor="badge-blue"
         >
@@ -374,7 +374,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Programas con Más Certificados"
           icon={<Award className="w-4 h-4 text-sena-yellow" />}
           accent="chart-accent-yellow"
-          iconBg="bg-sena-yellow/10 border border-sena-yellow/10"
+          iconBg="bg-lime-50 border border-lime-200/60"
           badgeLabel={`${totalCertificados} total`}
           badgeColor="badge-yellow"
         >

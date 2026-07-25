@@ -1,35 +1,49 @@
 import { Bar } from "react-chartjs-2";
 import { useDashboardStore } from "../../store/dashboardStore";
 import { CHART_COLORS, barOptions } from "./chartConfig";
+import { Star } from "lucide-react";
 
 export default function AprendicesPorProgramaEspecial() {
   const data = useDashboardStore((s) => s.datosGraficas.aprendicesPorProgramaEspecial);
   const top6 = data.slice(0, 6);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-      <h3 className="text-xs font-semibold text-gray-600 mb-3">Programas Especiales</h3>
-      {top6.length > 0 ? (
-        <div style={{ height: 130 }}>
+    <div className="section-card chart-card p-6">
+      <div className="chart-card-header">
+        <div className="chart-card-title-group">
+          <div className="chart-card-icon bg-lime-50">
+            <Star className="w-5 h-5 text-lime-600" />
+          </div>
+          <div>
+            <h3 className="chart-card-title">Programas Especiales</h3>
+            <p className="chart-card-subtitle">TecnoAcademia, CAMPESENA, Alianzas</p>
+          </div>
+        </div>
+      </div>
+      <div className="chart-card-body">
+        {top6.length > 0 ? (
           <Bar
             data={{
               labels: top6.map((d) =>
-                d.label.length > 16 ? d.label.slice(0, 14) + "…" : d.label
+                d.label.length > 18 ? d.label.slice(0, 16) + "..." : d.label
               ),
               datasets: [{
                 data: top6.map((d) => d.value),
-                backgroundColor: top6.map((_, i) => CHART_COLORS[i % CHART_COLORS.length] + "B0"),
-                borderRadius: 3,
+                backgroundColor: top6.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
+                borderRadius: 8,
+                borderSkipped: false,
+                barPercentage: 0.65,
               }],
             }}
             options={barOptions}
           />
-        </div>
-      ) : (
-        <div style={{ height: 130 }} className="flex items-center justify-center">
-          <span className="text-[10px] text-gray-300">Sin datos</span>
-        </div>
-      )}
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <Star className="w-10 h-10 text-text-muted/20 mb-3" />
+            <span className="text-sm font-medium text-text-muted">Sin datos disponibles</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

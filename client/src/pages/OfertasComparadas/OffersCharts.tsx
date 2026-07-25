@@ -39,8 +39,8 @@ function FichasTerminadas({ fichas }: Props) {
     <div className="card chart-card chart-accent-green">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-sena-green/10 border border-sena-green/10">
-            <Layers className="w-5 h-5 text-sena-green" />
+          <div className="chart-card-icon bg-lime-50 border border-lime-200/60">
+            <Layers className="w-5 h-5 text-lime-600" />
           </div>
           <h3 className="chart-card-title">Fichas Terminadas</h3>
         </div>
@@ -54,7 +54,7 @@ function FichasTerminadas({ fichas }: Props) {
                 labels: ["Terminadas", "Otras"],
                 datasets: [{
                   data: [data.terminadas, data.otras],
-                  backgroundColor: ["#00843D", "#E5E7EB"],
+                  backgroundColor: ["#7CB342", "#E5E7EB"],
                   borderColor: "#ffffff",
                   borderWidth: 3,
                   hoverOffset: 8,
@@ -105,8 +105,8 @@ function ComparacionEstado({ fichas }: Props) {
     <div className="card chart-card chart-accent-blue">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-blue-400/10 border border-blue-400/10">
-            <BarChart3 className="w-5 h-5 text-blue-400" />
+          <div className="chart-card-icon bg-lime-50 border border-lime-200/60">
+            <BarChart3 className="w-5 h-5 text-lime-600" />
           </div>
           <h3 className="chart-card-title">Comparación Estado de Aprendices</h3>
         </div>
@@ -133,8 +133,8 @@ function TotalFichasChart({ fichas }: Props) {
     <div className="card chart-card chart-accent-yellow">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-sena-yellow/10 border border-sena-yellow/10">
-            <PieChart className="w-5 h-5 text-sena-yellow" />
+          <div className="chart-card-icon bg-lime-50 border border-lime-200/60">
+            <PieChart className="w-5 h-5 text-lime-600" />
           </div>
           <h3 className="chart-card-title">Total de Fichas</h3>
         </div>
