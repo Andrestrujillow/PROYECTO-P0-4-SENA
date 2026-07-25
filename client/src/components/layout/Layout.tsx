@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { DesktopSidebar, MobileBottomNav } from "./Sidebar";
+import { DesktopFloatingNav, MobileBottomNav } from "./Sidebar";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
 
@@ -74,13 +74,15 @@ export default function Layout() {
       </header>
 
       <div className="flex flex-1 min-h-0">
-        <DesktopSidebar />
+        {/* Desktop: floating nav on left (sticky) */}
+        <DesktopFloatingNav />
 
         <main className="flex-1 overflow-y-auto w-full pb-28 lg:pb-8 px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
           <Outlet />
         </main>
       </div>
 
+      {/* Mobile: floating nav at bottom */}
       <MobileBottomNav />
     </div>
   );
