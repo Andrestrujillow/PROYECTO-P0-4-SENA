@@ -29,7 +29,7 @@ export default function Layout() {
   return (
     <div className="flex flex-col min-h-dvh bg-bg-base">
       {/* Header */}
-      <header className="h-16 lg:h-18 shrink-0 bg-surface border-b border-border-light flex items-center px-4 lg:px-6 z-30 sticky top-0">
+      <header className="h-16 lg:h-18 shrink-0 bg-surface border-b border-border-light flex items-center px-4 lg:px-6 z-30 sticky top-2 mx-3 mt-2 rounded-2xl">
         {/* Left: Logo + brand */}
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm">
