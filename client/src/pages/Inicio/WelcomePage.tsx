@@ -14,7 +14,8 @@ export default function WelcomePage() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="landing-container">
+    <div className="min-h-dvh flex flex-col items-center justify-center px-6 py-12 text-center bg-bg-base relative overflow-hidden">
+      {/* Background radial accent */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -23,42 +24,33 @@ export default function WelcomePage() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-3xl">
-
-        <div
-          className="landing-logo"
-          style={{ animation: "fadeInDown 0.7s ease-out" }}
-        >
-          <div className="landing-logo-icon">
-            <BarChart3 className="w-12 h-12 text-sena-green" />
-            <div className="landing-logo-badge">
-              <Map className="w-4 h-4 text-white" />
-            </div>
+      <div className="relative z-10 w-full max-w-3xl flex flex-col items-center">
+        {/* Logo */}
+        <div className="mb-10 w-24 h-24 bg-sena-green-light rounded-3xl border border-sena-green/10 flex items-center justify-center shadow-sm relative">
+          <BarChart3 className="w-10 h-10 text-sena-green" />
+          <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-sena-green rounded-xl flex items-center justify-center shadow-md">
+            <Map className="w-4 h-4 text-white" />
           </div>
         </div>
 
-        <div
-          className="landing-title"
-          style={{ animation: "fadeInUp 0.7s ease-out 0.1s both" }}
-        >
-          <p className="text-xs font-bold tracking-[0.4em] uppercase text-sena-green/80 mb-6">
+        {/* Title */}
+        <div className="mb-6">
+          <p className="text-[10px] font-bold tracking-[0.4em] uppercase text-sena-green mb-6">
             Servicio Nacional de Aprendizaje
           </p>
-          <h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-primary leading-[1.1] tracking-tight">
             Reporte Ofertas de
             <br />
-            <span>Formacion</span>
+            <span className="text-sena-green">Formacion</span>
           </h1>
         </div>
 
-        <div
-          className="landing-subtitle"
-          style={{ animation: "fadeInUp 0.7s ease-out 0.2s both" }}
-        >
-          <span className="year">2020 &ndash; {year}</span>
-          <span className="region">SENA Regional Cauca</span>
-          <span className="date">
-            <Calendar className="w-4 h-4" />
+        {/* Subtitle */}
+        <div className="flex flex-col items-center gap-2 mb-8">
+          <span className="text-lg font-light text-text-muted">{year - 4} &ndash; {year}</span>
+          <span className="text-base font-medium text-text-secondary">SENA Regional Cauca</span>
+          <span className="flex items-center gap-1.5 text-xs text-text-muted">
+            <Calendar className="w-3.5 h-3.5" />
             Actualizado:{" "}
             {new Date().toLocaleDateString("es-CO", {
               year: "numeric",
@@ -68,52 +60,44 @@ export default function WelcomePage() {
           </span>
         </div>
 
-        <p
-          className="landing-description"
-          style={{ animation: "fadeInUp 0.7s ease-out 0.3s both" }}
-        >
+        {/* Description */}
+        <p className="text-sm text-text-muted max-w-md leading-relaxed mb-10">
           Sistema de analisis y visualizacion inteligente del reporte PE-04.
           Indicadores clave, graficas interactivas, mapas y tablas detalladas.
         </p>
 
-        <div
-          className="landing-button"
-          style={{ animation: "fadeInUp 0.7s ease-out 0.4s both" }}
+        {/* CTA Button */}
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="w-64 h-14 rounded-2xl bg-sena-green text-white font-semibold text-sm inline-flex items-center justify-center gap-2.5 shadow-lg shadow-sena-green/20 hover:bg-sena-green-hover hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 mb-12"
         >
-          <button onClick={() => navigate("/dashboard")}>
-            Ingresar al Dashboard
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+          Ingresar al Dashboard
+          <ArrowRight className="w-4 h-4" />
+        </button>
 
-        <div
-          className="landing-features"
-          style={{ animation: "fadeInUp 0.7s ease-out 0.5s both" }}
-        >
+        {/* Feature Cards */}
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-12 w-full justify-center">
           {[
-            { icon: FileSpreadsheet, label: "Carga Excel", desc: "Drag & drop", bg: "bg-sena-green/8", iconColor: "text-sena-green" },
-            { icon: TrendingUp, label: "Graficas", desc: "Interactivas", bg: "bg-sena-yellow/10", iconColor: "text-sena-yellow" },
-            { icon: Shield, label: "Datos Seguros", desc: "En memoria", bg: "bg-blue-100", iconColor: "text-blue-500" },
+            { icon: FileSpreadsheet, label: "Carga Excel", desc: "Drag & drop", bg: "bg-sena-green-light", iconColor: "text-sena-green" },
+            { icon: TrendingUp, label: "Graficas", desc: "Interactivas", bg: "bg-yellow-50", iconColor: "text-yellow-500" },
+            { icon: Shield, label: "Datos Seguros", desc: "En memoria", bg: "bg-blue-50", iconColor: "text-blue-500" },
           ].map(({ icon: Icon, label, desc, bg, iconColor }) => (
-            <div key={label} className="landing-feature-card">
-              <div className={`landing-feature-icon ${bg} ${iconColor}`}>
-                <Icon className="w-5 h-5" />
+            <div key={label} className="flex flex-col items-center justify-center gap-3 w-full sm:w-52 h-28 bg-surface rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bg}`}>
+                <Icon className={`w-5 h-5 ${iconColor}`} />
               </div>
-              <div className="landing-feature-text">
-                <span className="label">{label}</span>
-                <span className="desc">{desc}</span>
+              <div className="text-center">
+                <span className="text-xs font-bold text-text-secondary block">{label}</span>
+                <span className="text-[10px] text-text-muted">{desc}</span>
               </div>
             </div>
           ))}
         </div>
 
-        <p
-          className="landing-footer"
-          style={{ animation: "fadeInUp 0.7s ease-out 0.6s both" }}
-        >
+        {/* Footer */}
+        <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-text-muted">
           Plataforma de Inteligencia Educativa &middot; PE-04 v1.0
         </p>
-
       </div>
     </div>
   );
