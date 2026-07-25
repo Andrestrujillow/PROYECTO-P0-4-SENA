@@ -50,7 +50,7 @@ export default function OfertaEspecialPage() {
 
   if (fichas.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[65vh]">
+      <div className="page-card flex items-center justify-center min-h-[65vh]">
         <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
           <div className="card p-8 text-center">
             <div className="w-16 h-16 bg-sena-yellow/10 border border-sena-yellow/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -69,7 +69,7 @@ export default function OfertaEspecialPage() {
   }
 
   return (
-    <div className="dashboard-grid">
+    <div className="page-card space-y-6">
       <SpecialKPIs fichas={filteredFichas} />
 
       <div className="card p-4">

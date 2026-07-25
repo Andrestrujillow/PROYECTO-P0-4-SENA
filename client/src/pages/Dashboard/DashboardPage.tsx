@@ -23,7 +23,7 @@ export default function DashboardPage() {
 
   if (fichasCount === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[70vh]">
+      <div className="page-card flex items-center justify-center min-h-[70vh]">
         <div className="w-full max-w-md animate-scale-in">
           <div className="section-card p-10 text-center">
             <div className="w-20 h-20 mx-auto bg-sena-green-50 rounded-2xl flex items-center justify-center mb-8">
@@ -41,7 +41,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="page-card space-y-8">
       {/* KPI Row */}
       <section>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">

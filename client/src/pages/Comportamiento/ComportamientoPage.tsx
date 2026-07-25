@@ -49,7 +49,7 @@ export default function ComportamientoPage() {
 
   if (fichas.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[65vh]">
+      <div className="page-card flex items-center justify-center min-h-[65vh]">
         <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
           <div className="card p-8 text-center">
             <div className="w-16 h-16 bg-blue-400/10 border border-blue-400/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -74,7 +74,7 @@ export default function ComportamientoPage() {
   }
 
   return (
-    <div className="dashboard-grid">
+    <div className="page-card space-y-6">
       <div style={{ animation: "fadeInUp 0.5s ease-out" }}>
         <div className="flex items-center gap-3 mb-1">
           <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center">
