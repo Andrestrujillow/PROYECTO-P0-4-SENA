@@ -15,9 +15,11 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  Download,
 } from "lucide-react";
 import { SearchIcon } from "../icons/search";
 import { useDashboardStore } from "../../store/dashboardStore";
+import { exportarAExcel } from "../../utils/exportExcel";
 import { cn } from "../../lib/cn";
 
 const columns = [
@@ -57,9 +59,20 @@ export default function DataTable() {
       <div className="px-6 py-4 border-b border-border-light">
         <div className="flex items-center justify-between mb-3">
           <h3 className="section-title">Datos PE-04</h3>
-          <span className="text-xs font-semibold text-text-muted bg-bg-base px-3 py-1 rounded-full">
-            {fichas.length.toLocaleString("es-CO")} registros
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-text-muted bg-bg-base px-3 py-1 rounded-full">
+              {fichas.length.toLocaleString("es-CO")} registros
+            </span>
+            {fichas.length > 0 && (
+              <button
+                onClick={() => exportarAExcel(fichas, "PE-04-filtrado")}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-sena-green bg-sena-green-50 border border-sena-green-100 rounded-full hover:bg-sena-green-100 transition-colors"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Exportar
+              </button>
+            )}
+          </div>
         </div>
         <div className="relative max-w-sm">
           <SearchIcon size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
