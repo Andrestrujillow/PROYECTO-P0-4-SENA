@@ -67,6 +67,8 @@ export interface Filtros {
   jornada: string;
   sectorPrograma: string;
   instructor: string;
+  convenio: string;
+  tipoFormacion: string;
 }
 
 export interface Estadisticas {

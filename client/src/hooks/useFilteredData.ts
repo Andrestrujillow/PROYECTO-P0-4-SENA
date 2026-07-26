@@ -29,6 +29,8 @@ export function useFilteredData(fichas: Ficha[]) {
     const jornadas = uniqueSortedByCount(fichas, (f) => f.nombreJornada);
     const sectores = uniqueSortedByCount(fichas, (f) => f.nombreSectorPrograma);
     const instructores = uniqueSortedByCount(fichas, (f) => f.nombreResponsable);
+    const convenios = uniqueSortedByCount(fichas, (f) => f.nombreConvenio);
+    const tiposFormacion = uniqueSortedByCount(fichas, (f) => f.tipoFormacion);
 
     const anios = [
       ...new Set(
@@ -51,6 +53,8 @@ export function useFilteredData(fichas: Ficha[]) {
       jornadas,
       sectores,
       instructores,
+      convenios,
+      tiposFormacion,
       anios,
     };
   }, [fichas]);

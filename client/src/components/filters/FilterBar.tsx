@@ -29,6 +29,8 @@ const chipColor: Record<string, { bg: string; border: string; text: string; dot:
   Jornada:     { bg: "bg-lime-50",    border: "border-lime-200",    text: "text-lime-700",    dot: "bg-lime-400" },
   Sector:      { bg: "bg-sky-50",     border: "border-sky-200",     text: "text-sky-700",     dot: "bg-sky-400" },
   Instructor:  { bg: "bg-fuchsia-50", border: "border-fuchsia-200", text: "text-fuchsia-700", dot: "bg-fuchsia-400" },
+  Convenio:    { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700", dot: "bg-emerald-400" },
+  "Tipo Formacion": { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", dot: "bg-amber-400" },
 };
 
 function getChipColor(label: string) {
@@ -58,6 +60,8 @@ export default function FilterBar() {
     { key: "jornada",           label: "Jornada",       options: data.jornadas },
     { key: "sectorPrograma",    label: "Sector",        options: data.sectores },
     { key: "instructor",        label: "Instructor",     options: data.instructores },
+    { key: "convenio",          label: "Convenio",       options: data.convenios },
+    { key: "tipoFormacion",     label: "Tipo Formacion", options: data.tiposFormacion },
   ];
 
   const activeEntries = (Object.entries(filtros) as [FilterKey, string][]).filter(
