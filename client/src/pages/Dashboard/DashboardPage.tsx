@@ -14,6 +14,7 @@ import AprendicesPorProgramaEspecial from "../../components/charts/AprendicesPor
 import AprendicesPorCentro from "../../components/charts/AprendicesPorCentro";
 import AprendicesPorModalidad from "../../components/charts/AprendicesPorModalidad";
 import EquidadGenero from "../../components/charts/EquidadGenero";
+import HorasPorTipo from "../../components/charts/HorasPorTipo";
 import MapView from "../../components/map/MapView";
 import DataTable from "../../components/table/DataTable";
 import { useDashboardStore } from "../../store/dashboardStore";
@@ -68,9 +69,10 @@ export default function DashboardPage() {
 
       {/* Charts Row 1 */}
       <section className="section-card p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <FichasPorNivel />
           <AprendicesPorModalidad />
+          <HorasPorTipo />
         </div>
       </section>
 
