@@ -6,7 +6,7 @@ interface StatCardProps {
   title: string;
   value: number | string;
   icon: ReactNode;
-  color?: "blue" | "green" | "purple" | "orange" | "teal";
+  color?: "blue" | "green" | "purple" | "orange" | "teal" | "rose";
 }
 
 const COLORS: Record<string, { icon: string; accent: string }> = {
@@ -15,6 +15,7 @@ const COLORS: Record<string, { icon: string; accent: string }> = {
   purple: { icon: "icon-purple", accent: "accent-purple" },
   orange: { icon: "icon-orange", accent: "accent-orange" },
   teal: { icon: "icon-teal", accent: "accent-teal" },
+  rose: { icon: "icon-rose", accent: "accent-rose" },
 };
 
 export default function StatCard({ title, value, icon, color = "blue" }: StatCardProps) {

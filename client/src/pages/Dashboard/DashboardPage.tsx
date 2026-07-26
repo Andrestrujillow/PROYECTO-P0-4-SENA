@@ -4,6 +4,7 @@ import {
   Building2,
   Briefcase,
   GraduationCap,
+  UserCheck,
 } from "lucide-react";
 import StatCard from "../../components/cards/StatCard";
 import FileUpload from "../../components/ui/FileUpload";
@@ -21,6 +22,11 @@ export default function DashboardPage() {
   const stats = useDashboardStore((s) => s.estadisticas);
   const fichasCount = useDashboardStore((s) => s.fichas.length);
   const fichasFiltradasCount = useDashboardStore((s) => s.fichasFiltradas.length);
+  const fichasFiltradas = useDashboardStore((s) => s.fichasFiltradas);
+
+  const totalActivos = fichasFiltradas.reduce((acc, f) => acc + f.totalAprendicesActivos, 0);
+  const totalGeneral = fichasFiltradas.reduce((acc, f) => acc + f.totalAprendices, 0);
+  const tasaRetencion = totalGeneral > 0 ? Math.round((totalActivos / totalGeneral) * 100) : 0;
 
   if (fichasCount === 0) {
     return (
@@ -45,12 +51,13 @@ export default function DashboardPage() {
     <div className="page-card space-y-6">
       {/* KPI Row */}
       <section className="section-card p-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">
           <StatCard title="Fichas" value={fichasFiltradasCount} icon={<FileText className="w-5 h-5" />} color="blue" />
           <StatCard title="Aprendices" value={stats.totalAprendices} icon={<Users className="w-5 h-5" />} color="green" />
           <StatCard title="Centros" value={stats.totalCentros} icon={<Building2 className="w-5 h-5" />} color="purple" />
           <StatCard title="Empresas" value={stats.totalEmpresas} icon={<Briefcase className="w-5 h-5" />} color="orange" />
           <StatCard title="Instructores" value={stats.totalInstructores} icon={<GraduationCap className="w-5 h-5" />} color="teal" />
+          <StatCard title="Retencion" value={`${tasaRetencion}%`} icon={<UserCheck className="w-5 h-5" />} color="rose" />
         </div>
       </section>
 
