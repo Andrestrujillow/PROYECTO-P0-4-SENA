@@ -70,7 +70,7 @@ export default function SpecialCharts({ fichas }: SpecialChartsProps) {
   }, [fichas]);
 
   const chart2Option = useMemo(() => bar2DOption(
-    horasMap.map((p) => p[0].length > 25 ? p[0].slice(0, 22) + "..." : p[0]),
+    horasMap.map((p) => p[0]),
     horasMap.map((p) => p[1]),
     { barColor: "#3B82F6" }
   ), [horasMap]);
@@ -82,7 +82,7 @@ export default function SpecialCharts({ fichas }: SpecialChartsProps) {
   }, [fichas]);
 
   const chart3Option = useMemo(() => bar2DOption(
-    centrosMap.map((c) => c[0].length > 30 ? c[0].slice(0, 27) + "..." : c[0]),
+    centrosMap.map((c) => c[0]),
     centrosMap.map((c) => c[1]),
     { horizontal: true, barColor: "#10B981", showLabels: true }
   ), [centrosMap]);

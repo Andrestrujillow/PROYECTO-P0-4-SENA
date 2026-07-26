@@ -23,7 +23,7 @@ export default function AprendicesPorProgramaEspecial() {
         {top6.length > 0 ? (
           <EChart
             option={bar2DOption(
-              top6.map((d) => d.label.length > 18 ? d.label.slice(0, 16) + "..." : d.label),
+              top6.map((d) => d.label),
               top6.map((d) => d.value)
             )}
             height={240}

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { DesktopFloatingNav, MobileBottomNav } from "./Sidebar";
-import { CheckCircle2, Loader2, AlertCircle, X } from "lucide-react";
+import { CheckCircle2, Loader2, AlertCircle, X, Sun, Moon } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
+import { useTheme } from "../../hooks/useTheme";
 
 const PAGE_NAMES: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -19,6 +20,7 @@ export default function Layout() {
   const excelFileName = useDashboardStore((s) => s.excelFileName);
   const error = useDashboardStore((s) => s.error);
   const setError = useDashboardStore((s) => s.setError);
+  const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -78,6 +80,13 @@ export default function Layout() {
           <span className="hidden md:block text-[11px] text-text-muted tabular-nums">
             {new Date().toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
           </span>
+          <button
+            onClick={toggleTheme}
+            className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors text-text-muted hover:text-text-secondary"
+            aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
         </div>
       </header>
 

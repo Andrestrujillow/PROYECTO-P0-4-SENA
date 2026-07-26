@@ -38,6 +38,24 @@
   --radius-card: 12px;
 }
 
+/* ═══════════════════════════════════════════════════════
+   Light Mode — overrides when .light is on <html>
+   ═══════════════════════════════════════════════════════ */
+
+.light {
+  --color-bg-base: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F1F5F9;
+  --color-surface-hover: #E2E8F0;
+
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748B;
+
+  --color-border: #E2E8F0;
+  --color-border-light: #CBD5E1;
+}
+
 @layer base {
   html { scroll-behavior: smooth; }
   
@@ -71,6 +89,10 @@
   }
 }
 
+.light ::selection {
+  color: #0F172A;
+}
+
 @layer components {
   .focus-ring {
     @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sena-green;
@@ -96,6 +118,12 @@
     max-width: calc(100vw - 32px);
   }
 
+.light .mobile-nav {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(226, 232, 240, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+
   /* ═══ Navigation — Desktop Floating Left ═══ */
   .floating-nav {
     display: none;
@@ -117,6 +145,12 @@
       border: 1px solid rgba(30, 41, 59, 0.6);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
+  }
+
+  .light .floating-nav {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(226, 232, 240, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   }
 
   /* ═══ Section Card — Dark elevated surface ═══ */
@@ -425,4 +459,21 @@
 
 .glow-green {
   box-shadow: 0 0 40px rgba(0, 132, 61, 0.15), 0 0 80px rgba(0, 132, 61, 0.05);
+}
+
+/* ═══ Light mode — icon + accent overrides ═══ */
+
+.light .icon-blue { background: rgba(96, 165, 250, 0.15); }
+.light .icon-green { background: rgba(0, 132, 61, 0.12); }
+.light .icon-purple { background: rgba(167, 139, 250, 0.15); }
+.light .icon-orange { background: rgba(251, 146, 60, 0.15); }
+.light .icon-teal { background: rgba(45, 212, 191, 0.15); }
+.light .icon-rose { background: rgba(251, 113, 133, 0.15); }
+
+.light .filter-chip.active {
+  background: rgba(0, 132, 61, 0.08);
+}
+
+.light .glow-green {
+  box-shadow: 0 0 40px rgba(0, 132, 61, 0.1), 0 0 80px rgba(0, 132, 61, 0.03);
 }

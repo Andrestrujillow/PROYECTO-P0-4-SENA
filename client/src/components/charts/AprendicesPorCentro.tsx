@@ -23,7 +23,7 @@ export default function AprendicesPorCentro() {
         {top6.length > 0 ? (
           <EChart
             option={bar2DOption(
-              top6.map((d) => d.label.length > 22 ? d.label.slice(0, 20) + "..." : d.label),
+              top6.map((d) => d.label),
               top6.map((d) => d.value),
               { horizontal: true, showLabels: true }
             )}

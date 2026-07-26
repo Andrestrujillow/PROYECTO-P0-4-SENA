@@ -259,7 +259,10 @@ export function donut2DOption(
         left: "28%",
         top: "center",
         children: [
-          { type: "text", style: { text: total.toLocaleString("es-CO"), textAlign: "center", fill: "#F1F5F9", fontSize: 22, fontWeight: 700, fontFamily: "Inter, system-ui" }, left: "center", top: -12 },
+          { type: "text", style: {
+            text: total >= 1_000_000 ? (total / 1_000_000).toFixed(1) + "M" : total >= 1_000 ? (total / 1_000).toFixed(1) + "K" : total.toLocaleString("es-CO"),
+            textAlign: "center", fill: "#F1F5F9", fontSize: 22, fontWeight: 700, fontFamily: "Inter, system-ui"
+          }, left: "center", top: -12 },
           { type: "text", style: { text: "TOTAL", textAlign: "center", fill: "#64748B", fontSize: 10, fontWeight: 600, fontFamily: "Inter, system-ui", letterSpacing: 1 }, left: "center", top: 14 },
         ],
       }],
@@ -284,8 +287,8 @@ export function bar2DOption(
         textStyle: { color: "#94A3B8", fontSize: 10 },
         itemWidth: 10, itemHeight: 10,
       },
-      grid: { left: 8, right: 14, top: 30, bottom: 4, containLabel: true },
-      xAxis: { type: "category", data: categories, axisLabel: { color: "#64748B", fontSize: 9, rotate: isH ? 0 : 20 }, axisLine: { lineStyle: { color: "#1E293B" } }, splitLine: { show: false } },
+      grid: { left: 8, right: 20, top: 30, bottom: 4, containLabel: true },
+      xAxis: { type: "category", data: categories, axisLabel: { color: "#64748B", fontSize: 9, rotate: isH ? 0 : 15, interval: 0 }, axisLine: { lineStyle: { color: "#1E293B" } }, splitLine: { show: false } },
       yAxis: { type: "value", axisLabel: { color: "#64748B", fontSize: 9 }, splitLine: { lineStyle: { color: "rgba(30,41,59,0.5)", type: "dashed" } } },
       series: opts.series.map((s) => ({
         name: s.name,
@@ -302,9 +305,9 @@ export function bar2DOption(
   if (isH) {
     return {
       tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-      grid: { left: 8, right: 30, top: 8, bottom: 4, containLabel: true },
+      grid: { left: 8, right: 40, top: 8, bottom: 4, containLabel: true },
       xAxis: { type: "value", axisLabel: { color: "#64748B", fontSize: 9 }, splitLine: { lineStyle: { color: "rgba(30,41,59,0.5)", type: "dashed" } } },
-      yAxis: { type: "category", data: categories, inverse: true, axisLabel: { color: "#94A3B8", fontSize: 10, width: 120, overflow: "truncate" }, axisLine: { lineStyle: { color: "#1E293B" } } },
+      yAxis: { type: "category", data: categories, inverse: true, axisLabel: { color: "#94A3B8", fontSize: 10 }, axisLine: { lineStyle: { color: "#1E293B" } } },
       series: [{
         type: "bar",
         data: values.map((v, i) => ({
@@ -315,7 +318,12 @@ export function bar2DOption(
           },
         })),
         barMaxWidth: 18,
-        label: opts?.showLabels ? { show: true, position: "right", color: "#94A3B8", fontSize: 10, formatter: "{c}" } : undefined,
+        label: opts?.showLabels ? { show: true, position: "right", color: "#94A3B8", fontSize: 10, formatter: (p: { value: number }) => {
+          const v = p.value;
+          if (v >= 1_000_000) return (v / 1_000_000).toFixed(1) + "M";
+          if (v >= 1_000) return (v / 1_000).toFixed(1) + "K";
+          return String(v);
+        }} : undefined,
         emphasis: { itemStyle: { shadowBlur: 12, shadowColor: "rgba(0,0,0,0.3)" } },
       }],
     };
@@ -323,8 +331,8 @@ export function bar2DOption(
 
   return {
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    grid: { left: 8, right: 14, top: 8, bottom: 4, containLabel: true },
-    xAxis: { type: "category", data: categories, axisLabel: { color: "#64748B", fontSize: 9, rotate: 25, interval: 0 }, axisLine: { lineStyle: { color: "#1E293B" } } },
+    grid: { left: 8, right: 14, top: 8, bottom: 8, containLabel: true },
+    xAxis: { type: "category", data: categories, axisLabel: { color: "#64748B", fontSize: 9, rotate: 20, interval: 0, overflow: "truncate" }, axisLine: { lineStyle: { color: "#1E293B" } } },
     yAxis: { type: "value", axisLabel: { color: "#64748B", fontSize: 9 }, splitLine: { lineStyle: { color: "rgba(30,41,59,0.5)", type: "dashed" } } },
     series: [{
       type: "bar",
@@ -335,8 +343,13 @@ export function bar2DOption(
           borderRadius: [4, 4, 0, 0],
         },
       })),
-      barMaxWidth: 28,
-      label: opts?.showLabels ? { show: true, position: "top", color: "#94A3B8", fontSize: 10, formatter: "{c}" } : undefined,
+        barMaxWidth: 28,
+        label: opts?.showLabels ? { show: true, position: "top", color: "#94A3B8", fontSize: 10, formatter: (p: { value: number }) => {
+          const v = p.value;
+          if (v >= 1_000_000) return (v / 1_000_000).toFixed(1) + "M";
+          if (v >= 1_000) return (v / 1_000).toFixed(1) + "K";
+          return String(v);
+        }} : undefined,
       emphasis: { itemStyle: { shadowBlur: 12, shadowColor: "rgba(0,0,0,0.3)" } },
     }],
   };

@@ -54,7 +54,7 @@ export default function StrategiesCharts({ fichas }: StrategiesChartsProps) {
 
   const chart1Option = useMemo(() => donut2DOption(
     conveniosMap.map(([name, value], i) => ({
-      name: name.length > 25 ? name.slice(0, 22) + "..." : name,
+      name: name,
       value,
       color: DARK_THEME.color[i % DARK_THEME.color.length],
     }))
@@ -75,7 +75,7 @@ export default function StrategiesCharts({ fichas }: StrategiesChartsProps) {
   }, [fichas]);
 
   const chart2Option = useMemo(() => bar2DOption(
-    horasConvenio.map((c) => c[0].length > 25 ? c[0].slice(0, 22) + "..." : c[0]),
+    horasConvenio.map((c) => c[0]),
     horasConvenio.map((c) => c[1].total),
     { barColor: "#F59E0B" }
   ), [horasConvenio]);

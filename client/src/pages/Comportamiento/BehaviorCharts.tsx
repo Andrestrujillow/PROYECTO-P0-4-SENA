@@ -109,7 +109,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
   }, [fichas]);
 
   const chart3Option = useMemo(() => bar2DOption(
-    desertados.map((d) => d[0].length > 35 ? d[0].slice(0, 32) + "..." : d[0]),
+    desertados.map((d) => d[0]),
     desertados.map((d) => d[1]),
     { horizontal: true, barColor: "#FB7185", showLabels: true }
   ), [desertados]);
@@ -126,7 +126,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
 
   const chart4Option = useMemo(() => donut2DOption(
     programasOfertados.map((p, i) => ({
-      name: p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0],
+      name: p[0],
       value: p[1],
       color: DARK_THEME.color[i % DARK_THEME.color.length],
     }))
@@ -139,7 +139,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
   }, [fichas]);
 
   const chart5Option = useMemo(() => bar2DOption(
-    programasInscritos.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
+    programasInscritos.map((p) => p[0]),
     programasInscritos.map((p) => p[1]),
     { barColor: "#34D399" }
   ), [programasInscritos]);
@@ -154,7 +154,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
   }, [fichas]);
 
   const chart6Option = useMemo(() => bar2DOption(
-    programasCertificados.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
+    programasCertificados.map((p) => p[0]),
     programasCertificados.map((p) => p[1]),
     { barColor: "#34D399" }
   ), [programasCertificados]);

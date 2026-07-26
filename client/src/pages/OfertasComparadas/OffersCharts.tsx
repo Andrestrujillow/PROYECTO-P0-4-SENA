@@ -95,7 +95,7 @@ export default function OffersCharts({ fichas }: OffersChartsProps) {
   }, [fichas]);
 
   const chart3Option = useMemo(() => bar2DOption(
-    horasPorPrograma.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
+    horasPorPrograma.map((p) => p[0]),
     horasPorPrograma.map((p) => p[1]),
     { horizontal: true, barColor: "#F59E0B", showLabels: true }
   ), [horasPorPrograma]);
