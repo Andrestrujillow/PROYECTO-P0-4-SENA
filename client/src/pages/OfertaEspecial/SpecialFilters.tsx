@@ -2,20 +2,18 @@ import { useMemo } from "react";
 import { X, ChevronDown, RotateCcw } from "lucide-react";
 import { SlidersHorizontalIcon } from "../../components/icons/sliders-horizontal";
 import { cn } from "../../lib/cn";
-import type { Ficha } from "../../types";
+import { uniqueSortedByCount } from "../../utils/grouping";
+import type { Ficha, Filtros } from "../../types";
 
 interface Props {
   fichas: Ficha[];
-  filtros: Record<string, string>;
-  onFiltroChange: (key: string, value: string) => void;
+  filtros: Partial<Filtros>;
+  onFiltroChange: (key: keyof Filtros, value: string) => void;
   onReset: () => void;
 }
 
 export default function SpecialFilters({ fichas, filtros, onFiltroChange, onReset }: Props) {
   const options = useMemo(() => {
-    const unique = (field: keyof Ficha) =>
-      [...new Set(fichas.map((f) => f[field]))].filter(Boolean).sort();
-
     const years = [
       ...new Set(
         fichas
@@ -29,20 +27,20 @@ export default function SpecialFilters({ fichas, filtros, onFiltroChange, onRese
 
     return {
       anios: years,
-      niveles: unique("nivelFormacion"),
-      programas: unique("nombreProgramaFormacion"),
-      empresas: unique("nombreEmpresa"),
+      niveles: uniqueSortedByCount(fichas, (f) => f.nivelFormacion),
+      programas: uniqueSortedByCount(fichas, (f) => f.nombreProgramaFormacion),
+      empresas: uniqueSortedByCount(fichas, (f) => f.nombreEmpresa),
     };
   }, [fichas]);
 
   const activeCount = Object.values(filtros).filter(Boolean).length;
-  const activeEntries = Object.entries(filtros).filter(([, v]) => v !== "");
+  const activeEntries = (Object.entries(filtros) as [keyof Filtros, string][]).filter(([, v]) => !!v);
 
-  const filters = [
-    { key: "anio", label: "Ano", items: options.anios.map((v) => ({ value: v, count: 0 })) },
-    { key: "nivel", label: "Nivel", items: options.niveles.map((v) => ({ value: v as string, count: 0 })) },
-    { key: "programa", label: "Programa", items: options.programas.map((v) => ({ value: v as string, count: 0 })) },
-    { key: "empresa", label: "Empresa", items: options.empresas.map((v) => ({ value: v as string, count: 0 })) },
+  const filters: { key: keyof Filtros; label: string; items: { value: string; count: number }[] }[] = [
+    { key: "anioTerminacion", label: "Ano", items: options.anios.map((v) => ({ value: v, count: 0 })) },
+    { key: "nivelFormacion", label: "Nivel", items: options.niveles.map((v) => ({ value: v, count: 0 })) },
+    { key: "programaFormacion", label: "Programa", items: options.programas.map((v) => ({ value: v, count: 0 })) },
+    { key: "empresa", label: "Empresa", items: options.empresas.map((v) => ({ value: v, count: 0 })) },
   ];
 
   return (

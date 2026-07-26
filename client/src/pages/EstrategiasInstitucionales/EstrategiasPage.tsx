@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { BookOpen } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
+import type { Filtros } from "../../types";
 import StrategiesFilters from "./StrategiesFilters";
 import StrategiesKPIs from "./StrategiesKPIs";
 import StrategiesCharts from "./StrategiesCharts";
@@ -9,9 +10,9 @@ import FileUpload from "../../components/ui/FileUpload";
 
 export default function EstrategiasPage() {
   const fichas = useDashboardStore((s) => s.fichas);
-  const [filtros, setFiltros] = useState<Record<string, string>>({});
+  const [filtros, setFiltros] = useState<Partial<Filtros>>({});
 
-  const onFiltroChange = useCallback((key: string, value: string) => {
+  const onFiltroChange = useCallback((key: keyof Filtros, value: string) => {
     setFiltros((prev) => ({ ...prev, [key]: value }));
   }, []);
 
@@ -19,9 +20,9 @@ export default function EstrategiasPage() {
 
   const filteredFichas = useMemo(() => {
     return fichas.filter((f) => {
-      if (filtros.centro && f.nombreCentro !== filtros.centro) return false;
-      if (filtros.programa && f.nombreProgramaFormacion !== filtros.programa) return false;
-      if (filtros.estrategia && f.nombreProgramaEspecial !== filtros.estrategia) return false;
+      if (filtros.nombreCentro && f.nombreCentro !== filtros.nombreCentro) return false;
+      if (filtros.programaFormacion && f.nombreProgramaFormacion !== filtros.programaFormacion) return false;
+      if (filtros.programaEspecial && f.nombreProgramaEspecial !== filtros.programaEspecial) return false;
       if (filtros.municipio && f.nombreMunicipioCurso !== filtros.municipio) return false;
       return true;
     });

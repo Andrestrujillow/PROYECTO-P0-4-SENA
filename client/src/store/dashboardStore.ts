@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { Ficha, Filtros, Estadisticas, DatosGraficas, PuntoMapa } from "../types";
-import { COORDINATES_CAUCA } from "../utils/coordinates";
+import { agruparPor, agruparSuma } from "../utils/grouping";
+import { extractYear } from "../utils/dateUtils";
+import { calcularPuntosMapa } from "../utils/mapUtils";
 
 const filtrosIniciales = (): Filtros => ({
   nombreCentro: "",
@@ -74,28 +76,6 @@ function calcularEstadisticas(fichas: Ficha[]): Estadisticas {
   };
 }
 
-function agruparPor<T>(items: T[], key: (item: T) => string): { label: string; value: number }[] {
-  const map = new Map<string, number>();
-  items.forEach((item) => {
-    const k = key(item);
-    if (k) map.set(k, (map.get(k) || 0) + 1);
-  });
-  return Array.from(map.entries())
-    .map(([label, value]) => ({ label, value }))
-    .sort((a, b) => b.value - a.value);
-}
-
-function agruparSuma<T>(items: T[], key: (item: T) => string, sum: (item: T) => number): { label: string; value: number }[] {
-  const map = new Map<string, number>();
-  items.forEach((item) => {
-    const k = key(item);
-    if (k) map.set(k, (map.get(k) || 0) + sum(item));
-  });
-  return Array.from(map.entries())
-    .map(([label, value]) => ({ label, value }))
-    .sort((a, b) => b.value - a.value);
-}
-
 function calcularGraficas(fichas: Ficha[]): DatosGraficas {
   return {
     fichasPorNivel: agruparPor(fichas, (f) => f.nivelFormacion),
@@ -109,35 +89,6 @@ function calcularGraficas(fichas: Ficha[]): DatosGraficas {
     aprendicesPorMunicipio: agruparSuma(fichas, (f) => f.nombreMunicipioCurso, (f) => f.totalAprendices),
     fichasPorEstado: agruparPor(fichas, (f) => f.estadoCurso),
   };
-}
-
-function calcularPuntosMapa(fichas: Ficha[]): PuntoMapa[] {
-  const map = new Map<string, { cantidadFichas: number; totalAprendices: number }>();
-
-  fichas.forEach((f) => {
-    const key = f.nombreMunicipioCurso.toUpperCase().trim();
-    if (!key) return;
-    const entry = map.get(key) || { cantidadFichas: 0, totalAprendices: 0 };
-    entry.cantidadFichas += 1;
-    entry.totalAprendices += f.totalAprendices;
-    map.set(key, entry);
-  });
-
-  const puntos: PuntoMapa[] = [];
-  map.forEach((val, nombre) => {
-    const coords = COORDINATES_CAUCA[nombre];
-    if (coords) {
-      puntos.push({
-        lat: coords.lat,
-        lng: coords.lng,
-        nombre,
-        cantidadFichas: val.cantidadFichas,
-        cantidadAprendices: val.totalAprendices,
-      });
-    }
-  });
-
-  return puntos;
 }
 
 function filtrarFichas(fichas: Ficha[], filtros: Filtros): Ficha[] {
@@ -157,7 +108,7 @@ function filtrarFichas(fichas: Ficha[], filtros: Filtros): Ficha[] {
     if (filtros.convenio && f.nombreConvenio !== filtros.convenio) return false;
     if (filtros.tipoFormacion && f.tipoFormacion !== filtros.tipoFormacion) return false;
     if (filtros.anioTerminacion) {
-      const year = f.fechaTerminacionFicha.split("/")[2];
+      const year = extractYear(f.fechaTerminacionFicha);
       if (year !== filtros.anioTerminacion) return false;
     }
     return true;

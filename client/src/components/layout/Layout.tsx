@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { DesktopFloatingNav, MobileBottomNav } from "./Sidebar";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, AlertCircle, X } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
 
 const PAGE_NAMES: Record<string, string> = {
@@ -25,6 +25,8 @@ export default function Layout() {
   const pageSubtitle = PAGE_SUBTITLES[location.pathname] || "";
   const isLoading = useDashboardStore((s) => s.isLoading);
   const excelFileName = useDashboardStore((s) => s.excelFileName);
+  const error = useDashboardStore((s) => s.error);
+  const setError = useDashboardStore((s) => s.setError);
 
   return (
     <div className="flex flex-col min-h-dvh bg-bg-base">
@@ -73,6 +75,17 @@ export default function Layout() {
         </div>
       </header>
 
+      {/* Error banner */}
+      {error && (
+        <div className="mx-3 mt-2 px-4 py-3 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3">
+          <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
+          <span className="text-sm text-red-700 flex-1">{error}</span>
+          <button onClick={() => setError(null)} className="p-1 rounded-lg hover:bg-red-100 transition-colors">
+            <X className="w-3.5 h-3.5 text-red-400" />
+          </button>
+        </div>
+      )}
+
       <div className="flex flex-1 min-h-0">
         {/* Desktop: floating nav on left (sticky) */}
         <DesktopFloatingNav />
@@ -84,6 +97,12 @@ export default function Layout() {
 
       {/* Mobile: floating nav at bottom */}
       <MobileBottomNav />
+
+      {/* Footer */}
+      <footer className="hidden lg:flex items-center justify-between px-6 py-3 border-t border-border-light bg-surface/50 text-[11px] text-text-muted">
+        <span>SENA PE-04 Dashboard v1.0</span>
+        <span>Regional Cauca &middot; {new Date().getFullYear()}</span>
+      </footer>
     </div>
   );
 }

@@ -1,11 +1,12 @@
 import { useState, useMemo, useCallback } from "react";
 import { Activity, BarChart3 } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
+import type { Ficha, Filtros } from "../../types";
 import BehaviorFilters from "./BehaviorFilters";
 import BehaviorCards from "./BehaviorCards";
 import BehaviorCharts from "./BehaviorCharts";
 
-const emptyFilters: Record<string, string> = {
+const emptyFilters: Partial<Filtros> = {
   sectorPrograma: "",
   anioTerminacion: "",
   modalidadFormacion: "",
@@ -15,7 +16,7 @@ const emptyFilters: Record<string, string> = {
   nivelFormacion: "",
 };
 
-function filtrarFichas(fichas: any[], filtros: Record<string, string>) {
+function filtrarFichas(fichas: Ficha[], filtros: Partial<Filtros>) {
   return fichas.filter((f) => {
     if (filtros.sectorPrograma && f.nombreSectorPrograma !== filtros.sectorPrograma) return false;
     if (filtros.modalidadFormacion && f.modalidadFormacion !== filtros.modalidadFormacion) return false;
@@ -34,11 +35,11 @@ function filtrarFichas(fichas: any[], filtros: Record<string, string>) {
 
 export default function ComportamientoPage() {
   const fichas = useDashboardStore((s) => s.fichas);
-  const [filtros, setFiltros] = useState<Record<string, string>>({ ...emptyFilters });
+  const [filtros, setFiltros] = useState<Partial<Filtros>>({ ...emptyFilters });
 
   const filteredFichas = useMemo(() => filtrarFichas(fichas, filtros), [fichas, filtros]);
 
-  const handleFiltroChange = useCallback((key: string, value: string) => {
+  const handleFiltroChange = useCallback((key: keyof Filtros, value: string) => {
     setFiltros((prev) => ({ ...prev, [key]: value }));
   }, []);
 

@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/layout/Layout";
 import WelcomePage from "./pages/Inicio/WelcomePage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
@@ -10,19 +9,17 @@ import EstrategiasPage from "./pages/EstrategiasInstitucionales/EstrategiasPage"
 
 export default function App() {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<WelcomePage />} />
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/ofertas-comparadas" element={<OfertasComparadasPage />} />
-            <Route path="/comportamiento" element={<ComportamientoPage />} />
-            <Route path="/oferta-especial" element={<OfertaEspecialPage />} />
-            <Route path="/estrategias" element={<EstrategiasPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </HelmetProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/ofertas-comparadas" element={<OfertasComparadasPage />} />
+          <Route path="/comportamiento" element={<ComportamientoPage />} />
+          <Route path="/oferta-especial" element={<OfertaEspecialPage />} />
+          <Route path="/estrategias" element={<EstrategiasPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }

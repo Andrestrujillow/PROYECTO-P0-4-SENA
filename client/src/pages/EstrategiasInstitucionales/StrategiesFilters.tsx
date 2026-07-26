@@ -2,41 +2,38 @@ import { useMemo } from "react";
 import { X, ChevronDown, RotateCcw } from "lucide-react";
 import { SlidersHorizontalIcon } from "../../components/icons/sliders-horizontal";
 import { cn } from "../../lib/cn";
-import type { Ficha } from "../../types";
+import { uniqueSortedByCount } from "../../utils/grouping";
+import type { Ficha, Filtros } from "../../types";
 
 interface Props {
   fichas: Ficha[];
-  filtros: Record<string, string>;
-  onFiltroChange: (key: string, value: string) => void;
+  filtros: Partial<Filtros>;
+  onFiltroChange: (key: keyof Filtros, value: string) => void;
   onReset: () => void;
 }
 
-function uniqueSorted(fichas: Ficha[], extractor: (f: Ficha) => string) {
-  const map = new Map<string, number>();
-  fichas.forEach((f) => {
-    const val = extractor(f);
-    if (val) map.set(val, (map.get(val) || 0) + 1);
-  });
-  return Array.from(map.entries())
-    .map(([value, count]) => ({ value, count }))
-    .sort((a, b) => b.count - a.count);
+function toOptions(fichas: Ficha[], extractor: (f: Ficha) => string) {
+  return uniqueSortedByCount(fichas, extractor).map((value) => ({
+    value,
+    count: fichas.filter((f) => extractor(f) === value).length,
+  }));
 }
 
 export default function StrategiesFilters({ fichas, filtros, onFiltroChange, onReset }: Props) {
   const options = useMemo(() => ({
-    centros: uniqueSorted(fichas, (f) => f.nombreCentro),
-    programas: uniqueSorted(fichas, (f) => f.nombreProgramaFormacion),
-    estrategias: uniqueSorted(fichas.filter((f) => f.nombreProgramaEspecial), (f) => f.nombreProgramaEspecial),
-    municipios: uniqueSorted(fichas, (f) => f.nombreMunicipioCurso),
+    centros: toOptions(fichas, (f) => f.nombreCentro),
+    programas: toOptions(fichas, (f) => f.nombreProgramaFormacion),
+    estrategias: toOptions(fichas.filter((f) => f.nombreProgramaEspecial), (f) => f.nombreProgramaEspecial),
+    municipios: toOptions(fichas, (f) => f.nombreMunicipioCurso),
   }), [fichas]);
 
   const activeCount = Object.values(filtros).filter(Boolean).length;
-  const activeEntries = Object.entries(filtros).filter(([, v]) => v !== "");
+  const activeEntries = (Object.entries(filtros) as [keyof Filtros, string][]).filter(([, v]) => !!v);
 
-  const filters = [
-    { key: "centro", label: "Centro", items: options.centros },
-    { key: "programa", label: "Programa", items: options.programas },
-    { key: "estrategia", label: "Estrategia", items: options.estrategias },
+  const filters: { key: keyof Filtros; label: string; items: { value: string; count: number }[] }[] = [
+    { key: "nombreCentro", label: "Centro", items: options.centros },
+    { key: "programaFormacion", label: "Programa", items: options.programas },
+    { key: "programaEspecial", label: "Estrategia", items: options.estrategias },
     { key: "municipio", label: "Municipio", items: options.municipios },
   ];
 

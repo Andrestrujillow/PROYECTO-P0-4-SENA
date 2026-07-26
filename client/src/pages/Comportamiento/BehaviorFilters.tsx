@@ -2,24 +2,21 @@ import { useMemo } from "react";
 import { X, ChevronDown, RotateCcw } from "lucide-react";
 import { SlidersHorizontalIcon } from "../../components/icons/sliders-horizontal";
 import { cn } from "../../lib/cn";
-import type { Ficha } from "../../types";
+import { uniqueSortedByCount } from "../../utils/grouping";
+import type { Ficha, Filtros } from "../../types";
 
 interface Props {
   fichas: Ficha[];
-  filtros: Record<string, string>;
-  onFiltroChange: (key: string, value: string) => void;
+  filtros: Partial<Filtros>;
+  onFiltroChange: (key: keyof Filtros, value: string) => void;
   onReset: () => void;
 }
 
-function uniqueSorted(fichas: Ficha[], extractor: (f: Ficha) => string) {
-  const map = new Map<string, number>();
-  fichas.forEach((f) => {
-    const val = extractor(f);
-    if (val) map.set(val, (map.get(val) || 0) + 1);
-  });
-  return Array.from(map.entries())
-    .sort((a, b) => b[1] - a[1])
-    .map(([value, count]) => ({ value, count }));
+function toOptions(fichas: Ficha[], extractor: (f: Ficha) => string) {
+  return uniqueSortedByCount(fichas, extractor).map((value) => ({
+    value,
+    count: fichas.filter((f) => extractor(f) === value).length,
+  }));
 }
 
 export default function BehaviorFilters({ fichas, filtros, onFiltroChange, onReset }: Props) {
@@ -29,19 +26,19 @@ export default function BehaviorFilters({ fichas, filtros, onFiltroChange, onRes
     ].sort((a, b) => b.localeCompare(a));
     return {
       anios,
-      sectores: uniqueSorted(fichas, (f) => f.nombreSectorPrograma),
-      modalidades: uniqueSorted(fichas, (f) => f.modalidadFormacion),
-      programasEspeciales: uniqueSorted(fichas, (f) => f.nombreProgramaEspecial),
-      centros: uniqueSorted(fichas, (f) => f.nombreCentro),
-      programas: uniqueSorted(fichas, (f) => f.nombreProgramaFormacion),
-      niveles: uniqueSorted(fichas, (f) => f.nivelFormacion),
+      sectores: toOptions(fichas, (f) => f.nombreSectorPrograma),
+      modalidades: toOptions(fichas, (f) => f.modalidadFormacion),
+      programasEspeciales: toOptions(fichas, (f) => f.nombreProgramaEspecial),
+      centros: toOptions(fichas, (f) => f.nombreCentro),
+      programas: toOptions(fichas, (f) => f.nombreProgramaFormacion),
+      niveles: toOptions(fichas, (f) => f.nivelFormacion),
     };
   }, [fichas]);
 
   const activeCount = Object.values(filtros).filter(Boolean).length;
-  const activeEntries = Object.entries(filtros).filter(([, v]) => v !== "");
+  const activeEntries = (Object.entries(filtros) as [keyof Filtros, string][]).filter(([, v]) => !!v);
 
-  const filters = [
+  const filters: { key: keyof Filtros; label: string; items: { value: string; count: number }[] }[] = [
     { key: "sectorPrograma", label: "Sector", items: options.sectores },
     { key: "anioTerminacion", label: "Ano", items: options.anios.map((v) => ({ value: v, count: 0 })) },
     { key: "modalidadFormacion", label: "Modalidad", items: options.modalidades },

@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { GitCompareArrows } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
+import type { Filtros } from "../../types";
 import OffersFilters from "./OffersFilters";
 import OffersKPIs from "./OffersKPIs";
 import OffersCharts from "./OffersCharts";
@@ -10,9 +11,9 @@ import FileUpload from "../../components/ui/FileUpload";
 
 export default function OfertasComparadasPage() {
   const fichas = useDashboardStore((s) => s.fichas);
-  const [filtros, setFiltros] = useState<Record<string, string>>({});
+  const [filtros, setFiltros] = useState<Partial<Filtros>>({});
 
-  const onFiltroChange = useCallback((key: string, value: string) => {
+  const onFiltroChange = useCallback((key: keyof Filtros, value: string) => {
     setFiltros((prev) => ({ ...prev, [key]: value }));
   }, []);
 
@@ -20,14 +21,14 @@ export default function OfertasComparadasPage() {
 
   const filteredFichas = useMemo(() => {
     return fichas.filter((f) => {
-      if (filtros.anio) {
+      if (filtros.anioTerminacion) {
         const year = f.fechaTerminacionFicha.split("/")[2];
-        if (year !== filtros.anio) return false;
+        if (year !== filtros.anioTerminacion) return false;
       }
-      if (filtros.centro && f.nombreCentro !== filtros.centro) return false;
-      if (filtros.nivel && f.nivelFormacion !== filtros.nivel) return false;
-      if (filtros.programa && f.nombreProgramaFormacion !== filtros.programa) return false;
-      if (filtros.oferta && f.nombreSectorPrograma !== filtros.oferta) return false;
+      if (filtros.nombreCentro && f.nombreCentro !== filtros.nombreCentro) return false;
+      if (filtros.nivelFormacion && f.nivelFormacion !== filtros.nivelFormacion) return false;
+      if (filtros.programaFormacion && f.nombreProgramaFormacion !== filtros.programaFormacion) return false;
+      if (filtros.sectorPrograma && f.nombreSectorPrograma !== filtros.sectorPrograma) return false;
       if (filtros.municipio && f.nombreMunicipioCurso !== filtros.municipio) return false;
       return true;
     });

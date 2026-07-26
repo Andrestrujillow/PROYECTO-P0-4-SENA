@@ -24,22 +24,8 @@ export const CHART_COLORS = [
   "#689F3899", // dark lime 60%
 ];
 
-/* soft 12% opacity version for fills */
-export const CHART_FILLS = [
-  "rgba(124,179,66,0.12)",
-  "rgba(104,159,56,0.12)",
-  "rgba(156,204,101,0.12)",
-  "rgba(85,139,47,0.12)",
-  "rgba(174,213,129,0.12)",
-  "rgba(124,179,66,0.08)",
-  "rgba(104,159,56,0.08)",
-  "rgba(156,204,101,0.08)",
-  "rgba(124,179,66,0.06)",
-  "rgba(104,159,56,0.06)",
-];
-
 /* ═══ Shared tooltip — glass style ═══ */
-const glassTooltip = {
+export const glassTooltip = {
   backgroundColor: "rgba(255,255,255,0.92)",
   titleColor: "#1A1D23",
   bodyColor: "#6B7280",
@@ -91,6 +77,7 @@ export const barOptions = {
   maxBarThickness: 26,
 };
 
+/** @deprecated Use barOptions directly */
 export const defaultOptions = barOptions;
 
 /* ═══ Horizontal bar options ═══ */

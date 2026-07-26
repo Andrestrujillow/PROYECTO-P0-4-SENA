@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Star, Lightbulb } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
+import type { Filtros } from "../../types";
 import SpecialFilters from "./SpecialFilters";
 import SpecialKPIs from "./SpecialKPIs";
 import SpecialCharts, { SpecialChartsBottom } from "./SpecialCharts";
@@ -8,7 +9,7 @@ import SpecialTable from "./SpecialTable";
 
 export default function OfertaEspecialPage() {
   const fichas = useDashboardStore((s) => s.fichas);
-  const [filtros, setFiltros] = useState<Record<string, string>>({});
+  const [filtros, setFiltros] = useState<Partial<Filtros>>({});
 
   const centros = useMemo(
     () => [...new Set(fichas.map((f) => f.nombreCentro))].filter(Boolean).sort(),
@@ -24,20 +25,20 @@ export default function OfertaEspecialPage() {
   const filteredFichas = useMemo(() => {
     let result = fichasEspeciales;
 
-    if (filtros.centro) {
-      result = result.filter((f) => f.nombreCentro === filtros.centro);
+    if (filtros.nombreCentro) {
+      result = result.filter((f) => f.nombreCentro === filtros.nombreCentro);
     }
-    if (filtros.anio) {
+    if (filtros.anioTerminacion) {
       result = result.filter((f) => {
         const parts = f.fechaTerminacionFicha?.split("/");
-        return parts?.length === 3 ? parts[2] === filtros.anio : false;
+        return parts?.length === 3 ? parts[2] === filtros.anioTerminacion : false;
       });
     }
-    if (filtros.nivel) {
-      result = result.filter((f) => f.nivelFormacion === filtros.nivel);
+    if (filtros.nivelFormacion) {
+      result = result.filter((f) => f.nivelFormacion === filtros.nivelFormacion);
     }
-    if (filtros.programa) {
-      result = result.filter((f) => f.nombreProgramaFormacion === filtros.programa);
+    if (filtros.programaFormacion) {
+      result = result.filter((f) => f.nombreProgramaFormacion === filtros.programaFormacion);
     }
     if (filtros.empresa) {
       result = result.filter((f) => f.nombreEmpresa === filtros.empresa);
@@ -46,7 +47,7 @@ export default function OfertaEspecialPage() {
     return result;
   }, [fichasEspeciales, filtros]);
 
-  const handleFiltroChange = (key: string, value: string) => {
+  const handleFiltroChange = (key: keyof Filtros, value: string) => {
     setFiltros((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -89,9 +90,9 @@ export default function OfertaEspecialPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => handleFiltroChange("centro", "")}
+            onClick={() => handleFiltroChange("nombreCentro", "")}
             className={`btn-ghost transition-all duration-200 ${
-              !filtros.centro
+              !filtros.nombreCentro
                 ? "!bg-sena-green/15 !text-sena-green !border-sena-green/20"
                 : ""
             }`}
@@ -101,9 +102,9 @@ export default function OfertaEspecialPage() {
           {centros.map((centro) => (
             <button
               key={centro}
-              onClick={() => handleFiltroChange("centro", centro)}
+              onClick={() => handleFiltroChange("nombreCentro", centro)}
               className={`btn-ghost transition-all duration-200 ${
-                filtros.centro === centro
+                filtros.nombreCentro === centro
                   ? "!bg-sena-green/15 !text-sena-green !border-sena-green/20"
                   : ""
               }`}
