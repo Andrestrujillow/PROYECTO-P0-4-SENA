@@ -25,10 +25,10 @@ export default function EquidadGenero() {
           </div>
         </div>
       </div>
-      <div className="chart-card-body" style={{ height: 240 }}>
+      <div className="chart-card-body" style={{ height: 280 }}>
         {total > 0 ? (
-          <div className="flex flex-col items-center gap-3 h-full">
-            <div className="flex-1 w-full" style={{ height: 160 }}>
+          <div className="flex flex-col items-center gap-2 h-full">
+            <div className="flex-1 w-full" style={{ height: 220 }}>
               <EChart
                 option={donut2DOption(
                   [
@@ -38,7 +38,7 @@ export default function EquidadGenero() {
                   ],
                   total
                 )}
-                height={160}
+                height={220}
               />
             </div>
             <div className="flex items-center gap-5 text-xs">
