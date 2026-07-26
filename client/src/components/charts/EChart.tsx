@@ -314,10 +314,7 @@ export function donut2DOption(
         },
       },
       emphasis: {
-        label: {
-          show: true, color: t.text, fontSize: 12, fontWeight: 600,
-          formatter: "{b}\n{d}%",
-        },
+        label: { show: false },
         scaleSize: 5,
       },
       data: data.map((d) => ({
