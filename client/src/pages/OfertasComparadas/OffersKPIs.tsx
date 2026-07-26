@@ -1,4 +1,4 @@
-import { FileText, Users, User, UserX } from "lucide-react";
+import { FileText, Users, Briefcase, Clock } from "lucide-react";
 import type { Ficha } from "../../types";
 
 interface Props {
@@ -7,15 +7,15 @@ interface Props {
 
 export default function OffersKPIs({ fichas }: Props) {
   const totalFichas = fichas.length;
-  const totalFemeninos = fichas.reduce((s, f) => s + f.totalAprendicesFemeninos, 0);
-  const totalMasculinos = fichas.reduce((s, f) => s + f.totalAprendicesMasculinos, 0);
-  const totalNoBinario = fichas.reduce((s, f) => s + f.totalAprendicesNoBinario, 0);
+  const totalAprendices = fichas.reduce((s, f) => s + f.totalAprendices, 0);
+  const totalEmpresas = new Set(fichas.filter((f) => f.nombreEmpresa).map((f) => f.nombreEmpresa)).size;
+  const totalHoras = fichas.reduce((s, f) => s + f.totalHoras, 0);
 
   const kpis = [
     { title: "Total Fichas", value: totalFichas, icon: <FileText className="w-5 h-5" />, color: "green" as const },
-    { title: "Femeninos", value: totalFemeninos, icon: <Users className="w-5 h-5" />, color: "blue" as const },
-    { title: "Masculinos", value: totalMasculinos, icon: <User className="w-5 h-5" />, color: "purple" as const },
-    { title: "No Binario", value: totalNoBinario, icon: <UserX className="w-5 h-5" />, color: "orange" as const },
+    { title: "Aprendices", value: totalAprendices, icon: <Users className="w-5 h-5" />, color: "blue" as const },
+    { title: "Empresas", value: totalEmpresas, icon: <Briefcase className="w-5 h-5" />, color: "orange" as const },
+    { title: "Horas Totales", value: totalHoras.toLocaleString("es-CO"), icon: <Clock className="w-5 h-5" />, color: "purple" as const },
   ];
 
   return (
@@ -29,7 +29,7 @@ export default function OffersKPIs({ fichas }: Props) {
             </div>
             <div className="stat-card-content">
               <span className="stat-card-label">{kpi.title}</span>
-              <span className="stat-card-value">{kpi.value.toLocaleString("es-CO")}</span>
+              <span className="stat-card-value">{typeof kpi.value === "number" ? kpi.value.toLocaleString("es-CO") : kpi.value}</span>
             </div>
           </div>
         </div>

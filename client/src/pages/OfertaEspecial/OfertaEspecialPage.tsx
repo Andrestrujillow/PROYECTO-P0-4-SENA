@@ -15,8 +15,14 @@ export default function OfertaEspecialPage() {
     [fichas]
   );
 
+  // Pre-filter: only special programs
+  const fichasEspeciales = useMemo(
+    () => fichas.filter((f) => f.nombreProgramaEspecial && f.nombreProgramaEspecial.trim() !== ""),
+    [fichas]
+  );
+
   const filteredFichas = useMemo(() => {
-    let result = fichas;
+    let result = fichasEspeciales;
 
     if (filtros.centro) {
       result = result.filter((f) => f.nombreCentro === filtros.centro);
@@ -38,7 +44,7 @@ export default function OfertaEspecialPage() {
     }
 
     return result;
-  }, [fichas, filtros]);
+  }, [fichasEspeciales, filtros]);
 
   const handleFiltroChange = (key: string, value: string) => {
     setFiltros((prev) => ({ ...prev, [key]: value }));
@@ -48,7 +54,7 @@ export default function OfertaEspecialPage() {
     setFiltros({});
   };
 
-  if (fichas.length === 0) {
+  if (fichasEspeciales.length === 0) {
     return (
       <div className="page-card flex items-center justify-center min-h-[65vh]">
         <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
@@ -57,10 +63,10 @@ export default function OfertaEspecialPage() {
               <Star className="w-8 h-8 text-sena-yellow" />
             </div>
             <h2 className="text-xl font-bold text-text-primary mb-2">
-              Sin datos disponibles
+              Sin programas especiales
             </h2>
             <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
-              Carga el archivo Excel del reporte PE-04 desde el dashboard principal para ver la oferta especial.
+              El archivo cargado no contiene programas especiales (TecnoAcademia, CAMPESENA, Alianzas Estrategicas).
             </p>
           </div>
         </div>
@@ -121,10 +127,9 @@ export default function OfertaEspecialPage() {
         <div className="chart-grid-2">
           <SpecialCharts fichas={filteredFichas} />
         </div>
-      </section>
-
-      <section className="section-card p-6">
-        <SpecialChartsBottom fichas={filteredFichas} />
+        <div className="mt-6">
+          <SpecialChartsBottom fichas={filteredFichas} />
+        </div>
       </section>
 
       <section className="section-card overflow-hidden">

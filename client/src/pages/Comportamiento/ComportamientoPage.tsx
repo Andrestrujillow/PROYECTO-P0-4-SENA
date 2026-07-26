@@ -1,7 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { Activity, BarChart3 } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
-import BehaviorKPIs from "./BehaviorKPIs";
 import BehaviorFilters from "./BehaviorFilters";
 import BehaviorCards from "./BehaviorCards";
 import BehaviorCharts from "./BehaviorCharts";
@@ -88,7 +87,7 @@ export default function ComportamientoPage() {
       </section>
 
       <section className="section-card p-6">
-        <BehaviorKPIs fichas={filteredFichas} />
+        <BehaviorCards fichas={filteredFichas} />
       </section>
 
       <section className="section-card p-6">
@@ -98,10 +97,6 @@ export default function ComportamientoPage() {
           onFiltroChange={handleFiltroChange}
           onReset={handleReset}
         />
-      </section>
-
-      <section className="section-card p-6">
-        <BehaviorCards fichas={filteredFichas} />
       </section>
 
       <section className="section-card p-6">
