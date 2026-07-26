@@ -44,7 +44,7 @@ export default function FileUpload() {
 
   if (excelFileName && fichasCount > 0) {
     return (
-      <div className="flex items-center gap-3 px-4 py-3 bg-sena-green-light/50 border border-sena-green/20 rounded-xl">
+      <div className="flex items-center gap-3 px-4 py-3 bg-sena-green/10 border border-sena-green/20 rounded-xl">
         <CheckCircle2 className="w-5 h-5 text-sena-green shrink-0" />
         <span className="text-sm text-sena-green font-medium truncate flex-1">
           {excelFileName}
@@ -54,7 +54,7 @@ export default function FileUpload() {
         </span>
         <div
           {...getRootProps()}
-          className="p-1.5 rounded-lg hover:bg-white/50 transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
         >
           <input {...getInputProps()} />
           <RefreshCw className="w-4 h-4 text-text-muted hover:text-text-secondary transition-colors" />
@@ -72,10 +72,10 @@ export default function FileUpload() {
         "border-2 border-dashed rounded-2xl cursor-pointer",
         "transition-all duration-200",
         isDragActive
-          ? "border-sena-green/50 bg-sena-green-light/50 scale-[1.01]"
+          ? "border-sena-green/50 bg-sena-green/10 scale-[1.01]"
           : status === "loading"
-          ? "border-sena-green/20 bg-sena-green-light/30"
-          : "border-border hover:border-sena-green/30 hover:bg-gray-50"
+          ? "border-sena-green/20 bg-sena-green/5"
+          : "border-border hover:border-sena-green/30 hover:bg-surface-elevated"
       )}
     >
       <input {...getInputProps()} />
@@ -85,8 +85,8 @@ export default function FileUpload() {
           isDragActive
             ? "bg-sena-green/15 scale-110"
             : status === "loading"
-            ? "bg-sena-green-light"
-            : "bg-gray-100 group-hover:bg-sena-green-light"
+            ? "bg-sena-green/15"
+            : "bg-surface group-hover:bg-sena-green/15"
         )}
       >
         {status === "loading" ? (

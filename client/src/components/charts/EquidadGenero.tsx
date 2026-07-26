@@ -17,7 +17,7 @@ export default function EquidadGenero() {
     <div className="section-card chart-card p-6">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-pink-50">
+          <div className="chart-card-icon bg-pink-500/10">
             <Users size={20} className="text-pink-600" />
           </div>
           <div>

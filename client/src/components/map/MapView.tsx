@@ -49,7 +49,7 @@ export default function MapView() {
       {/* ── header ── */}
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-sena-green-50 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-sena-green/10 flex items-center justify-center">
             <MapPinIcon size={18} className="text-sena-green" />
           </div>
           <div>

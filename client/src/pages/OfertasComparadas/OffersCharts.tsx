@@ -39,7 +39,7 @@ function FichasTerminadas({ fichas }: Props) {
     <div className="card chart-card chart-accent-green">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-lime-50 border border-lime-200/60">
+          <div className="chart-card-icon bg-lime-500/10 border border-lime-500/20">
             <Layers className="w-5 h-5 text-lime-600" />
           </div>
           <h3 className="chart-card-title">Fichas Terminadas</h3>
@@ -105,7 +105,7 @@ function ComparacionEstado({ fichas }: Props) {
     <div className="card chart-card chart-accent-blue">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-lime-50 border border-lime-200/60">
+          <div className="chart-card-icon bg-lime-500/10 border border-lime-500/20">
             <BarChart3 className="w-5 h-5 text-lime-600" />
           </div>
           <h3 className="chart-card-title">Comparación Estado de Aprendices</h3>
@@ -133,7 +133,7 @@ function TotalFichasChart({ fichas }: Props) {
     <div className="card chart-card chart-accent-yellow">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-lime-50 border border-lime-200/60">
+          <div className="chart-card-icon bg-lime-500/10 border border-lime-500/20">
             <PieChart className="w-5 h-5 text-lime-600" />
           </div>
           <h3 className="chart-card-title">Total de Fichas</h3>

@@ -64,7 +64,7 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
 
   return (
     <div className="section-card overflow-hidden">
-      <div className="px-6 py-4 border-b border-border-light">
+      <div className="px-6 py-4 border-b border-border">
         <div className="flex items-center justify-between mb-3">
           <h3 className="section-title">Oferta Especial</h3>
           <span className="text-xs font-semibold text-text-muted bg-bg-base px-3 py-1 rounded-full">
@@ -132,7 +132,7 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
                 table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="hover:bg-sena-green-50 transition-colors"
+                    className="hover:bg-sena-green/10 transition-colors"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td key={cell.id} className="px-5 py-3.5 text-text-secondary font-medium whitespace-nowrap">
@@ -181,7 +181,7 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
 
       {/* Pagination */}
       {hasData && (
-        <div className="flex items-center justify-between px-6 py-4 border-t border-border-light bg-bg-base/30">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-bg-base/30">
           <span className="text-xs font-semibold text-text-muted">
             Pagina {pageIndex + 1} de {pageCount}
           </span>

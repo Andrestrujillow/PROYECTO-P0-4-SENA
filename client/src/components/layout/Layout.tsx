@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { DesktopFloatingNav, MobileBottomNav } from "./Sidebar";
 import { CheckCircle2, Loader2, AlertCircle, X } from "lucide-react";
@@ -11,96 +12,99 @@ const PAGE_NAMES: Record<string, string> = {
   "/estrategias": "Estrategias",
 };
 
-const PAGE_SUBTITLES: Record<string, string> = {
-  "/dashboard": "Panel principal de analisis",
-  "/ofertas-comparadas": "Comparacion entre periodos",
-  "/comportamiento": "Tendencias y comportamiento",
-  "/oferta-especial": "Programas especiales SENA",
-  "/estrategias": "Estrategias institucionales",
-};
-
 export default function Layout() {
   const location = useLocation();
   const pageName = PAGE_NAMES[location.pathname] || "Dashboard";
-  const pageSubtitle = PAGE_SUBTITLES[location.pathname] || "";
   const isLoading = useDashboardStore((s) => s.isLoading);
   const excelFileName = useDashboardStore((s) => s.excelFileName);
   const error = useDashboardStore((s) => s.error);
   const setError = useDashboardStore((s) => s.setError);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-dvh bg-bg-base">
-      {/* Header */}
-      <header className="h-16 lg:h-18 shrink-0 bg-surface border-b border-border-light flex items-center px-4 lg:px-6 z-30 sticky top-2 mx-3 mt-2 rounded-2xl">
+      {/* Header — ultra-minimal, Apple-style */}
+      <header
+        className={`
+          h-12 shrink-0 flex items-center px-4 lg:px-6
+          z-30 sticky top-0 mx-0 mt-0 rounded-none
+          transition-all duration-300
+          ${scrolled
+            ? "bg-bg-base/90 backdrop-blur-xl border-b border-border"
+            : "bg-transparent border-b border-transparent"
+          }
+        `}
+      >
         {/* Left: Logo + brand */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md overflow-hidden">
             <img src="/logoSena.png" alt="SENA" className="w-full h-full object-contain" />
           </div>
-          <div className="hidden sm:block">
-            <div className="text-sm font-bold text-text-primary leading-tight">SENA PE-04</div>
-            <div className="text-[11px] text-text-muted leading-tight">Regional Cauca</div>
-          </div>
+          <span className="text-[13px] font-semibold text-text-primary tracking-tight hidden sm:block">
+            PE-04
+          </span>
+          <span className="text-[11px] text-text-muted font-medium hidden md:block">
+            Regional Cauca
+          </span>
         </div>
 
-        {/* Center: Page name */}
-        <div className="absolute left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-2">
-          <div className="text-center">
-            <div className="text-sm font-semibold text-text-primary">{pageName}</div>
-            {pageSubtitle && (
-              <div className="text-[11px] text-text-muted">{pageSubtitle}</div>
-            )}
-          </div>
+        {/* Center: Page name — desktop only */}
+        <div className="absolute left-1/2 -translate-x-1/2 hidden lg:block">
+          <span className="text-[13px] font-medium text-text-secondary">{pageName}</span>
         </div>
 
-        {/* Right: Status + actions */}
-        <div className="ml-auto flex items-center gap-3">
+        {/* Right: Status */}
+        <div className="ml-auto flex items-center gap-2.5">
           {isLoading && (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-sena-green-50 border border-sena-green-100">
-              <Loader2 className="w-3.5 h-3.5 text-sena-green animate-spin" />
-              <span className="text-xs font-medium text-sena-green">Cargando...</span>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sena-green/10 border border-sena-green/20">
+              <Loader2 className="w-3 h-3 text-sena-green animate-spin" />
+              <span className="text-[11px] font-medium text-sena-green">Cargando</span>
             </div>
           )}
           {excelFileName && !isLoading && (
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-sena-green-50 border border-sena-green-100">
-              <CheckCircle2 className="w-3.5 h-3.5 text-sena-green" />
-              <span className="text-xs font-medium text-sena-green truncate max-w-[140px]">
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sena-green/10 border border-sena-green/20">
+              <CheckCircle2 className="w-3 h-3 text-sena-green" />
+              <span className="text-[11px] font-medium text-sena-green truncate max-w-[120px]">
                 {excelFileName}
               </span>
             </div>
           )}
-          <div className="hidden md:block text-xs text-text-muted font-medium">
-            {new Date().toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" })}
-          </div>
+          <span className="hidden md:block text-[11px] text-text-muted tabular-nums">
+            {new Date().toLocaleDateString("es-CO", { day: "numeric", month: "short" })}
+          </span>
         </div>
       </header>
 
       {/* Error banner */}
       {error && (
-        <div className="mx-3 mt-2 px-4 py-3 rounded-xl bg-red-50 border border-red-200 flex items-center gap-3">
-          <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-          <span className="text-sm text-red-700 flex-1">{error}</span>
-          <button onClick={() => setError(null)} className="p-1 rounded-lg hover:bg-red-100 transition-colors">
-            <X className="w-3.5 h-3.5 text-red-400" />
+        <div className="mx-4 mt-2 px-3 py-2.5 rounded-lg bg-sena-red/10 border border-sena-red/20 flex items-center gap-2.5">
+          <AlertCircle className="w-3.5 h-3.5 text-sena-red shrink-0" />
+          <span className="text-[13px] text-sena-red flex-1">{error}</span>
+          <button onClick={() => setError(null)} className="p-0.5 rounded hover:bg-sena-red/10 transition-colors">
+            <X className="w-3 h-3 text-sena-red/60" />
           </button>
         </div>
       )}
 
       <div className="flex flex-1 min-h-0">
-        {/* Desktop: floating nav on left (sticky) */}
         <DesktopFloatingNav />
 
-        <main className="flex-1 overflow-y-auto w-full pb-28 lg:pb-8 px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        <main className="flex-1 overflow-y-auto w-full pb-28 lg:pb-8 px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
           <Outlet />
         </main>
       </div>
 
-      {/* Mobile: floating nav at bottom */}
       <MobileBottomNav />
 
-      {/* Footer */}
-      <footer className="hidden lg:flex items-center justify-between px-6 py-3 border-t border-border-light bg-surface/50 text-[11px] text-text-muted">
-        <span>SENA PE-04 Dashboard v1.0</span>
+      {/* Footer — minimal */}
+      <footer className="hidden lg:flex items-center justify-between px-6 py-2.5 border-t border-border text-[10px] text-text-muted tracking-wide">
+        <span>SENA PE-04 v1.0</span>
         <span>Regional Cauca &middot; {new Date().getFullYear()}</span>
       </footer>
     </div>

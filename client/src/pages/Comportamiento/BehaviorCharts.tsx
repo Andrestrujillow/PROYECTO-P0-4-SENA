@@ -309,7 +309,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Estado de Aprendices por Año"
           icon={<BarChart3 className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-blue"
-          iconBg="bg-lime-50 border border-lime-200/60"
+          iconBg="bg-lime-500/10 border border-lime-500/20"
           badgeLabel={`${yearsMap.sortedYears.length} años`}
           badgeColor="badge-blue"
         >
@@ -322,7 +322,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Estado de Aprendices por Oferta"
           icon={<Layers className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-yellow"
-          iconBg="bg-lime-50 border border-lime-200/60"
+          iconBg="bg-lime-500/10 border border-lime-500/20"
           badgeLabel={`${sectorMap.sectors.length} ofertas`}
           badgeColor="badge-yellow"
         >
@@ -335,7 +335,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Programas con Más Desertados"
           icon={<TrendingDown className="w-4 h-4 text-lime-600" />}
           accent="chart-accent-purple"
-          iconBg="bg-lime-50 border border-lime-200/60"
+          iconBg="bg-lime-500/10 border border-lime-500/20"
           badgeLabel={`Top ${desertados.length}`}
           badgeColor="badge-red"
         >
@@ -361,7 +361,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Programas con Más Inscritos"
           icon={<Users className="w-4 h-4 text-blue-400" />}
           accent="chart-accent-blue"
-          iconBg="bg-lime-50 border border-lime-200/60"
+          iconBg="bg-lime-500/10 border border-lime-500/20"
           badgeLabel={`Top ${programasInscritos.length}`}
           badgeColor="badge-blue"
         >
@@ -374,7 +374,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
           title="Programas con Más Certificados"
           icon={<Award className="w-4 h-4 text-sena-yellow" />}
           accent="chart-accent-yellow"
-          iconBg="bg-lime-50 border border-lime-200/60"
+          iconBg="bg-lime-500/10 border border-lime-500/20"
           badgeLabel={`${totalCertificados} total`}
           badgeColor="badge-yellow"
         >

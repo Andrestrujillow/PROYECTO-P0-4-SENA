@@ -50,7 +50,7 @@ export default function OffersFilters({ fichas, filtros, onFiltroChange, onReset
     <div className="section-card">
       <div className="flex items-center justify-between px-6 py-3.5">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-sena-green-50 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-sena-green/10 flex items-center justify-center">
             <SlidersHorizontalIcon size={15} className="text-sena-green" />
           </div>
           <span className="section-title">Filtros</span>
@@ -71,7 +71,7 @@ export default function OffersFilters({ fichas, filtros, onFiltroChange, onReset
         )}
       </div>
 
-      <div className="px-5 pb-4 pt-1 border-t border-border-light">
+      <div className="px-5 pb-4 pt-1 border-t border-border">
         <div className="grid grid-cols-3 lg:grid-cols-6 gap-2.5">
           {filters.map(({ key, label, items }) => (
             <div key={key} className="relative group">
@@ -81,7 +81,7 @@ export default function OffersFilters({ fichas, filtros, onFiltroChange, onReset
                 className={cn(
                   "w-full h-11 px-3.5 pr-9 text-sm font-medium appearance-none rounded-xl border transition-all duration-150 outline-none cursor-pointer",
                   filtros[key]
-                    ? "border-sena-green/40 bg-sena-green-light/40 text-text-primary shadow-[0_0_0_1px_rgba(0,132,61,0.1)]"
+                    ? "border-sena-green/40 bg-sena-green/10 text-text-primary shadow-[0_0_0_1px_rgba(0,132,61,0.1)]"
                     : "border-border bg-bg-base/60 text-text-secondary hover:border-text-muted focus:border-sena-green focus:shadow-[0_0_0_2px_rgba(0,132,61,0.08)]"
                 )}
               >
@@ -100,12 +100,12 @@ export default function OffersFilters({ fichas, filtros, onFiltroChange, onReset
         </div>
 
         {activeEntries.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-border-light flex flex-wrap gap-2">
+          <div className="mt-4 pt-4 border-t border-border flex flex-wrap gap-2">
             {activeEntries.map(([key, value]) => (
               <button
                 key={key}
                 onClick={() => onFiltroChange(key, "")}
-                className="inline-flex items-center gap-1.5 pl-2 pr-1.5 py-1 rounded-full text-xs font-semibold border border-sena-green/20 bg-sena-green-light/40 text-sena-green hover:shadow-sm transition-all"
+                className="inline-flex items-center gap-1.5 pl-2 pr-1.5 py-1 rounded-full text-xs font-semibold border border-sena-green/20 bg-sena-green/10 text-sena-green hover:shadow-sm transition-all"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-sena-green/50" />
                 {value.length > 22 ? value.slice(0, 20) + "..." : value}

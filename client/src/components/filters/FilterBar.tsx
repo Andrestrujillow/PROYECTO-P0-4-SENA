@@ -14,27 +14,27 @@ interface FilterConfig {
   options: { value: string; count: number }[];
 }
 
-/* ── color per filter type for active chips ── */
+/* ── dark chip colors ── */
 const chipColor: Record<string, { bg: string; border: string; text: string; dot: string }> = {
-  Centro:      { bg: "bg-blue-50",    border: "border-blue-200",    text: "text-blue-700",    dot: "bg-blue-400" },
-  Modalidad:   { bg: "bg-violet-50",  border: "border-violet-200",  text: "text-violet-700",  dot: "bg-violet-400" },
-  Nivel:       { bg: "bg-amber-50",   border: "border-amber-200",   text: "text-amber-700",   dot: "bg-amber-400" },
-  Programa:    { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700", dot: "bg-emerald-400" },
-  Empresa:     { bg: "bg-rose-50",    border: "border-rose-200",    text: "text-rose-700",    dot: "bg-rose-400" },
-  Municipio:   { bg: "bg-cyan-50",    border: "border-cyan-200",    text: "text-cyan-700",    dot: "bg-cyan-400" },
-  "Prog. Especial": { bg: "bg-indigo-50", border: "border-indigo-200", text: "text-indigo-700", dot: "bg-indigo-400" },
-  Ano:         { bg: "bg-orange-50",  border: "border-orange-200",  text: "text-orange-700",  dot: "bg-orange-400" },
-  Estado:      { bg: "bg-teal-50",    border: "border-teal-200",    text: "text-teal-700",    dot: "bg-teal-400" },
-  Etapa:       { bg: "bg-pink-50",    border: "border-pink-200",    text: "text-pink-700",    dot: "bg-pink-400" },
-  Jornada:     { bg: "bg-lime-50",    border: "border-lime-200",    text: "text-lime-700",    dot: "bg-lime-400" },
-  Sector:      { bg: "bg-sky-50",     border: "border-sky-200",     text: "text-sky-700",     dot: "bg-sky-400" },
-  Instructor:  { bg: "bg-fuchsia-50", border: "border-fuchsia-200", text: "text-fuchsia-700", dot: "bg-fuchsia-400" },
-  Convenio:    { bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700", dot: "bg-emerald-400" },
-  "Tipo Formacion": { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", dot: "bg-amber-400" },
+  Centro:      { bg: "bg-blue-500/10",    border: "border-blue-500/20",    text: "text-blue-400",    dot: "bg-blue-400" },
+  Modalidad:   { bg: "bg-violet-500/10",  border: "border-violet-500/20",  text: "text-violet-400",  dot: "bg-violet-400" },
+  Nivel:       { bg: "bg-amber-500/10",   border: "border-amber-500/20",   text: "text-amber-400",   dot: "bg-amber-400" },
+  Programa:    { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400", dot: "bg-emerald-400" },
+  Empresa:     { bg: "bg-rose-500/10",    border: "border-rose-500/20",    text: "text-rose-400",    dot: "bg-rose-400" },
+  Municipio:   { bg: "bg-cyan-500/10",    border: "border-cyan-500/20",    text: "text-cyan-400",    dot: "bg-cyan-400" },
+  "Prog. Especial": { bg: "bg-indigo-500/10", border: "border-indigo-500/20", text: "text-indigo-400", dot: "bg-indigo-400" },
+  Ano:         { bg: "bg-orange-500/10",  border: "border-orange-500/20",  text: "text-orange-400",  dot: "bg-orange-400" },
+  Estado:      { bg: "bg-teal-500/10",    border: "border-teal-500/20",    text: "text-teal-400",    dot: "bg-teal-400" },
+  Etapa:       { bg: "bg-pink-500/10",    border: "border-pink-500/20",    text: "text-pink-400",    dot: "bg-pink-400" },
+  Jornada:     { bg: "bg-lime-500/10",    border: "border-lime-500/20",    text: "text-lime-400",    dot: "bg-lime-400" },
+  Sector:      { bg: "bg-sky-500/10",     border: "border-sky-500/20",     text: "text-sky-400",     dot: "bg-sky-400" },
+  Instructor:  { bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/20", text: "text-fuchsia-400", dot: "bg-fuchsia-400" },
+  Convenio:    { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400", dot: "bg-emerald-400" },
+  "Tipo Formacion": { bg: "bg-amber-500/10", border: "border-amber-500/20", text: "text-amber-400", dot: "bg-amber-400" },
 };
 
 function getChipColor(label: string) {
-  return chipColor[label] ?? { bg: "bg-gray-50", border: "border-gray-200", text: "text-gray-700", dot: "bg-gray-400" };
+  return chipColor[label] ?? { bg: "bg-slate-500/10", border: "border-slate-500/20", text: "text-slate-400", dot: "bg-slate-400" };
 }
 
 export default function FilterBar() {
@@ -84,8 +84,8 @@ export default function FilterBar() {
             "w-full appearance-none rounded-xl border text-sm font-medium transition-all duration-150 outline-none cursor-pointer",
             compact ? "h-10 px-3 pr-8 text-xs" : "h-11 px-3.5 pr-9 text-sm",
             active
-              ? "border-sena-green/40 bg-sena-green-light/40 text-text-primary shadow-[0_0_0_1px_rgba(0,132,61,0.1)]"
-              : "border-border bg-bg-base/60 text-text-secondary hover:border-text-muted hover:bg-bg-base focus:border-sena-green focus:shadow-[0_0_0_2px_rgba(0,132,61,0.08)]"
+              ? "border-sena-green/40 bg-sena-green/10 text-sena-green shadow-[0_0_0_1px_rgba(0,132,61,0.1)]"
+              : "border-border bg-surface text-text-secondary hover:border-text-muted hover:bg-surface-elevated focus:border-sena-green focus:shadow-[0_0_0_2px_rgba(0,132,61,0.1)]"
           )}
         >
           <option value="">{filter.label}</option>
@@ -127,9 +127,9 @@ export default function FilterBar() {
       {/* ═══ Desktop ═══ */}
       <div className="hidden lg:block section-card">
         {/* header */}
-        <div className="flex items-center justify-between px-6 py-3.5 border-b border-border-light">
+        <div className="flex items-center justify-between px-6 py-3.5 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-sena-green-50 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-sena-green/10 flex items-center justify-center">
               <SlidersHorizontalIcon size={15} className="text-sena-green" />
             </div>
             <span className="section-title">Filtros</span>
@@ -142,7 +142,7 @@ export default function FilterBar() {
           {activeEntries.length > 0 && (
             <button
               onClick={resetFiltros}
-              className="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-sena-red transition-colors px-2.5 py-1.5 rounded-lg hover:bg-sena-red-100"
+              className="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-sena-red transition-colors px-2.5 py-1.5 rounded-lg hover:bg-sena-red/10"
             >
               <RotateCcw className="w-3 h-3" />
               Limpiar
@@ -160,7 +160,7 @@ export default function FilterBar() {
 
           {/* active chips row */}
           {activeEntries.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-border-light">
+            <div className="mt-4 pt-4 border-t border-border">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider mr-1">
                   Activos
@@ -188,7 +188,7 @@ export default function FilterBar() {
         <div className="flex items-center gap-2.5 mb-3">
           <button
             onClick={() => setIsExpanded(true)}
-            className="h-10 px-4 rounded-xl bg-surface border border-border text-sm font-semibold text-text-secondary flex items-center gap-2 shadow-sm active:scale-[0.98] transition-transform"
+            className="h-10 px-4 rounded-xl bg-surface border border-border text-sm font-semibold text-text-secondary flex items-center gap-2 active:scale-[0.98] transition-transform"
           >
             <SlidersHorizontalIcon size={15} className="text-text-muted" />
             Filtros
@@ -217,20 +217,20 @@ export default function FilterBar() {
         {/* mobile sheet */}
         {isExpanded && (
           <div
-            className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-end justify-center"
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end justify-center"
             onClick={() => setIsExpanded(false)}
           >
             <div
-              className="bg-surface w-full max-h-[85vh] rounded-t-3xl overflow-hidden flex flex-col"
+              className="bg-surface-elevated w-full max-h-[85vh] rounded-t-3xl overflow-hidden flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* sheet header */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-border-light">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-sena-green-50 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-sena-green/10 flex items-center justify-center">
                     <SlidersHorizontalIcon size={15} className="text-sena-green" />
                   </div>
-                  <h2 className="text-base font-bold">Filtros</h2>
+                  <h2 className="text-base font-bold text-text-primary">Filtros</h2>
                   {activeEntries.length > 0 && (
                     <span className="px-2 py-0.5 rounded-full bg-sena-green text-white text-[10px] font-bold tabular-nums">
                       {activeEntries.length}
@@ -239,7 +239,7 @@ export default function FilterBar() {
                 </div>
                 <button
                   onClick={() => setIsExpanded(false)}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-bg-base transition-colors"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface transition-colors"
                 >
                   <X className="w-4 h-4 text-text-muted" />
                 </button>
@@ -258,10 +258,10 @@ export default function FilterBar() {
               </div>
 
               {/* sheet footer */}
-              <div className="px-6 py-4 border-t border-border-light flex gap-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
+              <div className="px-6 py-4 border-t border-border flex gap-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
                 <button
                   onClick={resetFiltros}
-                  className="flex-1 h-11 rounded-xl border border-border text-text-secondary text-sm font-semibold hover:bg-bg-base transition-colors flex items-center justify-center gap-1.5"
+                  className="flex-1 h-11 rounded-xl border border-border text-text-secondary text-sm font-semibold hover:bg-surface transition-colors flex items-center justify-center gap-1.5"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   Limpiar

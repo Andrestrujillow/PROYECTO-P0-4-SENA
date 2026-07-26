@@ -10,45 +10,41 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
-/* ═══ Unified lime palette — one color family, varied lightness ═══ */
+/* ═══ Chart palette — vibrant on dark ═══ */
 export const CHART_COLORS = [
-  "#7CB342", // lime-600 (base)
-  "#689F38", // lime-700 (darker)
-  "#9CCC65", // lime-400 (lighter)
-  "#558B2F", // lime-800 (deep)
-  "#AED581", // lime-300 (pale)
-  "#7CB342CC", // lime-80%
-  "#689F38CC", // dark lime 80%
-  "#9CCC65CC", // light lime 80%
-  "#7CB34299", // lime 60%
-  "#689F3899", // dark lime 60%
+  "#34D399", // emerald-400
+  "#60A5FA", // blue-400
+  "#A78BFA", // violet-400
+  "#FB923C", // orange-400
+  "#F472B6", // pink-400
+  "#2DD4BF", // teal-400
+  "#FBBF24", // amber-400
+  "#818CF8", // indigo-400
+  "#FB7185", // rose-400
+  "#4ADE80", // green-400
 ];
 
-/* ═══ Shared tooltip — glass style ═══ */
+/* ═══ Tooltip — dark theme ═══ */
 export const glassTooltip = {
-  backgroundColor: "rgba(255,255,255,0.92)",
-  titleColor: "#1A1D23",
-  bodyColor: "#6B7280",
-  titleFont: { size: 13, weight: "bold" as const, family: "Inter, system-ui, sans-serif" },
-  bodyFont: { size: 12, family: "Inter, system-ui, sans-serif" },
-  borderColor: "rgba(229,231,235,0.6)",
+  backgroundColor: "rgba(15, 21, 32, 0.95)",
+  titleColor: "#F1F5F9",
+  bodyColor: "#94A3B8",
+  titleFont: { size: 12, weight: "600" as const, family: "Inter, system-ui, sans-serif" },
+  bodyFont: { size: 11, family: "Inter, system-ui, sans-serif" },
+  borderColor: "rgba(30, 41, 59, 0.6)",
   borderWidth: 1,
-  padding: 12,
-  cornerRadius: 12,
+  padding: 10,
+  cornerRadius: 8,
   boxPadding: 4,
-  backdropFilter: "blur(12px)" as unknown,
-  shadowColor: "rgba(0,0,0,0.06)",
-  shadowBlur: 16,
-  shadowOffsetY: 4,
 };
 
 /* ═══ Bar options (vertical) ═══ */
 export const barOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  animation: { duration: 500, easing: "easeOutQuart" as const },
+  animation: { duration: 400, easing: "easeOutQuart" as const },
   layout: {
-    padding: { top: 8, bottom: 4 },
+    padding: { top: 4, bottom: 0 },
   },
   plugins: {
     legend: { display: false },
@@ -57,8 +53,8 @@ export const barOptions = {
   scales: {
     x: {
       ticks: {
-        color: "#9CA3AF",
-        font: { size: 11, family: "Inter, system-ui, sans-serif" },
+        color: "#64748B",
+        font: { size: 10, family: "Inter, system-ui, sans-serif" },
         maxRotation: 0,
       },
       grid: { display: false },
@@ -66,15 +62,15 @@ export const barOptions = {
     },
     y: {
       ticks: {
-        color: "#9CA3AF",
-        font: { size: 11, family: "Inter, system-ui, sans-serif" },
+        color: "#64748B",
+        font: { size: 10, family: "Inter, system-ui, sans-serif" },
       },
-      grid: { color: "rgba(229,231,235,0.3)", drawBorder: false },
+      grid: { color: "rgba(30, 41, 59, 0.5)", drawBorder: false },
       border: { display: false },
     },
   },
-  barThickness: 20,
-  maxBarThickness: 26,
+  barThickness: 18,
+  maxBarThickness: 24,
 };
 
 /** @deprecated Use barOptions directly */
@@ -85,45 +81,45 @@ export const barHorizontalOptions = {
   ...barOptions,
   indexAxis: "y" as const,
   layout: {
-    padding: { top: 4, bottom: 4, left: 8 },
+    padding: { top: 4, bottom: 4, left: 4 },
   },
   scales: {
     x: {
       ticks: {
-        color: "#9CA3AF",
-        font: { size: 11, family: "Inter, system-ui, sans-serif" },
+        color: "#64748B",
+        font: { size: 10, family: "Inter, system-ui, sans-serif" },
       },
-      grid: { color: "rgba(229,231,235,0.3)", drawBorder: false },
+      grid: { color: "rgba(30, 41, 59, 0.5)", drawBorder: false },
       border: { display: false },
     },
     y: {
       ticks: {
-        color: "#6B7280",
-        font: { size: 12, family: "Inter, system-ui, sans-serif" },
+        color: "#94A3B8",
+        font: { size: 11, family: "Inter, system-ui, sans-serif" },
       },
       grid: { display: false },
       border: { display: false },
     },
   },
-  barThickness: 16,
-  maxBarThickness: 20,
+  barThickness: 14,
+  maxBarThickness: 18,
 };
 
 /* ═══ Doughnut options ═══ */
 export const doughnutOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  animation: { duration: 600, easing: "easeOutQuart" as const },
-  cutout: "65%",
+  animation: { duration: 500, easing: "easeOutQuart" as const },
+  cutout: "68%",
   plugins: {
     legend: {
       position: "bottom" as const,
       labels: {
-        padding: 16,
+        padding: 14,
         usePointStyle: true,
-        pointStyleWidth: 10,
-        font: { size: 12, family: "Inter, system-ui, sans-serif" },
-        color: "#6B7280",
+        pointStyleWidth: 8,
+        font: { size: 11, family: "Inter, system-ui, sans-serif" },
+        color: "#94A3B8",
       },
     },
     tooltip: glassTooltip,

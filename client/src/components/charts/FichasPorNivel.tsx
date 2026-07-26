@@ -10,7 +10,7 @@ export default function FichasPorNivel() {
     <div className="section-card chart-card p-6">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-lime-50">
+          <div className="chart-card-icon bg-lime-500/10">
             <ChartBarIcon size={20} className="text-lime-600" />
           </div>
           <div>

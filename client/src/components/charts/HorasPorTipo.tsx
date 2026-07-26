@@ -25,7 +25,7 @@ export default function HorasPorTipo() {
     <div className="section-card chart-card p-6">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-amber-50">
+          <div className="chart-card-icon bg-amber-500/10">
             <Clock size={20} className="text-amber-600" />
           </div>
           <div>

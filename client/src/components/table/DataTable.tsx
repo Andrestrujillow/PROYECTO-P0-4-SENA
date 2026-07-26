@@ -60,7 +60,7 @@ export default function DataTable() {
 
   return (
     <div className="section-card overflow-hidden">
-      <div className="px-6 py-4 border-b border-border-light">
+      <div className="px-6 py-4 border-b border-border">
         <div className="flex items-center justify-between mb-3">
           <h3 className="section-title">Datos PE-04</h3>
           <div className="flex items-center gap-2">
@@ -70,7 +70,7 @@ export default function DataTable() {
             {fichas.length > 0 && (
               <button
                 onClick={() => exportarAExcel(fichas, "PE-04-filtrado")}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-sena-green bg-sena-green-50 border border-sena-green-100 rounded-full hover:bg-sena-green-100 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-sena-green bg-sena-green/10 border border-sena-green/20 rounded-full hover:bg-sena-green/15 transition-colors"
               >
                 <Download className="w-3.5 h-3.5" />
                 Exportar
@@ -125,7 +125,7 @@ export default function DataTable() {
                 </tr>
               ))}
             </thead>
-            <tbody className="divide-y divide-border-light">
+            <tbody className="divide-y divide-border">
               {filteredEmpty ? (
                 <tr>
                   <td colSpan={columns.length} className="px-5 py-16 text-center">
@@ -139,7 +139,7 @@ export default function DataTable() {
                 table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="hover:bg-sena-green-50 transition-colors"
+                    className="hover:bg-surface-elevated transition-colors"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td key={cell.id} className="px-5 py-3.5 text-text-secondary font-medium whitespace-nowrap">
@@ -156,7 +156,7 @@ export default function DataTable() {
 
       {/* Mobile Card View */}
       {hasData && (
-        <div className="sm:hidden divide-y divide-border-light max-h-[60vh] overflow-y-auto">
+        <div className="sm:hidden divide-y divide-border max-h-[60vh] overflow-y-auto">
           {filteredEmpty ? (
             <div className="flex flex-col items-center justify-center py-16 px-6">
               <SearchX className="w-10 h-10 text-text-muted/40 mb-3" strokeWidth={1.5} />
@@ -195,7 +195,7 @@ export default function DataTable() {
 
       {/* Pagination */}
       {hasData && (
-        <div className="flex items-center justify-between px-6 py-4 border-t border-border-light bg-bg-base/30">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-bg-base/30">
           <span className="text-xs font-semibold text-text-muted">
             Pagina {pageIndex + 1} de {pageCount}
           </span>

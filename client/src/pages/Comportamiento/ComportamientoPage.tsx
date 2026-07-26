@@ -61,8 +61,8 @@ export default function ComportamientoPage() {
             <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
               Carga el archivo Excel del reporte PE-04 para comenzar el análisis de comportamiento.
             </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 border border-border-default">
-              <div className="w-1.5 h-1.5 bg-sena-yellow rounded-full animate-pulse-soft" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface border border-border">
+              <div className="w-1.5 h-1.5 bg-sena-yellow rounded-full animate-pulse" />
               <span className="text-xs text-text-muted uppercase tracking-wider font-semibold">
                 Esperando datos
               </span>
