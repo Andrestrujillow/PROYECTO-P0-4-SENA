@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import type { Ficha } from "../../types";
 import EChart, { bar2DOption, donut2DOption, bar2DOption as stackedBar } from "../../components/charts/EChart";
-import { DARK_THEME } from "../../components/charts/EChart";
+import { CHART_COLORS } from "../../components/charts/EChart";
 
 interface BehaviorChartsProps {
   fichas: Ficha[];
@@ -72,7 +72,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     const series = yearsMap.sortedEstados.map((estado) => ({
       name: estado,
       data: yearsMap.sortedYears.map((y) => yearsMap.map.get(y)?.get(estado) || 0),
-      color: estadoColors[estado] || DARK_THEME.color[5],
+      color: estadoColors[estado] || CHART_COLORS[5],
     }));
     return stackedBar(yearsMap.sortedYears, [], { series, stacked: true });
   }, [yearsMap]);
@@ -94,7 +94,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     const series = sectorMap.allEstados.map((estado) => ({
       name: estado,
       data: sectorMap.sectors.map((s) => sectorMap.map.get(s)?.get(estado) || 0),
-      color: estadoColors[estado] || DARK_THEME.color[5],
+      color: estadoColors[estado] || CHART_COLORS[5],
     }));
     return stackedBar(sectorMap.sectors, [], { series, stacked: true });
   }, [sectorMap]);
@@ -128,7 +128,7 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     programasOfertados.map((p, i) => ({
       name: p[0],
       value: p[1],
-      color: DARK_THEME.color[i % DARK_THEME.color.length],
+      color: CHART_COLORS[i % CHART_COLORS.length],
     }))
   ), [programasOfertados]);
 

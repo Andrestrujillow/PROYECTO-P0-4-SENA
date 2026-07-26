@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import type { Ficha } from "../../types";
 import EChart, { donut2DOption, bar2DOption } from "../../components/charts/EChart";
-import { DARK_THEME } from "../../components/charts/EChart";
+import { CHART_COLORS } from "../../components/charts/EChart";
 
 interface SpecialChartsProps {
   fichas: Ficha[];
@@ -56,7 +56,7 @@ export default function SpecialCharts({ fichas }: SpecialChartsProps) {
     programasMap.map(([name, value], i) => ({
       name,
       value,
-      color: DARK_THEME.color[i % DARK_THEME.color.length],
+      color: CHART_COLORS[i % CHART_COLORS.length],
     }))
   ), [programasMap]);
 
@@ -140,7 +140,7 @@ export function SpecialChartsBottom({ fichas }: { fichas: Ficha[] }) {
     data.map(([name, value], i) => ({
       name,
       value,
-      color: DARK_THEME.color[i % DARK_THEME.color.length],
+      color: CHART_COLORS[i % CHART_COLORS.length],
     })),
     total
   ), [data, total]);

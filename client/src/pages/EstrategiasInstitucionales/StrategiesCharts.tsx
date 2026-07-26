@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import type { Ficha } from "../../types";
 import EChart, { donut2DOption, bar2DOption } from "../../components/charts/EChart";
-import { DARK_THEME } from "../../components/charts/EChart";
+import { CHART_COLORS } from "../../components/charts/EChart";
 
 interface StrategiesChartsProps {
   fichas: Ficha[];
@@ -56,7 +56,7 @@ export default function StrategiesCharts({ fichas }: StrategiesChartsProps) {
     conveniosMap.map(([name, value], i) => ({
       name: name,
       value,
-      color: DARK_THEME.color[i % DARK_THEME.color.length],
+      color: CHART_COLORS[i % CHART_COLORS.length],
     }))
   ), [conveniosMap]);
 
@@ -98,7 +98,7 @@ export default function StrategiesCharts({ fichas }: StrategiesChartsProps) {
     const series = conveniosMunicipio.allConvenios.map((conv, i) => ({
       name: conv,
       data: conveniosMunicipio.municipalities.map((m) => conveniosMunicipio.map.get(m)?.get(conv) || 0),
-      color: DARK_THEME.color[i % DARK_THEME.color.length],
+      color: CHART_COLORS[i % CHART_COLORS.length],
     }));
     return bar2DOption(conveniosMunicipio.municipalities, [], { series, stacked: true });
   }, [conveniosMunicipio]);

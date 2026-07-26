@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import type { Ficha } from "../../types";
 import EChart, { donut2DOption, bar2DOption } from "../../components/charts/EChart";
-import { DARK_THEME } from "../../components/charts/EChart";
+import { CHART_COLORS } from "../../components/charts/EChart";
 
 interface OffersChartsProps {
   fichas: Ficha[];
@@ -62,7 +62,7 @@ export default function OffersCharts({ fichas }: OffersChartsProps) {
     horasPorEstado.map(([name, value], i) => ({
       name,
       value,
-      color: estadoColors[name] || DARK_THEME.color[i % DARK_THEME.color.length],
+      color: estadoColors[name] || CHART_COLORS[i % CHART_COLORS.length],
     }))
   ), [horasPorEstado]);
 
@@ -83,7 +83,7 @@ export default function OffersCharts({ fichas }: OffersChartsProps) {
     const series = horasPorSector.allEstados.map((estado) => ({
       name: estado,
       data: horasPorSector.sectors.map((s) => horasPorSector.map.get(s)?.get(estado) || 0),
-      color: estadoColors[estado] || DARK_THEME.color[5],
+      color: estadoColors[estado] || CHART_COLORS[5],
     }));
     return bar2DOption(horasPorSector.sectors, [], { series, stacked: true });
   }, [horasPorSector]);
