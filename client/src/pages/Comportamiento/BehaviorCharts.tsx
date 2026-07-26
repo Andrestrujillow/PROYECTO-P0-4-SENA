@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { Bar, Doughnut } from "react-chartjs-2";
 import {
   BarChart3,
   TrendingDown,
@@ -9,7 +8,8 @@ import {
   Layers,
 } from "lucide-react";
 import type { Ficha } from "../../types";
-import { defaultOptions, CHART_COLORS } from "../../components/charts/chartConfig";
+import EChart, { bar2DOption, donut2DOption, bar2DOption as stackedBar } from "../../components/charts/EChart";
+import { DARK_THEME } from "../../components/charts/EChart";
 
 interface BehaviorChartsProps {
   fichas: Ficha[];
@@ -18,25 +18,24 @@ interface BehaviorChartsProps {
 interface ChartCardProps {
   title: string;
   icon: React.ReactNode;
-  accent: string;
-  iconBg: string;
   badgeLabel?: string;
-  badgeColor?: string;
   children: React.ReactNode;
 }
 
-function ChartCard({ title, icon, accent, iconBg, badgeLabel, badgeColor, children }: ChartCardProps) {
+function ChartCard({ title, icon, badgeLabel, children }: ChartCardProps) {
   return (
-    <div className={`card chart-card ${accent}`}>
+    <div className="card chart-card">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className={`chart-card-icon ${iconBg}`}>
+          <div className="chart-card-icon bg-lime-500/10 border border-lime-500/20">
             {icon}
           </div>
           <h3 className="chart-card-title">{title}</h3>
         </div>
         {badgeLabel && (
-          <span className={`badge ${badgeColor || "badge-green"}`}>{badgeLabel}</span>
+          <span className="px-2 py-0.5 rounded-full bg-sena-green/10 text-sena-green text-[10px] font-bold border border-sena-green/20">
+            {badgeLabel}
+          </span>
         )}
       </div>
       <div className="chart-card-body">
@@ -46,14 +45,14 @@ function ChartCard({ title, icon, accent, iconBg, badgeLabel, badgeColor, childr
   );
 }
 
-export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
-  const estadoColors: Record<string, string> = {
-    "En ejecucion": CHART_COLORS[0],
-    "TERMINADO": CHART_COLORS[2],
-    "Terminada": CHART_COLORS[3],
-    "Terminada por fecha": CHART_COLORS[4],
-  };
+const estadoColors: Record<string, string> = {
+  "En ejecucion": "#34D399",
+  "TERMINADO": "#60A5FA",
+  "Terminada": "#A78BFA",
+  "Terminada por fecha": "#FB923C",
+};
 
+export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
   const yearsMap = useMemo(() => {
     const map = new Map<string, Map<string, number>>();
     const allEstados = new Set<string>();
@@ -66,43 +65,17 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
       const inner = map.get(year)!;
       inner.set(f.estadoCurso, (inner.get(f.estadoCurso) || 0) + f.totalAprendices);
     });
-    const sortedYears = Array.from(map.keys()).sort();
-    const sortedEstados = Array.from(allEstados).sort();
-    return { sortedYears, sortedEstados, map };
+    return { sortedYears: Array.from(map.keys()).sort(), sortedEstados: Array.from(allEstados).sort(), map };
   }, [fichas]);
 
-  const chart1Data = useMemo(() => ({
-    labels: yearsMap.sortedYears,
-    datasets: yearsMap.sortedEstados.map((estado, i) => ({
-      label: estado,
+  const chart1Option = useMemo(() => {
+    const series = yearsMap.sortedEstados.map((estado) => ({
+      name: estado,
       data: yearsMap.sortedYears.map((y) => yearsMap.map.get(y)?.get(estado) || 0),
-      backgroundColor: estadoColors[estado] || CHART_COLORS[(i + 5) % CHART_COLORS.length],
-      borderRadius: 4,
-      borderSkipped: false,
-    })),
-  }), [yearsMap, estadoColors]);
-
-  const chart1Options = useMemo(() => ({
-    ...defaultOptions,
-    plugins: {
-      ...defaultOptions.plugins,
-      legend: {
-        ...defaultOptions.plugins.legend,
-        position: "top" as const,
-      },
-    },
-    scales: {
-      ...defaultOptions.scales,
-      x: {
-        ...defaultOptions.scales.x,
-        stacked: true,
-      },
-      y: {
-        ...defaultOptions.scales.y,
-        stacked: true,
-      },
-    },
-  }), []);
+      color: estadoColors[estado] || DARK_THEME.color[5],
+    }));
+    return stackedBar(yearsMap.sortedYears, [], { series, stacked: true });
+  }, [yearsMap]);
 
   const sectorMap = useMemo(() => {
     const map = new Map<string, Map<string, number>>();
@@ -117,171 +90,74 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
     return { sectors: Array.from(map.keys()).sort(), allEstados: Array.from(allEstados).sort(), map };
   }, [fichas]);
 
-  const chart2Data = useMemo(() => ({
-    labels: sectorMap.sectors,
-    datasets: sectorMap.allEstados.map((estado, i) => ({
-      label: estado,
+  const chart2Option = useMemo(() => {
+    const series = sectorMap.allEstados.map((estado) => ({
+      name: estado,
       data: sectorMap.sectors.map((s) => sectorMap.map.get(s)?.get(estado) || 0),
-      backgroundColor: estadoColors[estado] || CHART_COLORS[(i + 5) % CHART_COLORS.length],
-      borderRadius: 4,
-      borderSkipped: false,
-    })),
-  }), [sectorMap, estadoColors]);
-
-  const chart2Options = useMemo(() => ({
-    ...defaultOptions,
-    plugins: {
-      ...defaultOptions.plugins,
-      legend: {
-        ...defaultOptions.plugins.legend,
-        position: "top" as const,
-      },
-    },
-    scales: {
-      ...defaultOptions.scales,
-      x: { ...defaultOptions.scales.x, stacked: true },
-      y: { ...defaultOptions.scales.y, stacked: true },
-    },
-  }), []);
+      color: estadoColors[estado] || DARK_THEME.color[5],
+    }));
+    return stackedBar(sectorMap.sectors, [], { series, stacked: true });
+  }, [sectorMap]);
 
   const desertados = useMemo(() => {
     const map = new Map<string, number>();
     fichas.forEach((f) => {
-      const desertados = f.totalAprendices - f.totalAprendicesActivos;
-      if (desertados > 0) {
-        map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + desertados);
-      }
+      const d = f.totalAprendices - f.totalAprendicesActivos;
+      if (d > 0) map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + d);
     });
-    return Array.from(map.entries())
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10);
+    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10);
   }, [fichas]);
 
-  const chart3Data = useMemo(() => ({
-    labels: desertados.map((d) => d[0].length > 35 ? d[0].slice(0, 32) + "..." : d[0]),
-    datasets: [{
-      data: desertados.map((d) => d[1]),
-      backgroundColor: CHART_COLORS[4] + "CC",
-      borderRadius: 4,
-      borderSkipped: false,
-    }],
-  }), [desertados]);
-
-  const chart3Options = useMemo(() => ({
-    ...defaultOptions,
-    indexAxis: "y" as const,
-    plugins: {
-      ...defaultOptions.plugins,
-      legend: { display: false },
-    },
-    scales: {
-      x: { ...defaultOptions.scales.x },
-      y: {
-        ...defaultOptions.scales.y,
-        ticks: {
-          color: "#7B8FA3",
-          font: { size: 12, weight: "bold" as const },
-        },
-      },
-    },
-  }), []);
+  const chart3Option = useMemo(() => bar2DOption(
+    desertados.map((d) => d[0].length > 35 ? d[0].slice(0, 32) + "..." : d[0]),
+    desertados.map((d) => d[1]),
+    { horizontal: true, barColor: "#FB7185", showLabels: true }
+  ), [desertados]);
 
   const programasOfertados = useMemo(() => {
     const map = new Map<string, number>();
-    fichas.forEach((f) => {
-      map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + 1);
-    });
+    fichas.forEach((f) => map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + 1));
     const sorted = Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
     const top8 = sorted.slice(0, 8);
-    const othersCount = sorted.slice(8).reduce((acc, [, v]) => acc + v, 0);
-    if (othersCount > 0) top8.push(["Otros", othersCount]);
+    const rest = sorted.slice(8).reduce((a, [, v]) => a + v, 0);
+    if (rest > 0) top8.push(["Otros", rest]);
     return top8;
   }, [fichas]);
 
-  const chart4Data = useMemo(() => ({
-    labels: programasOfertados.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
-    datasets: [{
-      data: programasOfertados.map((p) => p[1]),
-      backgroundColor: programasOfertados.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-      borderColor: "#ffffff",
-      borderWidth: 3,
-      hoverBorderColor: "#F5F6F8",
-      hoverBorderWidth: 2,
-      hoverOffset: 8,
-    }],
-  }), [programasOfertados]);
-
-  const chart4Options = useMemo(() => ({
-    ...defaultOptions,
-    cutout: "55%",
-    plugins: {
-      ...defaultOptions.plugins,
-      legend: {
-        ...defaultOptions.plugins.legend,
-        position: "right" as const,
-      },
-    },
-  }), []);
+  const chart4Option = useMemo(() => donut2DOption(
+    programasOfertados.map((p, i) => ({
+      name: p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0],
+      value: p[1],
+      color: DARK_THEME.color[i % DARK_THEME.color.length],
+    }))
+  ), [programasOfertados]);
 
   const programasInscritos = useMemo(() => {
     const map = new Map<string, number>();
-    fichas.forEach((f) => {
-      map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + f.totalAprendices);
-    });
-    return Array.from(map.entries())
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10);
+    fichas.forEach((f) => map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + f.totalAprendices));
+    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10);
   }, [fichas]);
 
-  const chart5Data = useMemo(() => ({
-    labels: programasInscritos.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
-    datasets: [{
-      label: "Aprendices",
-      data: programasInscritos.map((p) => p[1]),
-      backgroundColor: "#7CB342CC",
-      borderRadius: 4,
-      borderSkipped: false,
-    }],
-  }), [programasInscritos]);
-
-  const chart5Options = useMemo(() => ({
-    ...defaultOptions,
-    plugins: {
-      ...defaultOptions.plugins,
-      legend: { display: false },
-    },
-  }), []);
+  const chart5Option = useMemo(() => bar2DOption(
+    programasInscritos.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
+    programasInscritos.map((p) => p[1]),
+    { barColor: "#34D399" }
+  ), [programasInscritos]);
 
   const programasCertificados = useMemo(() => {
     const map = new Map<string, number>();
     fichas.forEach((f) => {
-      if (f.estadoCurso.includes("Terminada") || f.estadoCurso.includes("TERMINADO")) {
+      if (f.estadoCurso.includes("Terminada") || f.estadoCurso.includes("TERMINADO"))
         map.set(f.nombreProgramaFormacion, (map.get(f.nombreProgramaFormacion) || 0) + 1);
-      }
     });
-    return Array.from(map.entries())
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10);
+    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10);
   }, [fichas]);
 
-  const chart6Data = useMemo(() => ({
-    labels: programasCertificados.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
-    datasets: [{
-      label: "Certificados",
-      data: programasCertificados.map((p) => p[1]),
-      backgroundColor: "#7CB342CC",
-      borderRadius: 4,
-      borderSkipped: false,
-    }],
-  }), [programasCertificados]);
-
-  const chart6Options = useMemo(() => ({
-    ...defaultOptions,
-    plugins: {
-      ...defaultOptions.plugins,
-      legend: { display: false },
-    },
-  }), []);
+  const chart6Option = useMemo(() => bar2DOption(
+    programasCertificados.map((p) => p[0].length > 30 ? p[0].slice(0, 27) + "..." : p[0]),
+    programasCertificados.map((p) => p[1]),
+    { barColor: "#34D399" }
+  ), [programasCertificados]);
 
   const totalCertificados = useMemo(
     () => fichas.filter((f) => f.estadoCurso.includes("Terminada") || f.estadoCurso.includes("TERMINADO")).length,
@@ -290,9 +166,9 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
 
   if (fichas.length === 0) {
     return (
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-4">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="card chart-card chart-accent-blue" style={{ minHeight: "300px" }}>
+          <div key={i} className="card chart-card" style={{ minHeight: 280 }}>
             <div className="flex items-center justify-center h-full">
               <span className="text-sm text-text-muted">Sin datos disponibles</span>
             </div>
@@ -305,80 +181,38 @@ export default function BehaviorCharts({ fichas }: BehaviorChartsProps) {
   return (
     <div className="chart-grid-2">
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.3s both" }}>
-        <ChartCard
-          title="Estado de Aprendices por Año"
-          icon={<BarChart3 className="w-4 h-4 text-lime-600" />}
-          accent="chart-accent-blue"
-          iconBg="bg-lime-500/10 border border-lime-500/20"
-          badgeLabel={`${yearsMap.sortedYears.length} años`}
-          badgeColor="badge-blue"
-        >
-          <Bar data={chart1Data} options={chart1Options} />
+        <ChartCard title="Estado por Año" icon={<BarChart3 className="w-4 h-4 text-lime-400" />} badgeLabel={`${yearsMap.sortedYears.length} años`}>
+          <EChart option={chart1Option} height={260} />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.35s both" }}>
-        <ChartCard
-          title="Estado de Aprendices por Oferta"
-          icon={<Layers className="w-4 h-4 text-lime-600" />}
-          accent="chart-accent-yellow"
-          iconBg="bg-lime-500/10 border border-lime-500/20"
-          badgeLabel={`${sectorMap.sectors.length} ofertas`}
-          badgeColor="badge-yellow"
-        >
-          <Bar data={chart2Data} options={chart2Options} />
+        <ChartCard title="Estado por Oferta" icon={<Layers className="w-4 h-4 text-lime-400" />} badgeLabel={`${sectorMap.sectors.length} ofertas`}>
+          <EChart option={chart2Option} height={260} />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.4s both" }}>
-        <ChartCard
-          title="Programas con Más Desertados"
-          icon={<TrendingDown className="w-4 h-4 text-lime-600" />}
-          accent="chart-accent-purple"
-          iconBg="bg-lime-500/10 border border-lime-500/20"
-          badgeLabel={`Top ${desertados.length}`}
-          badgeColor="badge-red"
-        >
-          <Bar data={chart3Data} options={chart3Options} />
+        <ChartCard title="Programas con Más Desertados" icon={<TrendingDown className="w-4 h-4 text-rose-400" />} badgeLabel={`Top ${desertados.length}`}>
+          <EChart option={chart3Option} height={260} />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.45s both" }}>
-        <ChartCard
-          title="Programas Más Ofertados"
-          icon={<PieChart className="w-4 h-4 text-lime-600" />}
-          accent="chart-accent-green"
-          iconBg="bg-sena-green/10 border border-sena-green/10"
-          badgeLabel={`${programasOfertados.length} programas`}
-          badgeColor="badge-green"
-        >
-          <Doughnut data={chart4Data} options={chart4Options} />
+        <ChartCard title="Programas Más Ofertados" icon={<PieChart className="w-4 h-4 text-sena-green" />} badgeLabel={`${programasOfertados.length} programas`}>
+          <EChart option={chart4Option} height={260} />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.5s both" }}>
-        <ChartCard
-          title="Programas con Más Inscritos"
-          icon={<Users className="w-4 h-4 text-blue-400" />}
-          accent="chart-accent-blue"
-          iconBg="bg-lime-500/10 border border-lime-500/20"
-          badgeLabel={`Top ${programasInscritos.length}`}
-          badgeColor="badge-blue"
-        >
-          <Bar data={chart5Data} options={chart5Options} />
+        <ChartCard title="Más Inscritos" icon={<Users className="w-4 h-4 text-blue-400" />} badgeLabel={`Top ${programasInscritos.length}`}>
+          <EChart option={chart5Option} height={260} />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.55s both" }}>
-        <ChartCard
-          title="Programas con Más Certificados"
-          icon={<Award className="w-4 h-4 text-sena-yellow" />}
-          accent="chart-accent-yellow"
-          iconBg="bg-lime-500/10 border border-lime-500/20"
-          badgeLabel={`${totalCertificados} total`}
-          badgeColor="badge-yellow"
-        >
-          <Bar data={chart6Data} options={chart6Options} />
+        <ChartCard title="Más Certificados" icon={<Award className="w-4 h-4 text-amber-400" />} badgeLabel={`${totalCertificados} total`}>
+          <EChart option={chart6Option} height={260} />
         </ChartCard>
       </div>
     </div>

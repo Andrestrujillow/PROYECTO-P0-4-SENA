@@ -1,7 +1,6 @@
-import { Bar } from "react-chartjs-2";
 import { Clock } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
-import { barHorizontalOptions, glassTooltip } from "./chartConfig";
+import EChart, { bar2DOption } from "./EChart";
 
 const HORAS_CONFIG = [
   { key: "horasPlanta" as const, label: "Planta", color: "#3B82F6" },
@@ -22,52 +21,32 @@ export default function HorasPorTipo() {
   const totalGeneral = horas.reduce((acc, h) => acc + h.total, 0);
 
   return (
-    <div className="section-card chart-card p-6">
+    <div className="section-card chart-card p-5">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
           <div className="chart-card-icon bg-amber-500/10">
-            <Clock size={20} className="text-amber-600" />
+            <Clock size={18} className="text-amber-400" />
           </div>
           <div>
-            <h3 className="chart-card-title">Horas por Tipo de Instructor</h3>
+            <h3 className="chart-card-title">Horas por Tipo</h3>
             <p className="chart-card-subtitle">Distribucion de horas por fuente</p>
           </div>
         </div>
         {totalGeneral > 0 && (
-          <span className="text-xs font-semibold text-text-muted bg-bg-base px-3 py-1 rounded-full">
-            {totalGeneral.toLocaleString("es-CO")}h total
+          <span className="text-xs font-semibold text-text-muted bg-surface px-3 py-1 rounded-full">
+            {totalGeneral.toLocaleString("es-CO")}h
           </span>
         )}
       </div>
-      <div className="chart-card-body">
+      <div className="chart-card-body" style={{ height: 240 }}>
         {totalGeneral > 0 ? (
-          <Bar
-            data={{
-              labels: horas.map((h) => h.label),
-              datasets: [{
-                data: horas.map((h) => h.total),
-                backgroundColor: horas.map((h) => h.color),
-                borderRadius: 8,
-                borderSkipped: false,
-                barPercentage: 0.65,
-              }],
-            }}
-            options={{
-              ...barHorizontalOptions,
-              plugins: {
-                legend: { display: false },
-                tooltip: {
-                  ...glassTooltip,
-                  callbacks: {
-                    label: (ctx: { parsed: { x: number | null }; label: string }) => {
-                      const v = ctx.parsed.x ?? 0;
-                      const pct = totalGeneral > 0 ? ((v / totalGeneral) * 100).toFixed(1) : 0;
-                      return ` ${ctx.label}: ${v.toLocaleString("es-CO")}h (${pct}%)`;
-                    },
-                  },
-                },
-              },
-            }}
+          <EChart
+            option={bar2DOption(
+              horas.map((h) => h.label),
+              horas.map((h) => h.total),
+              { horizontal: true, showLabels: true }
+            )}
+            height={240}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">

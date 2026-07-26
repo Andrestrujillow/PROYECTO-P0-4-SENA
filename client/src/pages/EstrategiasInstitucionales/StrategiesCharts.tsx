@@ -1,199 +1,141 @@
 import { useMemo } from "react";
-import { Doughnut, Bar } from "react-chartjs-2";
-import { Target, Layers, MapPin } from "lucide-react";
+import {
+  PieChart,
+  Briefcase,
+  BarChart3,
+} from "lucide-react";
 import type { Ficha } from "../../types";
-import { CHART_COLORS, defaultOptions } from "../../components/charts/chartConfig";
+import EChart, { donut2DOption, bar2DOption } from "../../components/charts/EChart";
+import { DARK_THEME } from "../../components/charts/EChart";
 
-interface Props {
+interface StrategiesChartsProps {
   fichas: Ficha[];
 }
 
-function agruparSuma(fichas: Ficha[], extractor: (f: Ficha) => string, sum: (f: Ficha) => number) {
-  const map = new Map<string, number>();
-  fichas.forEach((f) => {
-    const k = extractor(f);
-    if (k) map.set(k, (map.get(k) || 0) + sum(f));
-  });
-  return Array.from(map.entries()).map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value);
+interface ChartCardProps {
+  title: string;
+  icon: React.ReactNode;
+  badgeLabel?: string;
+  children: React.ReactNode;
 }
 
-function agruparPor(fichas: Ficha[], extractor: (f: Ficha) => string) {
-  const map = new Map<string, number>();
-  fichas.forEach((f) => {
-    const k = extractor(f);
-    if (k) map.set(k, (map.get(k) || 0) + 1);
-  });
-  return Array.from(map.entries()).map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value);
-}
-
-function AprendicesPorEstrategia({ fichas }: Props) {
-  const data = useMemo(() => agruparSuma(
-    fichas.filter((f) => f.nombreProgramaEspecial),
-    (f) => f.nombreProgramaEspecial,
-    (f) => f.totalAprendices
-  ), [fichas]);
-
-  const chartData = {
-    labels: data.map((d) => d.label),
-    datasets: [{
-      label: "Aprendices",
-      data: data.map((d) => d.value),
-      backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-      borderRadius: 8,
-      borderSkipped: false,
-    }],
-  };
-
+function ChartCard({ title, icon, badgeLabel, children }: ChartCardProps) {
   return (
-    <div className="card chart-card chart-accent-purple">
+    <div className="card chart-card">
       <div className="chart-card-header">
         <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-purple-400/10 border border-purple-400/10">
-            <Target className="w-5 h-5 text-purple-400" />
+          <div className="chart-card-icon bg-lime-500/10 border border-lime-500/20">
+            {icon}
           </div>
-          <h3 className="chart-card-title">Aprendices por Estrategia Institucional</h3>
+          <h3 className="chart-card-title">{title}</h3>
         </div>
+        {badgeLabel && (
+          <span className="px-2 py-0.5 rounded-full bg-sena-green/10 text-sena-green text-[10px] font-bold border border-sena-green/20">
+            {badgeLabel}
+          </span>
+        )}
       </div>
       <div className="chart-card-body">
-        {data.length > 0 ? (
-          <Bar data={chartData} options={defaultOptions} />
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Target className="w-12 h-12 text-text-muted" />
-            <span className="text-sm text-text-muted">Sin datos</span>
-          </div>
-        )}
+        {children}
       </div>
     </div>
   );
 }
 
-function AprendicesPorNivel({ fichas }: Props) {
-  const data = useMemo(() => agruparSuma(fichas, (f) => f.nivelFormacion, (f) => f.totalAprendices), [fichas]);
-  const total = data.reduce((s, d) => s + d.value, 0);
-
-  return (
-    <div className="card chart-card chart-accent-green">
-      <div className="chart-card-header">
-        <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-sena-green/10 border border-sena-green/10">
-            <Layers className="w-5 h-5 text-sena-green" />
-          </div>
-          <h3 className="chart-card-title">Aprendices por Nivel de Formación</h3>
-        </div>
-        <span className="badge badge-green">{total.toLocaleString("es-CO")} total</span>
-      </div>
-      <div className="chart-card-body">
-        {data.length > 0 ? (
-          <>
-            <Doughnut
-              data={{
-                labels: data.map((d) => d.label),
-                datasets: [{
-                  data: data.map((d) => d.value),
-                  backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-                  borderColor: "#ffffff",
-                  borderWidth: 3,
-                  hoverOffset: 8,
-                }],
-              }}
-              options={{
-                ...defaultOptions,
-                cutout: "62%",
-                plugins: {
-                  ...defaultOptions.plugins,
-                  legend: { ...defaultOptions.plugins.legend, position: "right" as const },
-                },
-              }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginRight: "25%" }}>
-              <div className="text-center">
-                <p className="text-3xl font-extrabold text-text-primary">{total.toLocaleString("es-CO")}</p>
-                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">Aprendices</p>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full gap-2">
-            <Layers className="w-12 h-12 text-text-muted" />
-            <span className="text-sm text-text-muted">Sin datos</span>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function MunicipiosPorSubregion({ fichas }: Props) {
-  const data = useMemo(() => {
-    const all = agruparPor(fichas, (f) => f.nombreMunicipioCurso);
-    const top10 = all.slice(0, 10);
-    const restCount = all.slice(10).reduce((s, d) => s + d.value, 0);
-    if (restCount > 0) top10.push({ label: "Otros", value: restCount });
-    return top10;
+export default function StrategiesCharts({ fichas }: StrategiesChartsProps) {
+  const conveniosMap = useMemo(() => {
+    const map = new Map<string, number>();
+    fichas.forEach((f) => {
+      const conv = f.nombreConvenio || "Sin convenio";
+      map.set(conv, (map.get(conv) || 0) + f.totalAprendices);
+    });
+    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
   }, [fichas]);
-  const total = fichas.length;
+
+  const chart1Option = useMemo(() => donut2DOption(
+    conveniosMap.map(([name, value], i) => ({
+      name: name.length > 25 ? name.slice(0, 22) + "..." : name,
+      value,
+      color: DARK_THEME.color[i % DARK_THEME.color.length],
+    }))
+  ), [conveniosMap]);
+
+  const horasConvenio = useMemo(() => {
+    const map = new Map<string, { total: number; fichas: number }>();
+    fichas.forEach((f) => {
+      const conv = f.nombreConvenio || "Sin convenio";
+      const entry = map.get(conv) || { total: 0, fichas: 0 };
+      entry.total += f.totalHoras;
+      entry.fichas += 1;
+      map.set(conv, entry);
+    });
+    return Array.from(map.entries())
+      .sort((a, b) => b[1].total - a[1].total)
+      .slice(0, 8);
+  }, [fichas]);
+
+  const chart2Option = useMemo(() => bar2DOption(
+    horasConvenio.map((c) => c[0].length > 25 ? c[0].slice(0, 22) + "..." : c[0]),
+    horasConvenio.map((c) => c[1].total),
+    { barColor: "#F59E0B" }
+  ), [horasConvenio]);
+
+  const conveniosMunicipio = useMemo(() => {
+    const map = new Map<string, Map<string, number>>();
+    const allConvenios = new Set<string>();
+    fichas.forEach((f) => {
+      const conv = f.nombreConvenio || "Sin convenio";
+      const muni = f.nombreMunicipioCurso || "Sin municipio";
+      allConvenios.add(conv);
+      if (!map.has(muni)) map.set(muni, new Map());
+      const inner = map.get(muni)!;
+      inner.set(conv, (inner.get(conv) || 0) + f.totalAprendices);
+    });
+    return { municipalities: Array.from(map.keys()).slice(0, 10).sort(), allConvenios: Array.from(allConvenios).sort(), map };
+  }, [fichas]);
+
+  const chart3Option = useMemo(() => {
+    const series = conveniosMunicipio.allConvenios.map((conv, i) => ({
+      name: conv,
+      data: conveniosMunicipio.municipalities.map((m) => conveniosMunicipio.map.get(m)?.get(conv) || 0),
+      color: DARK_THEME.color[i % DARK_THEME.color.length],
+    }));
+    return bar2DOption(conveniosMunicipio.municipalities, [], { series, stacked: true });
+  }, [conveniosMunicipio]);
+
+  if (fichas.length === 0) {
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="card chart-card" style={{ minHeight: 280 }}>
+            <div className="flex items-center justify-center h-full">
+              <span className="text-sm text-text-muted">Sin datos disponibles</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <div className="card chart-card chart-accent-yellow">
-      <div className="chart-card-header">
-        <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-sena-yellow/10 border border-sena-yellow/10">
-            <MapPin className="w-5 h-5 text-sena-yellow" />
-          </div>
-          <h3 className="chart-card-title">Municipios por Subregión</h3>
-        </div>
-        <span className="badge badge-yellow">{total.toLocaleString("es-CO")} total</span>
+    <div className="chart-grid-2">
+      <div style={{ animation: "fadeInUp 0.5s ease-out 0.3s both" }}>
+        <ChartCard title="Distribucion por Convenio" icon={<PieChart className="w-4 h-4 text-sena-green" />} badgeLabel={`${conveniosMap.length} convenios`}>
+          <EChart option={chart1Option} height={280} />
+        </ChartCard>
       </div>
-      <div className="chart-card-body">
-        {data.length > 0 ? (
-          <>
-            <Doughnut
-              data={{
-                labels: data.map((d) => d.label),
-                datasets: [{
-                  data: data.map((d) => d.value),
-                  backgroundColor: data.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-                  borderColor: "#ffffff",
-                  borderWidth: 3,
-                  hoverOffset: 8,
-                }],
-              }}
-              options={{
-                ...defaultOptions,
-                cutout: "62%",
-                plugins: {
-                  ...defaultOptions.plugins,
-                  legend: { ...defaultOptions.plugins.legend, position: "right" as const },
-                },
-              }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ marginRight: "25%" }}>
-              <div className="text-center">
-                <p className="text-3xl font-extrabold text-text-primary">{total.toLocaleString("es-CO")}</p>
-                <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">Municipios</p>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full gap-2">
-            <MapPin className="w-12 h-12 text-text-muted" />
-            <span className="text-sm text-text-muted">Sin datos</span>
-          </div>
-        )}
+
+      <div style={{ animation: "fadeInUp 0.5s ease-out 0.35s both" }}>
+        <ChartCard title="Horas por Convenio (Top 8)" icon={<Briefcase className="w-4 h-4 text-lime-400" />} badgeLabel="Top 8">
+          <EChart option={chart2Option} height={280} />
+        </ChartCard>
+      </div>
+
+      <div style={{ animation: "fadeInUp 0.5s ease-out 0.4s both" }}>
+        <ChartCard title="Convenios por Municipio" icon={<BarChart3 className="w-4 h-4 text-lime-400" />} badgeLabel={`${conveniosMunicipio.municipalities.length} municipios`}>
+          <EChart option={chart3Option} height={280} />
+        </ChartCard>
       </div>
     </div>
-  );
-}
-
-export default function StrategiesCharts({ fichas }: Props) {
-  return (
-    <>
-      <div className="chart-grid-2">
-        <AprendicesPorEstrategia fichas={fichas} />
-        <AprendicesPorNivel fichas={fichas} />
-      </div>
-      <MunicipiosPorSubregion fichas={fichas} />
-    </>
   );
 }
