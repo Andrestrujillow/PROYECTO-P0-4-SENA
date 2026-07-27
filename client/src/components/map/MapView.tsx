@@ -61,14 +61,14 @@ export default function MapView() {
         </div>
 
         {/* ── legend ── */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           {tiers.map(({ color, label }) => (
             <div key={label} className="flex items-center gap-1.5">
               <span
                 className="rounded-full"
-                style={{ width: 10, height: 10, background: color, opacity: 0.5 }}
+                style={{ width: 8, height: 8, background: color, opacity: 0.5 }}
               />
-              <span className="text-[10px] font-semibold text-text-muted uppercase tracking-wider">
+              <span className="text-[9px] sm:text-[10px] font-semibold text-text-muted uppercase tracking-wider">
                 {label}
               </span>
             </div>
@@ -108,12 +108,12 @@ export default function MapView() {
               >
                 <Popup>
                   <div style={{ fontFamily: "Inter, system-ui, sans-serif", padding: "2px 0" }}>
-                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#1A1D23" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#e8e8e8" }}>
                       {p.nombre}
                     </div>
-                    <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.5 }}>
+                    <div style={{ fontSize: 12, color: "#8a8a8a", lineHeight: 1.5 }}>
                       <span style={{ fontWeight: 600, color: tier.color }}>{p.cantidadFichas}</span> fichas
-                      <span style={{ margin: "0 6px", color: "#D1D5DB" }}>·</span>
+                      <span style={{ margin: "0 6px", color: "#555555" }}>·</span>
                       <span style={{ fontWeight: 600, color: tier.color }}>
                         {p.cantidadAprendices.toLocaleString("es-CO")}
                       </span>{" "}

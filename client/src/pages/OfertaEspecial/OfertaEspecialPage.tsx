@@ -76,12 +76,12 @@ export default function OfertaEspecialPage() {
   }
 
   return (
-    <div className="page-card space-y-6">
-      <section className="section-card p-6">
+    <div className="page-card space-y-3 sm:space-y-4">
+      <section className="section-card p-3 sm:p-5">
         <SpecialKPIs fichas={filteredFichas} />
       </section>
 
-      <section className="section-card p-6">
+      <section className="section-card p-3 sm:p-5">
         <div className="flex items-center gap-2 mb-3">
           <Lightbulb className="w-4 h-4 text-sena-yellow" />
           <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">
@@ -92,9 +92,7 @@ export default function OfertaEspecialPage() {
           <button
             onClick={() => handleFiltroChange("nombreCentro", "")}
             className={`btn-ghost transition-all duration-200 ${
-              !filtros.nombreCentro
-                ? "!bg-sena-green/15 !text-sena-green !border-sena-green/20"
-                : ""
+              !filtros.nombreCentro ? "active" : ""
             }`}
           >
             Todos
@@ -104,9 +102,7 @@ export default function OfertaEspecialPage() {
               key={centro}
               onClick={() => handleFiltroChange("nombreCentro", centro)}
               className={`btn-ghost transition-all duration-200 ${
-                filtros.nombreCentro === centro
-                  ? "!bg-sena-green/15 !text-sena-green !border-sena-green/20"
-                  : ""
+                filtros.nombreCentro === centro ? "active" : ""
               }`}
             >
               {centro}
@@ -115,7 +111,7 @@ export default function OfertaEspecialPage() {
         </div>
       </section>
 
-      <section className="section-card p-6">
+      <section className="section-card p-3 sm:p-5">
         <SpecialFilters
           fichas={fichas}
           filtros={filtros}
@@ -124,18 +120,14 @@ export default function OfertaEspecialPage() {
         />
       </section>
 
-      <section className="section-card p-6">
-        <div className="chart-grid-2">
-          <SpecialCharts fichas={filteredFichas} />
-        </div>
-        <div className="mt-6">
+      <section className="section-card p-3 sm:p-5">
+        <SpecialCharts fichas={filteredFichas} />
+        <div className="mt-4 sm:mt-6">
           <SpecialChartsBottom fichas={filteredFichas} />
         </div>
       </section>
 
-      <section className="section-card overflow-hidden">
-        <SpecialTable fichas={filteredFichas} />
-      </section>
+      <SpecialTable fichas={filteredFichas} />
     </div>
   );
 }

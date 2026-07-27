@@ -11,15 +11,15 @@ function isDark(): boolean {
 function tc() {
   const d = isDark();
   return {
-    text: d ? "#F1F5F9" : "#0F172A",
-    textSec: d ? "#94A3B8" : "#475569",
-    muted: d ? "#64748B" : "#94A3B8",
-    axis: d ? "#1E293B" : "#CBD5E1",
-    grid: d ? "rgba(30,41,59,0.35)" : "rgba(203,213,225,0.45)",
-    tipBg: d ? "rgba(15,21,32,0.94)" : "rgba(255,255,255,0.96)",
-    tipBorder: d ? "rgba(30,41,59,0.5)" : "rgba(226,232,240,0.7)",
-    tipText: d ? "#F1F5F9" : "#0F172A",
-    donutGap: d ? "#0f1520" : "#F8FAFC",
+    text: d ? "#e8e8e8" : "#1a1a1a",
+    textSec: d ? "#8a8a8a" : "#555555",
+    muted: d ? "#555555" : "#888888",
+    axis: d ? "#1e1e1e" : "#d4d4d4",
+    grid: d ? "rgba(30,30,30,0.4)" : "rgba(212,212,212,0.45)",
+    tipBg: d ? "rgba(20,20,20,0.96)" : "rgba(255,255,255,0.96)",
+    tipBorder: d ? "rgba(30,30,30,0.6)" : "rgba(229,229,229,0.7)",
+    tipText: d ? "#e8e8e8" : "#1a1a1a",
+    donutGap: d ? "#0a0a0a" : "#f5f5f5",
     palette: [
       "#34D399", "#60A5FA", "#A78BFA", "#FB923C", "#F472B6",
       "#2DD4BF", "#FBBF24", "#818CF8", "#FB7185", "#4ADE80",

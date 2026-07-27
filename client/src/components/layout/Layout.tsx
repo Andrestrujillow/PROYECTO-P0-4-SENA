@@ -104,7 +104,7 @@ export default function Layout() {
       <div className="flex flex-1 min-h-0">
         <DesktopFloatingNav />
 
-        <main className="flex-1 overflow-y-auto w-full pb-28 lg:pb-8 px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
+        <main className="flex-1 overflow-y-auto w-full pb-24 lg:pb-6 px-3 sm:px-5 lg:px-8 py-3 sm:py-4 lg:py-5">
           <Outlet />
         </main>
       </div>

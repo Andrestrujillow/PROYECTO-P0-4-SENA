@@ -49,10 +49,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="page-card space-y-4">
+    <div className="page-card space-y-3 sm:space-y-4">
       {/* KPI Row */}
-      <section className="section-card p-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <section className="section-card p-3 sm:p-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
           <StatCard title="Fichas" value={fichasFiltradasCount} icon={<FileText className="w-4 h-4" />} color="blue" />
           <StatCard title="Aprendices" value={stats.totalAprendices} icon={<Users className="w-4 h-4" />} color="green" />
           <StatCard title="Centros" value={stats.totalCentros} icon={<Building2 className="w-4 h-4" />} color="purple" />
@@ -63,13 +63,13 @@ export default function DashboardPage() {
       </section>
 
       {/* Filters */}
-      <section className="section-card p-4">
+      <section className="section-card p-3 sm:p-4">
         <FilterBar />
       </section>
 
       {/* Charts Row 1 */}
-      <section className="section-card p-5">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <section className="section-card p-3 sm:p-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-5">
           <FichasPorNivel />
           <AprendicesPorModalidad />
           <HorasPorTipo />
@@ -77,8 +77,8 @@ export default function DashboardPage() {
       </section>
 
       {/* Charts Row 2 */}
-      <section className="section-card p-5">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <section className="section-card p-3 sm:p-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-5">
           <AprendicesPorProgramaEspecial />
           <AprendicesPorCentro />
           <EquidadGenero />
@@ -86,17 +86,13 @@ export default function DashboardPage() {
       </section>
 
       {/* Map */}
-      <section className="section-card p-5">
-        <MapView />
-      </section>
+      <MapView />
 
       {/* Table */}
-      <section className="section-card overflow-hidden">
-        <DataTable />
-      </section>
+      <DataTable />
 
       {/* Upload */}
-      <section className="section-card p-5 text-center">
+      <section className="section-card p-4 sm:p-5 text-center">
         <h3 className="section-title mb-3">Actualizar Datos</h3>
         <FileUpload />
       </section>

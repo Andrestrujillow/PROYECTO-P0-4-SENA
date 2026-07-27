@@ -74,8 +74,8 @@ export default function ComportamientoPage() {
   }
 
   return (
-    <div className="page-card space-y-6">
-      <section className="section-card p-6">
+    <div className="page-card space-y-3 sm:space-y-4">
+      <section className="section-card p-3 sm:p-5">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center">
             <BarChart3 className="w-5 h-5 text-blue-400" />
@@ -87,20 +87,18 @@ export default function ComportamientoPage() {
         </div>
       </section>
 
-      <section className="section-card p-6">
+      <section className="section-card p-3 sm:p-5">
         <BehaviorCards fichas={filteredFichas} />
       </section>
 
-      <section className="section-card p-6">
-        <BehaviorFilters
-          fichas={fichas}
-          filtros={filtros}
-          onFiltroChange={handleFiltroChange}
-          onReset={handleReset}
-        />
-      </section>
+      <BehaviorFilters
+        fichas={fichas}
+        filtros={filtros}
+        onFiltroChange={handleFiltroChange}
+        onReset={handleReset}
+      />
 
-      <section className="section-card p-6">
+      <section className="section-card p-3 sm:p-5">
         <BehaviorCharts fichas={filteredFichas} />
       </section>
     </div>

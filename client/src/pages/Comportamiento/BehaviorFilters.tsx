@@ -74,7 +74,7 @@ export default function BehaviorFilters({ fichas, filtros, onFiltroChange, onRes
       </div>
 
       <div className="px-5 pb-4 pt-1 border-t border-border">
-        <div className="grid grid-cols-3 lg:grid-cols-7 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2 sm:gap-2.5">
           {filters.map(({ key, label, items }) => (
             <div key={key} className="relative group">
               <select

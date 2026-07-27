@@ -48,17 +48,15 @@ export default function EstrategiasPage() {
   }
 
   return (
-    <div className="page-card space-y-6">
-      <section className="section-card p-6">
+    <div className="page-card space-y-3 sm:space-y-4">
+      <section className="section-card p-3 sm:p-5">
         <StrategiesKPIs fichas={filteredFichas} />
       </section>
-      <section className="section-card p-6">
-        <StrategiesFilters fichas={fichas} filtros={filtros} onFiltroChange={onFiltroChange} onReset={onReset} />
-      </section>
-      <section className="section-card p-6">
+      <StrategiesFilters fichas={fichas} filtros={filtros} onFiltroChange={onFiltroChange} onReset={onReset} />
+      <section className="section-card p-3 sm:p-5">
         <StrategiesCharts fichas={filteredFichas} />
       </section>
-      <section className="section-card p-6">
+      <section className="section-card p-3 sm:p-5">
         <StrategiesMap fichas={filteredFichas} />
       </section>
     </div>

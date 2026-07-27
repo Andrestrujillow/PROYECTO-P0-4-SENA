@@ -44,9 +44,9 @@ export default function StatCard({ title, value, icon, color = "blue" }: StatCar
   }, [value]);
 
   return (
-    <div className="stat-card section-card p-4 border-l-0 relative hover:shadow-md transition-shadow duration-200">
+    <div className="stat-card section-card p-3 sm:p-4 border-l-0 relative hover:shadow-md transition-shadow duration-200">
       <div className={`stat-card-accent ${c.accent}`} />
-      <div className="flex items-center gap-3 pl-1">
+      <div className="flex items-center gap-2 sm:gap-3">
         <div className={`stat-card-icon ${c.icon}`}>
           {icon}
         </div>
