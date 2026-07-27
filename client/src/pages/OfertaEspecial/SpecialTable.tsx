@@ -118,7 +118,7 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
                 </tr>
               ))}
             </thead>
-            <tbody className="divide-y divide-border-light">
+            <tbody className="divide-y divide-border">
               {table.getRowModel().rows.length === 0 ? (
                 <tr>
                   <td colSpan={columns.length} className="px-5 py-16 text-center">
@@ -149,7 +149,7 @@ export default function SpecialTable({ fichas }: SpecialTableProps) {
 
       {/* Mobile Card View */}
       {hasData && (
-        <div className="sm:hidden divide-y divide-border-light max-h-[60vh] overflow-y-auto">
+        <div className="sm:hidden divide-y divide-border max-h-[60vh] overflow-y-auto">
           {table.getRowModel().rows.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-6">
               <FileX className="w-10 h-10 text-text-muted/40 mb-3" strokeWidth={1.5} />
