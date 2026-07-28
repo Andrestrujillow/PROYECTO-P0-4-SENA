@@ -1,133 +1,101 @@
 import { useState, useMemo } from "react";
-import { Star, Lightbulb } from "lucide-react";
+import { Star, Lightbulb, Users, Award, BookOpen, GraduationCap, FileText } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
 import type { Filtros } from "../../types";
+import Breadcrumb from "../../components/ui/Breadcrumb";
+import ExportPanel from "../../components/ui/ExportPanel";
+import RankingCard from "../../components/cards/RankingCard";
+import FileUpload from "../../components/ui/FileUpload";
 import SpecialFilters from "./SpecialFilters";
 import SpecialKPIs from "./SpecialKPIs";
 import SpecialCharts, { SpecialChartsBottom } from "./SpecialCharts";
 import SpecialTable from "./SpecialTable";
+import MapView from "../../components/map/MapView";
+import { PageLayout, PageSection } from "../../components/layout/PageLayout";
+import { filtrarFichasEspecial } from "../../analytics/EspecialAnalytics/helpers";
+import { masMatriculados, masCertificados, masActivosPorCentro, masOfertados } from "../../analytics/EspecialAnalytics/charts";
 
 export default function OfertaEspecialPage() {
   const fichas = useDashboardStore((s) => s.fichas);
   const [filtros, setFiltros] = useState<Partial<Filtros>>({});
 
-  const centros = useMemo(
-    () => [...new Set(fichas.map((f) => f.nombreCentro))].filter(Boolean).sort(),
-    [fichas]
-  );
+  const fichasEspeciales = useMemo(() => fichas.filter((f) => f.nombreProgramaEspecial && f.nombreProgramaEspecial.trim() !== ""), [fichas]);
 
-  // Pre-filter: only special programs
-  const fichasEspeciales = useMemo(
-    () => fichas.filter((f) => f.nombreProgramaEspecial && f.nombreProgramaEspecial.trim() !== ""),
-    [fichas]
-  );
+  const filteredFichas = useMemo(() => filtrarFichasEspecial(fichas, filtros as Record<string, string | undefined>), [fichas, filtros]);
 
-  const filteredFichas = useMemo(() => {
-    let result = fichasEspeciales;
+  const handleFiltroChange = (key: keyof Filtros, value: string) => setFiltros((p) => ({ ...p, [key]: value }));
+  const handleReset = () => setFiltros({});
 
-    if (filtros.nombreCentro) {
-      result = result.filter((f) => f.nombreCentro === filtros.nombreCentro);
-    }
-    if (filtros.anioTerminacion) {
-      result = result.filter((f) => {
-        const parts = f.fechaTerminacionFicha?.split("/");
-        return parts?.length === 3 ? parts[2] === filtros.anioTerminacion : false;
-      });
-    }
-    if (filtros.nivelFormacion) {
-      result = result.filter((f) => f.nivelFormacion === filtros.nivelFormacion);
-    }
-    if (filtros.programaFormacion) {
-      result = result.filter((f) => f.nombreProgramaFormacion === filtros.programaFormacion);
-    }
-    if (filtros.empresa) {
-      result = result.filter((f) => f.nombreEmpresa === filtros.empresa);
-    }
+  const masMatriculadosData = useMemo(() => masMatriculados(filteredFichas), [filteredFichas]);
+  const masCertificadosData = useMemo(() => masCertificados(filteredFichas), [filteredFichas]);
+  const masActivos = useMemo(() => masActivosPorCentro(filteredFichas), [filteredFichas]);
+  const masOfertadosData = useMemo(() => masOfertados(filteredFichas), [filteredFichas]);
 
-    return result;
-  }, [fichasEspeciales, filtros]);
-
-  const handleFiltroChange = (key: keyof Filtros, value: string) => {
-    setFiltros((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const handleReset = () => {
-    setFiltros({});
-  };
+  const centros = useMemo(() => [...new Set(fichas.map((f) => f.nombreCentro))].filter(Boolean).sort(), [fichas]);
 
   if (fichasEspeciales.length === 0) {
     return (
-      <div className="page-card flex items-center justify-center min-h-[65vh]">
-        <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-sena-yellow/10 border border-sena-yellow/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <Star className="w-8 h-8 text-sena-yellow" />
-            </div>
-            <h2 className="text-xl font-bold text-text-primary mb-2">
-              Sin programas especiales
-            </h2>
-            <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
-              El archivo cargado no contiene programas especiales (TecnoAcademia, CAMPESENA, Alianzas Estrategicas).
-            </p>
+      <PageLayout title="Oferta Especial" subtitle="Programas especiales de formacion" icon={<Star className="w-5 h-5" />}>
+        <PageSection className="flex items-center justify-center min-h-[50vh]">
+          <div className="w-full max-w-sm text-center">
+            <div className="card p-6"><p className="text-sm text-text-muted">El archivo cargado no contiene programas especiales.</p></div>
           </div>
-        </div>
-      </div>
+        </PageSection>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="page-card space-y-3 sm:space-y-4">
-      <section className="section-card p-3 sm:p-5">
-        <SpecialKPIs fichas={filteredFichas} />
-      </section>
+    <PageLayout title="Oferta Especial" subtitle="Programas especiales de formacion" icon={<Star className="w-5 h-5" />}>
+      <PageSection><Breadcrumb /></PageSection>
+      <PageSection><SpecialKPIs fichas={filteredFichas} /></PageSection>
+      <PageSection className="flex items-center justify-end gap-2"><ExportPanel elementId="oferta-especial-page" fileName="PE-04_Oferta_Especial" /></PageSection>
 
-      <section className="section-card p-3 sm:p-5">
-        <div className="flex items-center gap-2 mb-3">
-          <Lightbulb className="w-4 h-4 text-sena-yellow" />
-          <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">
-            Centros de Formacion
-          </span>
+      <PageSection>
+        <div className="card p-3 sm:p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Lightbulb className="w-4 h-4 text-sena-yellow" />
+            <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Centros de Formacion</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button onClick={() => handleFiltroChange("nombreCentro", "")} className={`btn-ghost ${!filtros.nombreCentro ? "active" : ""}`}>Todos</button>
+            {centros.map((c) => (
+              <button key={c} onClick={() => handleFiltroChange("nombreCentro", c)} className={`btn-ghost ${filtros.nombreCentro === c ? "active" : ""}`}>{c}</button>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => handleFiltroChange("nombreCentro", "")}
-            className={`btn-ghost transition-all duration-200 ${
-              !filtros.nombreCentro ? "active" : ""
-            }`}
-          >
-            Todos
-          </button>
-          {centros.map((centro) => (
-            <button
-              key={centro}
-              onClick={() => handleFiltroChange("nombreCentro", centro)}
-              className={`btn-ghost transition-all duration-200 ${
-                filtros.nombreCentro === centro ? "active" : ""
-              }`}
-            >
-              {centro}
-            </button>
-          ))}
+      </PageSection>
+
+      <PageSection><SpecialFilters fichas={fichas} filtros={filtros} onFiltroChange={handleFiltroChange} onReset={handleReset} /></PageSection>
+
+      <PageSection><SpecialCharts fichas={filteredFichas} /></PageSection>
+      <PageSection className="max-w-2xl mx-auto"><SpecialChartsBottom fichas={filteredFichas} /></PageSection>
+
+      <PageSection className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 stagger-children">
+        <RankingCard title="Programas Mas Matriculados" icon={<Users className="w-4 h-4" />} items={masMatriculadosData} color="green" valueLabel="matriculados" />
+        <RankingCard title="Programas Mas Certificados" icon={<Award className="w-4 h-4" />} items={masCertificadosData} color="blue" valueLabel="certificados" />
+        <RankingCard title="Centros con Mas Activos" icon={<GraduationCap className="w-4 h-4" />} items={masActivos} color="purple" valueLabel="activos" />
+        <RankingCard title="Programas Mas Ofertados" icon={<BookOpen className="w-4 h-4" />} items={masOfertadosData} color="orange" valueLabel="ofertas" />
+      </PageSection>
+
+      <PageSection><MapView /></PageSection>
+      <PageSection><SpecialTable fichas={filteredFichas} /></PageSection>
+
+      <PageSection>
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-7 h-7 rounded-lg bg-sena-green/10 flex items-center justify-center"><FileText className="w-3.5 h-3.5 text-sena-green" /></div>
+            <h3 className="text-sm font-semibold text-text-primary">Informacion del Archivo</h3>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div><span className="text-text-muted">Registros especiales:</span><p className="font-semibold text-text-primary">{filteredFichas.length.toLocaleString("es-CO")}</p></div>
+            <div><span className="text-text-muted">Filtros activos:</span><p className="font-semibold text-text-primary">{Object.values(filtros).filter(Boolean).length}</p></div>
+            <div><span className="text-text-muted">Actualizacion:</span><p className="font-semibold text-text-primary">{new Date().toLocaleDateString("es-CO")}</p></div>
+            <div><span className="text-text-muted">Fuente:</span><p className="font-semibold text-text-primary">PE-04 SENA Regional Cauca</p></div>
+          </div>
+          <div className="mt-3 pt-3 border-t border-border"><FileUpload /></div>
         </div>
-      </section>
-
-      <section className="section-card p-3 sm:p-5">
-        <SpecialFilters
-          fichas={fichas}
-          filtros={filtros}
-          onFiltroChange={handleFiltroChange}
-          onReset={handleReset}
-        />
-      </section>
-
-      <section className="section-card p-3 sm:p-5">
-        <SpecialCharts fichas={filteredFichas} />
-        <div className="mt-4 sm:mt-6">
-          <SpecialChartsBottom fichas={filteredFichas} />
-        </div>
-      </section>
-
-      <SpecialTable fichas={filteredFichas} />
-    </div>
+      </PageSection>
+    </PageLayout>
   );
 }

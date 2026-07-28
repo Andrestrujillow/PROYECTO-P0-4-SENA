@@ -1,43 +1,25 @@
 import { create } from "zustand";
 import type { Ficha, Filtros, Estadisticas, DatosGraficas, PuntoMapa } from "../types";
-import { agruparPor, agruparSuma } from "../utils/grouping";
-import { extractYear } from "../utils/dateUtils";
+import { filtrarFichas } from "../analytics/shared/filters";
+import { calcularEstadisticas, calcularEstadisticasDetalladas, calcularIndicadores } from "../analytics/DashboardAnalytics/estadisticas";
+import { fichasPorNivel, aprendicesPorModalidad, aprendicesPorCentro, fichasPorEstado, aprendicesPorProgramaEspecial, aprendicesPorMunicipio } from "../analytics/DashboardAnalytics/transform";
 import { calcularPuntosMapa } from "../utils/mapUtils";
 
 const filtrosIniciales = (): Filtros => ({
-  nombreCentro: "",
-  modalidadFormacion: "",
-  nivelFormacion: "",
-  programaFormacion: "",
-  empresa: "",
-  municipio: "",
-  programaEspecial: "",
-  anioTerminacion: "",
-  estadoCurso: "",
-  etapaFicha: "",
-  jornada: "",
-  sectorPrograma: "",
-  instructor: "",
-  convenio: "",
-  tipoFormacion: "",
+  nombreCentro: "", modalidadFormacion: "", nivelFormacion: "", programaFormacion: "",
+  empresa: "", municipio: "", programaEspecial: "", anioTerminacion: "",
+  estadoCurso: "", etapaFicha: "", jornada: "", sectorPrograma: "",
+  instructor: "", convenio: "", tipoFormacion: "",
 });
 
 const estadisticasIniciales: Estadisticas = {
-  totalFichas: 0,
-  totalAprendices: 0,
-  totalCentros: 0,
-  totalEmpresas: 0,
-  totalInstructores: 0,
-  promedioAprendicesPorFicha: 0,
+  totalFichas: 0, totalAprendices: 0, totalCentros: 0, totalEmpresas: 0,
+  totalInstructores: 0, promedioAprendicesPorFicha: 0,
 };
 
 const datosGraficasIniciales: DatosGraficas = {
-  fichasPorNivel: [],
-  aprendicesPorProgramaEspecial: [],
-  aprendicesPorCentro: [],
-  aprendicesPorModalidad: [],
-  aprendicesPorMunicipio: [],
-  fichasPorEstado: [],
+  fichasPorNivel: [], aprendicesPorProgramaEspecial: [], aprendicesPorCentro: [],
+  aprendicesPorModalidad: [], aprendicesPorMunicipio: [], fichasPorEstado: [],
 };
 
 interface DashboardState {
@@ -45,6 +27,8 @@ interface DashboardState {
   fichasFiltradas: Ficha[];
   filtros: Filtros;
   estadisticas: Estadisticas;
+  estadisticasDetalladas: { totalProgramas: number; totalMunicipios: number; totalHoras: number; totalActivos: number; totalCertificados: number; totalInstructores: number; crecimientoAnual: number };
+  indicadores: { nombre: string; valor: number; unidad: string; descripcion: string; color?: string }[];
   datosGraficas: DatosGraficas;
   puntosMapa: PuntoMapa[];
   isLoading: boolean;
@@ -58,61 +42,15 @@ interface DashboardState {
   aplicarFiltros: () => void;
 }
 
-function calcularEstadisticas(fichas: Ficha[]): Estadisticas {
-  if (fichas.length === 0) return estadisticasIniciales;
-
-  const centros = new Set(fichas.map((f) => f.codigoCentro));
-  const empresas = new Set(fichas.filter((f) => f.nombreEmpresa).map((f) => f.nombreEmpresa));
-  const instructores = new Set(fichas.map((f) => f.nombreResponsable));
-  const totalAprendices = fichas.reduce((acc, f) => acc + f.totalAprendices, 0);
-
-  return {
-    totalFichas: fichas.length,
-    totalAprendices,
-    totalCentros: centros.size,
-    totalEmpresas: empresas.size,
-    totalInstructores: instructores.size,
-    promedioAprendicesPorFicha: fichas.length > 0 ? Math.round(totalAprendices / fichas.length) : 0,
-  };
-}
-
 function calcularGraficas(fichas: Ficha[]): DatosGraficas {
   return {
-    fichasPorNivel: agruparPor(fichas, (f) => f.nivelFormacion),
-    aprendicesPorProgramaEspecial: agruparSuma(
-      fichas.filter((f) => f.nombreProgramaEspecial),
-      (f) => f.nombreProgramaEspecial,
-      (f) => f.totalAprendices
-    ),
-    aprendicesPorCentro: agruparSuma(fichas, (f) => f.nombreCentro, (f) => f.totalAprendices),
-    aprendicesPorModalidad: agruparSuma(fichas, (f) => f.modalidadFormacion, (f) => f.totalAprendices),
-    aprendicesPorMunicipio: agruparSuma(fichas, (f) => f.nombreMunicipioCurso, (f) => f.totalAprendices),
-    fichasPorEstado: agruparPor(fichas, (f) => f.estadoCurso),
+    fichasPorNivel: fichasPorNivel(fichas),
+    aprendicesPorProgramaEspecial: aprendicesPorProgramaEspecial(fichas),
+    aprendicesPorCentro: aprendicesPorCentro(fichas),
+    aprendicesPorModalidad: aprendicesPorModalidad(fichas),
+    aprendicesPorMunicipio: aprendicesPorMunicipio(fichas),
+    fichasPorEstado: fichasPorEstado(fichas),
   };
-}
-
-function filtrarFichas(fichas: Ficha[], filtros: Filtros): Ficha[] {
-  return fichas.filter((f) => {
-    if (filtros.nombreCentro && f.nombreCentro !== filtros.nombreCentro) return false;
-    if (filtros.modalidadFormacion && f.modalidadFormacion !== filtros.modalidadFormacion) return false;
-    if (filtros.nivelFormacion && f.nivelFormacion !== filtros.nivelFormacion) return false;
-    if (filtros.programaFormacion && f.nombreProgramaFormacion !== filtros.programaFormacion) return false;
-    if (filtros.empresa && f.nombreEmpresa !== filtros.empresa) return false;
-    if (filtros.municipio && f.nombreMunicipioCurso !== filtros.municipio) return false;
-    if (filtros.programaEspecial && f.nombreProgramaEspecial !== filtros.programaEspecial) return false;
-    if (filtros.estadoCurso && f.estadoCurso !== filtros.estadoCurso) return false;
-    if (filtros.etapaFicha && f.etapaFicha !== filtros.etapaFicha) return false;
-    if (filtros.jornada && f.nombreJornada !== filtros.jornada) return false;
-    if (filtros.sectorPrograma && f.nombreSectorPrograma !== filtros.sectorPrograma) return false;
-    if (filtros.instructor && f.nombreResponsable !== filtros.instructor) return false;
-    if (filtros.convenio && f.nombreConvenio !== filtros.convenio) return false;
-    if (filtros.tipoFormacion && f.tipoFormacion !== filtros.tipoFormacion) return false;
-    if (filtros.anioTerminacion) {
-      const year = extractYear(f.fechaTerminacionFicha);
-      if (year !== filtros.anioTerminacion) return false;
-    }
-    return true;
-  });
 }
 
 export const useDashboardStore = create<DashboardState>()((set, get) => ({
@@ -120,6 +58,8 @@ export const useDashboardStore = create<DashboardState>()((set, get) => ({
   fichasFiltradas: [],
   filtros: filtrosIniciales(),
   estadisticas: estadisticasIniciales,
+  estadisticasDetalladas: { totalProgramas: 0, totalMunicipios: 0, totalHoras: 0, totalActivos: 0, totalCertificados: 0, totalInstructores: 0, crecimientoAnual: 0 },
+  indicadores: [],
   datosGraficas: datosGraficasIniciales,
   puntosMapa: [],
   isLoading: false,
@@ -127,14 +67,14 @@ export const useDashboardStore = create<DashboardState>()((set, get) => ({
   excelFileName: null,
 
   setFichas: (fichas) => {
-    const stats = calcularEstadisticas(fichas);
-    const graficas = calcularGraficas(fichas);
     set({
       fichas,
       fichasFiltradas: fichas,
       filtros: filtrosIniciales(),
-      estadisticas: stats,
-      datosGraficas: graficas,
+      estadisticas: calcularEstadisticas(fichas),
+      estadisticasDetalladas: calcularEstadisticasDetalladas(fichas),
+      indicadores: calcularIndicadores(fichas),
+      datosGraficas: calcularGraficas(fichas),
       puntosMapa: calcularPuntosMapa(fichas),
       excelFileName: "PE-04 cargado",
     });
@@ -148,6 +88,8 @@ export const useDashboardStore = create<DashboardState>()((set, get) => ({
       filtros: newFiltros,
       fichasFiltradas: filtered,
       estadisticas: calcularEstadisticas(filtered),
+      estadisticasDetalladas: calcularEstadisticasDetalladas(filtered),
+      indicadores: calcularIndicadores(filtered),
       datosGraficas: calcularGraficas(filtered),
       puntosMapa: calcularPuntosMapa(filtered),
     });
@@ -159,6 +101,8 @@ export const useDashboardStore = create<DashboardState>()((set, get) => ({
       filtros: filtrosIniciales(),
       fichasFiltradas: state.fichas,
       estadisticas: calcularEstadisticas(state.fichas),
+      estadisticasDetalladas: calcularEstadisticasDetalladas(state.fichas),
+      indicadores: calcularIndicadores(state.fichas),
       datosGraficas: calcularGraficas(state.fichas),
       puntosMapa: calcularPuntosMapa(state.fichas),
     });
@@ -166,12 +110,15 @@ export const useDashboardStore = create<DashboardState>()((set, get) => ({
 
   setLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error }),
+
   aplicarFiltros: () => {
     const state = get();
     const filtered = filtrarFichas(state.fichas, state.filtros);
     set({
       fichasFiltradas: filtered,
       estadisticas: calcularEstadisticas(filtered),
+      estadisticasDetalladas: calcularEstadisticasDetalladas(filtered),
+      indicadores: calcularIndicadores(filtered),
       datosGraficas: calcularGraficas(filtered),
       puntosMapa: calcularPuntosMapa(filtered),
     });

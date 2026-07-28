@@ -77,7 +77,7 @@ export default function MapView() {
       </div>
 
       {/* ── map ── */}
-      <div className="relative h-[300px] sm:h-[360px] lg:h-[440px]">
+      <div className="relative h-[250px] sm:h-[320px] lg:h-[420px]">
         <MapContainer
           center={DEFAULT_CENTER}
           zoom={DEFAULT_ZOOM}

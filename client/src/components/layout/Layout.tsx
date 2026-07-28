@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { DesktopFloatingNav, MobileBottomNav } from "./Sidebar";
-import { CheckCircle2, Loader2, AlertCircle, X, Sun, Moon } from "lucide-react";
+import { Sidebar, MobileBottomNav } from "./Sidebar";
+import { CheckCircle2, Loader2, AlertCircle, X, Sun, Moon, Menu } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
 import { useTheme } from "../../hooks/useTheme";
 
@@ -22,6 +22,7 @@ export default function Layout() {
   const setError = useDashboardStore((s) => s.setError);
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -29,22 +30,39 @@ export default function Layout() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [drawerOpen]);
+
   return (
     <div className="flex flex-col min-h-dvh bg-bg-base">
-      {/* Header — ultra-minimal, Apple-style */}
+      {/* Header */}
       <header
         className={`
-          h-12 shrink-0 flex items-center px-4 lg:px-6
-          z-30 sticky top-0 mx-0 mt-0 rounded-none
+          h-12 shrink-0 flex items-center px-3 sm:px-4 lg:px-5
+          z-30 sticky top-0
           transition-all duration-300
+          lg:pl-[calc(70px+16px)] xl:pl-[calc(200px+20px)] 2xl:pl-[calc(220px+24px)]
           ${scrolled
             ? "bg-bg-base/90 backdrop-blur-xl border-b border-border"
             : "bg-transparent border-b border-transparent"
           }
         `}
       >
-        {/* Left: Logo + brand */}
+        {/* Left: hamburger (mobile) + logo */}
         <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="lg:hidden p-1.5 -ml-1 rounded-lg hover:bg-surface-hover transition-colors text-text-muted hover:text-text-secondary"
+            aria-label="Abrir menu"
+          >
+            <Menu className="w-4 h-4" />
+          </button>
           <div className="w-7 h-7 rounded-md overflow-hidden">
             <img src="/logoSena.png" alt="SENA" className="w-full h-full object-contain" />
           </div>
@@ -56,7 +74,7 @@ export default function Layout() {
           </span>
         </div>
 
-        {/* Center: Page name — desktop only */}
+        {/* Center: Page name */}
         <div className="absolute left-1/2 -translate-x-1/2 hidden lg:block">
           <span className="text-[13px] font-medium text-text-secondary">{pageName}</span>
         </div>
@@ -92,7 +110,7 @@ export default function Layout() {
 
       {/* Error banner */}
       {error && (
-        <div className="mx-4 mt-2 px-3 py-2.5 rounded-lg bg-sena-red/10 border border-sena-red/20 flex items-center gap-2.5">
+        <div className="mx-3 sm:mx-4 lg:mx-5 mt-2 px-3 py-2.5 rounded-lg bg-sena-red/10 border border-sena-red/20 flex items-center gap-2.5">
           <AlertCircle className="w-3.5 h-3.5 text-sena-red shrink-0" />
           <span className="text-[13px] text-sena-red flex-1">{error}</span>
           <button onClick={() => setError(null)} className="p-0.5 rounded hover:bg-sena-red/10 transition-colors">
@@ -102,17 +120,19 @@ export default function Layout() {
       )}
 
       <div className="flex flex-1 min-h-0">
-        <DesktopFloatingNav />
+        <Sidebar isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
 
-        <main className="flex-1 overflow-y-auto w-full pb-24 lg:pb-6 px-3 sm:px-5 lg:px-8 py-3 sm:py-4 lg:py-5">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto w-full pb-24 lg:pb-8 lg:pl-[70px] xl:pl-[200px] 2xl:pl-[220px]">
+          <div className="px-3 sm:px-4 lg:px-5 py-4 sm:py-5 lg:py-6">
+            <Outlet />
+          </div>
         </main>
       </div>
 
       <MobileBottomNav />
 
-      {/* Footer — minimal */}
-      <footer className="hidden lg:flex items-center justify-between px-6 py-2.5 border-t border-border text-[10px] text-text-muted tracking-wide">
+      {/* Footer */}
+      <footer className="hidden lg:flex items-center justify-between px-6 py-2.5 border-t border-border text-[10px] text-text-muted tracking-wide lg:pl-[calc(70px+24px)] xl:pl-[calc(200px+24px)] 2xl:pl-[calc(220px+24px)]">
         <span>SENA PE-04 v1.0</span>
         <span>Regional Cauca &middot; {new Date().getFullYear()}</span>
       </footer>

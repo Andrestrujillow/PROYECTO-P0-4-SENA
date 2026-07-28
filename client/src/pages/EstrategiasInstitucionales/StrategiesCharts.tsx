@@ -118,7 +118,7 @@ export default function StrategiesCharts({ fichas }: StrategiesChartsProps) {
   }
 
   return (
-    <div className="chart-grid-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5">
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.3s both" }}>
         <ChartCard title="Distribucion por Convenio" icon={<PieChart className="w-4 h-4 text-sena-green" />} badgeLabel={`${conveniosMap.length} convenios`}>
           <EChart option={chart1Option} height={280} />

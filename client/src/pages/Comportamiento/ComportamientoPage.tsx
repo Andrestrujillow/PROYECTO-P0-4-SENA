@@ -1,106 +1,85 @@
 import { useState, useMemo, useCallback } from "react";
-import { Activity, BarChart3 } from "lucide-react";
+import { BarChart3, TrendingUp, AlertTriangle, Award, FileText } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
-import type { Ficha, Filtros } from "../../types";
+import type { Filtros } from "../../types";
 import BehaviorFilters from "./BehaviorFilters";
 import BehaviorCards from "./BehaviorCards";
 import BehaviorCharts from "./BehaviorCharts";
-
-const emptyFilters: Partial<Filtros> = {
-  sectorPrograma: "",
-  anioTerminacion: "",
-  modalidadFormacion: "",
-  programaEspecial: "",
-  nombreCentro: "",
-  programaFormacion: "",
-  nivelFormacion: "",
-};
-
-function filtrarFichas(fichas: Ficha[], filtros: Partial<Filtros>) {
-  return fichas.filter((f) => {
-    if (filtros.sectorPrograma && f.nombreSectorPrograma !== filtros.sectorPrograma) return false;
-    if (filtros.modalidadFormacion && f.modalidadFormacion !== filtros.modalidadFormacion) return false;
-    if (filtros.nivelFormacion && f.nivelFormacion !== filtros.nivelFormacion) return false;
-    if (filtros.programaFormacion && f.nombreProgramaFormacion !== filtros.programaFormacion) return false;
-    if (filtros.nombreCentro && f.nombreCentro !== filtros.nombreCentro) return false;
-    if (filtros.programaEspecial && f.nombreProgramaEspecial !== filtros.programaEspecial) return false;
-    if (filtros.anioTerminacion) {
-      const parts = f.fechaTerminacionFicha.split("/");
-      const year = parts.length === 3 ? parts[2] : "";
-      if (year !== filtros.anioTerminacion) return false;
-    }
-    return true;
-  });
-}
+import Breadcrumb from "../../components/ui/Breadcrumb";
+import ExportPanel from "../../components/ui/ExportPanel";
+import KpiDetailCard from "../../components/cards/KpiDetailCard";
+import RankingCard from "../../components/cards/RankingCard";
+import FileUpload from "../../components/ui/FileUpload";
+import EmptyState from "../../components/ui/EmptyState";
+import { PageLayout, PageSection } from "../../components/layout/PageLayout";
+import { filtrarFichasComportamiento } from "../../analytics/ComportamientoAnalytics/helpers";
+import { calcularCrecimiento, calcularProgramasCriticos, calcularCrecimientoProgramas, calcularCentrosDestacados } from "../../analytics/ComportamientoAnalytics/charts";
 
 export default function ComportamientoPage() {
   const fichas = useDashboardStore((s) => s.fichas);
-  const [filtros, setFiltros] = useState<Partial<Filtros>>({ ...emptyFilters });
-
-  const filteredFichas = useMemo(() => filtrarFichas(fichas, filtros), [fichas, filtros]);
+  const [filtros, setFiltros] = useState<Partial<Filtros>>({});
 
   const handleFiltroChange = useCallback((key: keyof Filtros, value: string) => {
     setFiltros((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  const handleReset = useCallback(() => {
-    setFiltros({ ...emptyFilters });
-  }, []);
+  const handleReset = useCallback(() => setFiltros({}), []);
+
+  const filteredFichas = useMemo(() => filtrarFichasComportamiento(fichas, filtros as Record<string, string | undefined>), [fichas, filtros]);
+
+  const crecimiento = useMemo(() => calcularCrecimiento(filteredFichas), [filteredFichas]);
+  const critically = useMemo(() => calcularProgramasCriticos(filteredFichas), [filteredFichas]);
+  const crecimientoProgramas = useMemo(() => calcularCrecimientoProgramas(filteredFichas), [filteredFichas]);
+  const centrosDestacados = useMemo(() => calcularCentrosDestacados(filteredFichas), [filteredFichas]);
 
   if (fichas.length === 0) {
     return (
-      <div className="page-card flex items-center justify-center min-h-[65vh]">
-        <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-blue-400/10 border border-blue-400/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <Activity className="w-8 h-8 text-blue-400" />
-            </div>
-            <h2 className="text-xl font-bold text-text-primary mb-2">
-              Sin datos disponibles
-            </h2>
-            <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
-              Carga el archivo Excel del reporte PE-04 para comenzar el análisis de comportamiento.
-            </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface border border-border">
-              <div className="w-1.5 h-1.5 bg-sena-yellow rounded-full animate-pulse" />
-              <span className="text-xs text-text-muted uppercase tracking-wider font-semibold">
-                Esperando datos
-              </span>
-            </div>
+      <PageLayout title="Comportamiento" subtitle="Analisis de tendencias y comportamiento" icon={<BarChart3 className="w-5 h-5" />}>
+        <PageSection className="flex items-center justify-center min-h-[50vh]">
+          <div className="w-full max-w-sm text-center">
+            <EmptyState icon={<BarChart3 className="w-6 h-6 text-blue-400" />} title="Sin datos" description="Carga el archivo Excel del reporte PE-04." action={<FileUpload />} />
           </div>
-        </div>
-      </div>
+        </PageSection>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="page-card space-y-3 sm:space-y-4">
-      <section className="section-card p-3 sm:p-5">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-10 h-10 rounded-xl bg-blue-400/10 flex items-center justify-center">
-            <BarChart3 className="w-5 h-5 text-blue-400" />
+    <PageLayout title="Comportamiento" subtitle="Analisis de tendencias y comportamiento de la formacion" icon={<BarChart3 className="w-5 h-5" />}>
+      <PageSection><Breadcrumb /></PageSection>
+      <PageSection><BehaviorCards fichas={filteredFichas} /></PageSection>
+      <PageSection className="flex items-center justify-end gap-2"><ExportPanel elementId="comportamiento-page" fileName="PE-04_Comportamiento" /></PageSection>
+      <PageSection><BehaviorFilters fichas={fichas} filtros={filtros} onFiltroChange={handleFiltroChange} onReset={handleReset} /></PageSection>
+
+      {crecimiento && (
+        <PageSection title="Crecimiento y Proyecciones" icon={<TrendingUp className="w-4 h-4" />} className="w-full max-w-lg stagger-children">
+          <KpiDetailCard title="Crecimiento Anual" value={`${crecimiento.pct > 0 ? "+" : ""}${crecimiento.pct}%`} subtitle="variacion interanual" icon={<TrendingUp className="w-4 h-4" />} color="green" trend={{ direction: crecimiento.pct >= 0 ? "up" : "down", label: crecimiento.pct >= 0 ? "Crecimiento positivo" : "Decrecimiento" }} />
+        </PageSection>
+      )}
+
+      <PageSection><BehaviorCharts fichas={filteredFichas} /></PageSection>
+
+      <PageSection className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 stagger-children">
+        <RankingCard title="Programas con Mayor Crecimiento" icon={<TrendingUp className="w-4 h-4" />} items={crecimientoProgramas} color="green" valueLabel="% crecimiento" />
+        <RankingCard title="Programas Criticos (Mayor Desercion)" icon={<AlertTriangle className="w-4 h-4" />} items={critically.map(c => ({ label: c.prog, value: c.desercion }))} color="rose" valueLabel="% desercion" />
+        <RankingCard title="Centros Destacados (Mas Activos)" icon={<Award className="w-4 h-4" />} items={centrosDestacados} color="blue" valueLabel="aprendices activos" />
+      </PageSection>
+
+      <PageSection>
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-7 h-7 rounded-lg bg-sena-green/10 flex items-center justify-center"><FileText className="w-3.5 h-3.5 text-sena-green" /></div>
+            <h3 className="text-sm font-semibold text-text-primary">Informacion del Archivo</h3>
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-text-primary">Comportamiento</h1>
-            <p className="text-sm text-text-muted">Analisis de tendencias y comportamiento de la formacion</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div><span className="text-text-muted">Registros:</span><p className="font-semibold text-text-primary">{filteredFichas.length.toLocaleString("es-CO")}</p></div>
+            <div><span className="text-text-muted">Filtros activos:</span><p className="font-semibold text-text-primary">{Object.values(filtros).filter(Boolean).length}</p></div>
+            <div><span className="text-text-muted">Actualizacion:</span><p className="font-semibold text-text-primary">{new Date().toLocaleDateString("es-CO")}</p></div>
+            <div><span className="text-text-muted">Fuente:</span><p className="font-semibold text-text-primary">PE-04 SENA Regional Cauca</p></div>
           </div>
+          <div className="mt-3 pt-3 border-t border-border"><FileUpload /></div>
         </div>
-      </section>
-
-      <section className="section-card p-3 sm:p-5">
-        <BehaviorCards fichas={filteredFichas} />
-      </section>
-
-      <BehaviorFilters
-        fichas={fichas}
-        filtros={filtros}
-        onFiltroChange={handleFiltroChange}
-        onReset={handleReset}
-      />
-
-      <section className="section-card p-3 sm:p-5">
-        <BehaviorCharts fichas={filteredFichas} />
-      </section>
-    </div>
+      </PageSection>
+    </PageLayout>
   );
 }

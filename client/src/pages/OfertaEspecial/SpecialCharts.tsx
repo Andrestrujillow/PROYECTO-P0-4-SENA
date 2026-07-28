@@ -102,22 +102,22 @@ export default function SpecialCharts({ fichas }: SpecialChartsProps) {
   }
 
   return (
-    <div className="chart-grid-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5">
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.3s both" }}>
         <ChartCard title="Distribucion por Programa" icon={<PieChart className="w-4 h-4 text-sena-green" />} badgeLabel={`${programasMap.length} programas`}>
-          <EChart option={chart1Option} height={280} />
+          <EChart option={chart1Option} height="100%" />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.35s both" }}>
         <ChartCard title="Horas por Programa Especial" icon={<BarChart3 className="w-4 h-4 text-lime-400" />} badgeLabel={`${horasMap.length} programas`}>
-          <EChart option={chart2Option} height={280} />
+          <EChart option={chart2Option} height="100%" />
         </ChartCard>
       </div>
 
       <div style={{ animation: "fadeInUp 0.5s ease-out 0.4s both" }}>
         <ChartCard title="Aprendices por Centro (Top 8)" icon={<Users className="w-4 h-4 text-blue-400" />} badgeLabel="Top 8">
-          <EChart option={chart3Option} height={280} />
+          <EChart option={chart3Option} height="100%" />
         </ChartCard>
       </div>
     </div>
@@ -160,7 +160,7 @@ export function SpecialChartsBottom({ fichas }: { fichas: Ficha[] }) {
       </div>
       <div className="chart-card-body">
         {data.length > 0 ? (
-          <EChart option={chartOption} height={280} />
+          <EChart option={chartOption} height="100%" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-sm text-text-muted">Sin datos</span>

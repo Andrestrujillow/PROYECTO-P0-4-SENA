@@ -24,7 +24,7 @@ export default function SpecialKPIs({ fichas }: SpecialKPIsProps) {
   }, [fichas]);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4 stagger-children">
       {kpis.map((kpi) => (
         <StatCard key={kpi.title} title={kpi.title} value={kpi.value} icon={kpi.icon} color={kpi.color} />
       ))}
