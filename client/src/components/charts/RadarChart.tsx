@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import EChart, { echarts, CHART_COLORS } from "./EChart";
+import EChart, { CHART_COLORS } from "./EChart";
 
 function isDark(): boolean {
   return !document.documentElement.classList.contains("light");

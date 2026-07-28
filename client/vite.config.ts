@@ -3,17 +3,19 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import viteCompression from "vite-plugin-compression";
 
+const compress = viteCompression as unknown as (opts?: Record<string, unknown>) => import("vite").Plugin;
+
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    viteCompression({
+    compress({
       algorithm: "brotliCompress",
       ext: ".br",
       threshold: 1024,
       deleteOriginFile: false,
     }),
-    viteCompression({
+    compress({
       algorithm: "gzip",
       ext: ".gz",
       threshold: 1024,

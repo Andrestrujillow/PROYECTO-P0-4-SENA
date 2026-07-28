@@ -15,7 +15,7 @@ interface RankingCardProps {
   maxItems?: number;
 }
 
-export default function RankingCard({ title, icon, items, color = "green", valueLabel = "valor", maxItems = 10 }: RankingCardProps) {
+export default function RankingCard({ title, icon, items, color = "green", maxItems = 10 }: RankingCardProps) {
   const displayed = items.slice(0, maxItems);
   if (displayed.length === 0) return null;
 

@@ -1,5 +1,3 @@
-import type { Ficha } from "../../types";
-
 export function calcularEstadoColors(): Record<string, string> {
   return {
     "En ejecucion": "#34D399",

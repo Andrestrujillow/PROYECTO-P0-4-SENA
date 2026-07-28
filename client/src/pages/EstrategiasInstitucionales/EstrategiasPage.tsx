@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { BookOpen, Handshake, Users, Building2, Award, BarChart3, FileText } from "lucide-react";
+import { BookOpen, Handshake, Building2, BarChart3, FileText } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
 import type { Filtros } from "../../types";
 import StrategiesFilters from "./StrategiesFilters";

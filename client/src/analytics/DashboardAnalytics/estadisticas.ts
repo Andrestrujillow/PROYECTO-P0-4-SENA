@@ -15,7 +15,6 @@ export function calcularEstadisticas(fichas: Ficha[]) {
 
 export function calcularEstadisticasDetalladas(fichas: Ficha[]) {
   const activos = sumBy(fichas, (f) => f.totalAprendicesActivos);
-  const totalAprendices = sumBy(fichas, (f) => f.totalAprendices);
   const terminadas = fichas.filter((f) => f.estadoCurso.toLowerCase().includes("terminad"));
   return {
     totalProgramas: uniqueCount(fichas, (f) => f.nombreProgramaFormacion),

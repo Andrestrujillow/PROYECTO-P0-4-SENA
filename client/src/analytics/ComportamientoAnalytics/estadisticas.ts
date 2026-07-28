@@ -1,5 +1,5 @@
 import type { Ficha } from "../../types";
-import { sumBy, uniqueCount, groupSum, sortDesc, extractYear } from "../shared/helpers";
+import { sumBy, uniqueCount } from "../shared/helpers";
 
 export function calcularEstadisticasComportamiento(fichas: Ficha[]) {
   return {

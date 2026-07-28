@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Download, FileSpreadsheet, FileJson, FileImage, Printer } from "lucide-react";
+import { Download, FileSpreadsheet, FileJson, Printer } from "lucide-react";
 
 interface ExportPanelProps {
   elementId?: string;

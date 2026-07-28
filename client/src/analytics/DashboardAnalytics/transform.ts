@@ -1,6 +1,6 @@
 import type { Ficha } from "../../types";
 import type { GrupoItem } from "../shared/types";
-import { groupSum, sortDesc, groupBy } from "../shared/helpers";
+import { groupSum, sortDesc } from "../shared/helpers";
 
 export function fichasPorNivel(fichas: Ficha[]): GrupoItem[] {
   const map = new Map<string, number>();
