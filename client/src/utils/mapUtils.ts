@@ -1,11 +1,11 @@
 import type { Ficha, PuntoMapa } from "../types";
-import { COORDINATES_CAUCA } from "./coordinates";
+import { getCoords } from "./coordinates";
 
 export function calcularPuntosMapa(fichas: Ficha[]): PuntoMapa[] {
   const map = new Map<string, { cantidadFichas: number; totalAprendices: number }>();
 
   fichas.forEach((f) => {
-    const key = f.nombreMunicipioCurso.toUpperCase().trim();
+    const key = f.nombreMunicipioCurso.trim();
     if (!key) return;
     const entry = map.get(key) || { cantidadFichas: 0, totalAprendices: 0 };
     entry.cantidadFichas += 1;
@@ -15,12 +15,12 @@ export function calcularPuntosMapa(fichas: Ficha[]): PuntoMapa[] {
 
   const puntos: PuntoMapa[] = [];
   map.forEach((val, nombre) => {
-    const coords = COORDINATES_CAUCA[nombre];
+    const coords = getCoords(nombre);
     if (coords) {
       puntos.push({
         lat: coords.lat,
         lng: coords.lng,
-        nombre,
+        nombre: nombre.toUpperCase(),
         cantidadFichas: val.cantidadFichas,
         cantidadAprendices: val.totalAprendices,
       });

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { GitCompareArrows } from "lucide-react";
+import { GitCompareArrows, BookOpen, Building2, Briefcase, FileText } from "lucide-react";
 import { useDashboardStore } from "../../store/dashboardStore";
 import type { Filtros } from "../../types";
 import OffersFilters from "./OffersFilters";
@@ -8,6 +8,13 @@ import OffersCharts from "./OffersCharts";
 import OffersMap from "./OffersMap";
 import OffersTable from "./OffersTable";
 import FileUpload from "../../components/ui/FileUpload";
+import EmptyState from "../../components/ui/EmptyState";
+import Breadcrumb from "../../components/ui/Breadcrumb";
+import ExportPanel from "../../components/ui/ExportPanel";
+import RankingCard from "../../components/cards/RankingCard";
+import { PageLayout, PageSection } from "../../components/layout/PageLayout";
+import { filtrarFichasComparativo } from "../../analytics/ComparativoAnalytics/helpers";
+import { masOfertados, menosOfertados, masCuposPorSector, masInscritosPorCentro } from "../../analytics/ComparativoAnalytics/charts";
 
 export default function OfertasComparadasPage() {
   const fichas = useDashboardStore((s) => s.fichas);
@@ -19,53 +26,55 @@ export default function OfertasComparadasPage() {
 
   const onReset = useCallback(() => setFiltros({}), []);
 
-  const filteredFichas = useMemo(() => {
-    return fichas.filter((f) => {
-      if (filtros.anioTerminacion) {
-        const year = f.fechaTerminacionFicha.split("/")[2];
-        if (year !== filtros.anioTerminacion) return false;
-      }
-      if (filtros.nombreCentro && f.nombreCentro !== filtros.nombreCentro) return false;
-      if (filtros.nivelFormacion && f.nivelFormacion !== filtros.nivelFormacion) return false;
-      if (filtros.programaFormacion && f.nombreProgramaFormacion !== filtros.programaFormacion) return false;
-      if (filtros.sectorPrograma && f.nombreSectorPrograma !== filtros.sectorPrograma) return false;
-      if (filtros.municipio && f.nombreMunicipioCurso !== filtros.municipio) return false;
-      return true;
-    });
-  }, [fichas, filtros]);
+  const filteredFichas = useMemo(() => filtrarFichasComparativo(fichas, filtros as Record<string, string | undefined>), [fichas, filtros]);
+
+  const masOfertadosData = useMemo(() => masOfertados(filteredFichas), [filteredFichas]);
+  const menosOfertadosData = useMemo(() => menosOfertados(filteredFichas), [filteredFichas]);
+  const masCupos = useMemo(() => masCuposPorSector(filteredFichas), [filteredFichas]);
+  const masInscritos = useMemo(() => masInscritosPorCentro(filteredFichas), [filteredFichas]);
 
   if (fichas.length === 0) {
     return (
-      <div className="page-card flex items-center justify-center min-h-[65vh]">
-        <div className="max-w-md w-full" style={{ animation: "scaleIn 0.5s ease-out" }}>
-          <div className="card p-8 text-center">
-            <div className="w-16 h-16 bg-sena-green/10 border border-sena-green/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <GitCompareArrows className="w-8 h-8 text-sena-green" />
-            </div>
-            <h2 className="text-xl font-bold text-text-primary mb-2">Cargar datos PE-04</h2>
-            <p className="text-sm text-text-muted mb-6 max-w-xs mx-auto leading-relaxed">
-              Sube el archivo Excel del reporte PE-04 para ver las ofertas comparadas.
-            </p>
-            <FileUpload />
+      <PageLayout title="Ofertas Comparadas" subtitle="Analisis comparativo de ofertas de formacion" icon={<GitCompareArrows className="w-5 h-5" />}>
+        <PageSection className="flex items-center justify-center min-h-[50vh]">
+          <div className="w-full max-w-sm text-center">
+            <EmptyState icon={<GitCompareArrows className="w-6 h-6 text-sena-green" />} title="Cargar datos PE-04" description="Sube el archivo Excel para ver las ofertas comparadas." action={<FileUpload />} />
           </div>
-        </div>
-      </div>
+        </PageSection>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="page-card space-y-3 sm:space-y-4">
-      <section className="section-card p-3 sm:p-5">
-        <OffersKPIs fichas={filteredFichas} />
-      </section>
-      <OffersFilters fichas={fichas} filtros={filtros} onFiltroChange={onFiltroChange} onReset={onReset} />
-      <section className="section-card p-3 sm:p-5">
-        <OffersCharts fichas={filteredFichas} />
-      </section>
-      <section className="section-card p-3 sm:p-5">
-        <OffersMap fichas={filteredFichas} />
-      </section>
-      <OffersTable fichas={filteredFichas} />
-    </div>
+    <PageLayout title="Ofertas Comparadas" subtitle="Analisis comparativo de ofertas de formacion" icon={<GitCompareArrows className="w-5 h-5" />}>
+      <PageSection><Breadcrumb /></PageSection>
+      <PageSection><OffersKPIs fichas={filteredFichas} /></PageSection>
+      <PageSection className="flex items-center justify-end gap-2"><ExportPanel elementId="ofertas-page" fileName="PE-04_Ofertas_Comparadas" /></PageSection>
+      <PageSection><OffersFilters fichas={fichas} filtros={filtros} onFiltroChange={onFiltroChange} onReset={onReset} /></PageSection>
+      <PageSection><OffersCharts fichas={filteredFichas} /></PageSection>
+      <PageSection className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 stagger-children">
+        <RankingCard title="Programas Mas Ofertados" icon={<BookOpen className="w-4 h-4" />} items={masOfertadosData} color="green" valueLabel="ofertas" />
+        <RankingCard title="Programas Menos Ofertados" icon={<BookOpen className="w-4 h-4" />} items={menosOfertadosData} color="rose" valueLabel="ofertas" />
+        <RankingCard title="Sectores con Mas Cupos" icon={<Briefcase className="w-4 h-4" />} items={masCupos} color="blue" valueLabel="aprendices" />
+        <RankingCard title="Centros con Mas Inscritos" icon={<Building2 className="w-4 h-4" />} items={masInscritos} color="purple" valueLabel="inscritos" />
+      </PageSection>
+      <PageSection><OffersMap fichas={filteredFichas} /></PageSection>
+      <PageSection><OffersTable fichas={filteredFichas} /></PageSection>
+      <PageSection>
+        <div className="card p-4 sm:p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-7 h-7 rounded-lg bg-sena-green/10 flex items-center justify-center"><FileText className="w-3.5 h-3.5 text-sena-green" /></div>
+            <h3 className="text-sm font-semibold text-text-primary">Informacion del Archivo</h3>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div><span className="text-text-muted">Registros:</span><p className="font-semibold text-text-primary">{filteredFichas.length.toLocaleString("es-CO")}</p></div>
+            <div><span className="text-text-muted">Filtros activos:</span><p className="font-semibold text-text-primary">{Object.values(filtros).filter(Boolean).length}</p></div>
+            <div><span className="text-text-muted">Actualizacion:</span><p className="font-semibold text-text-primary">{new Date().toLocaleDateString("es-CO")}</p></div>
+            <div><span className="text-text-muted">Fuente:</span><p className="font-semibold text-text-primary">PE-04 SENA Regional Cauca</p></div>
+          </div>
+          <div className="mt-3 pt-3 border-t border-border"><FileUpload /></div>
+        </div>
+      </PageSection>
+    </PageLayout>
   );
 }

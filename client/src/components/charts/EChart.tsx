@@ -280,10 +280,10 @@ export function donut2DOption(
       itemWidth: 10, itemHeight: 10, itemGap: 8,
       formatter: (name: string) => name.length > 22 ? name.slice(0, 20) + "…" : name,
     },
-    series: [{
+      series: [{
       type: "pie",
-      radius: ["44%", "68%"],
-      center: ["35%", "50%"],
+      radius: ["36%", "72%"],
+      center: ["34%", "50%"],
       avoidLabelOverlap: true,
       padAngle: 2,
       itemStyle: {

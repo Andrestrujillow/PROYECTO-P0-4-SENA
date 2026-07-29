@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapPin } from "lucide-react";
 import type { Ficha } from "../../types";
-import { COORDINATES_CAUCA, DEFAULT_CENTER, DEFAULT_ZOOM } from "../../utils/coordinates";
+import { getCoords, DEFAULT_CENTER, DEFAULT_ZOOM } from "../../utils/coordinates";
 
 interface Props {
   fichas: Ficha[];
@@ -27,7 +27,7 @@ export default function OffersMap({ fichas }: Props) {
   const puntos = useMemo(() => {
     const map = new Map<string, { cantidadFichas: number; totalAprendices: number }>();
     fichas.forEach((f) => {
-      const key = f.nombreMunicipioCurso.toUpperCase().trim();
+      const key = f.nombreMunicipioCurso.trim();
       if (!key) return;
       const entry = map.get(key) || { cantidadFichas: 0, totalAprendices: 0 };
       entry.cantidadFichas += 1;
@@ -36,23 +36,23 @@ export default function OffersMap({ fichas }: Props) {
     });
     const result: { lat: number; lng: number; nombre: string; cantidadFichas: number; cantidadAprendices: number }[] = [];
     map.forEach((val, nombre) => {
-      const coords = COORDINATES_CAUCA[nombre];
+      const coords = getCoords(nombre);
       if (coords) {
-        result.push({ lat: coords.lat, lng: coords.lng, nombre, cantidadFichas: val.cantidadFichas, cantidadAprendices: val.totalAprendices });
+        result.push({ lat: coords.lat, lng: coords.lng, nombre: nombre.toUpperCase(), cantidadFichas: val.cantidadFichas, cantidadAprendices: val.totalAprendices });
       }
     });
     return result;
   }, [fichas]);
 
   return (
-    <div className="card map-card chart-accent-green">
-      <div className="chart-card-header">
-        <div className="chart-card-title-group">
-          <div className="chart-card-icon bg-sena-green/10 border border-sena-green/10">
+    <div className="card overflow-hidden">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-sena-green/10 flex items-center justify-center">
             <MapPin className="w-4 h-4 text-sena-green" />
           </div>
           <div>
-            <h3 className="chart-card-title">Distribución Geográfica</h3>
+            <h3 className="section-title">Distribucion Geografica</h3>
             <p className="text-xs text-text-muted mt-0.5">{puntos.length} municipios con datos</p>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function OffersMap({ fichas }: Props) {
           ))}
         </div>
       </div>
-      <div className="map-body">
+      <div className="relative h-[250px] sm:h-[320px] lg:h-[400px]">
         <MapContainer center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM} className="h-full w-full" zoomControl={false} attributionControl={false}>
           <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
           {puntos.map((p) => (

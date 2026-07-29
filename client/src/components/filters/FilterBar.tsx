@@ -152,7 +152,7 @@ export default function FilterBar() {
 
         {/* filter grid */}
         <div className="p-5">
-          <div className="grid grid-cols-6 gap-2.5">
+          <div className="grid grid-cols-2 xs:grid-cols-3 lg:grid-cols-6 gap-2.5">
             {filters.map((f) => (
               <FilterSelect key={f.key} filter={f} />
             ))}
